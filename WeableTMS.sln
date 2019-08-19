@@ -3,15 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29201.188
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Library", "Library", "{484F236A-CE54-41D7-80B1-76A10DC48292}"
-	ProjectSection(SolutionItems) = preProject
-		..\..\..\..\..\Program Files (x86)\MySQL\MySQL Connector Net 8.0.17\Assemblies\v4.5.2\MySql.Data.dll = ..\..\..\..\..\Program Files (x86)\MySQL\MySQL Connector Net 8.0.17\Assemblies\v4.5.2\MySql.Data.dll
-		..\..\..\..\..\Program Files (x86)\MySQL\MySQL Connector Net 8.0.17\Assemblies\v4.5.2\MySql.Data.EntityFramework.dll = ..\..\..\..\..\Program Files (x86)\MySQL\MySQL Connector Net 8.0.17\Assemblies\v4.5.2\MySql.Data.EntityFramework.dll
-		..\..\..\..\..\Program Files (x86)\MySQL\MySQL Connector Net 8.0.17\Assemblies\v4.5.2\MySQL.Data.EntityFrameworkCore.Design.dll = ..\..\..\..\..\Program Files (x86)\MySQL\MySQL Connector Net 8.0.17\Assemblies\v4.5.2\MySQL.Data.EntityFrameworkCore.Design.dll
-		..\..\..\..\..\Program Files (x86)\MySQL\MySQL Connector Net 8.0.17\Assemblies\v4.5.2\MySQL.Data.EntityFrameworkCore.dll = ..\..\..\..\..\Program Files (x86)\MySQL\MySQL Connector Net 8.0.17\Assemblies\v4.5.2\MySQL.Data.EntityFrameworkCore.dll
-		..\..\..\..\..\Program Files (x86)\MySQL\MySQL Connector Net 8.0.17\Assemblies\v4.5.2\MySql.Web.dll = ..\..\..\..\..\Program Files (x86)\MySQL\MySQL Connector Net 8.0.17\Assemblies\v4.5.2\MySql.Web.dll
-	EndProjectSection
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Web", "Web\Web.csproj", "{A73E9278-2387-4138-80DA-F30AB0D7B0F7}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnitTest", "UnitTest\UnitTest.csproj", "{EFD30B9A-BAD6-4A87-B7EA-DE81CA9202B2}"
