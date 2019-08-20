@@ -46,7 +46,7 @@ namespace Weable.TMS.Model.Service
                 throw ex;
             }
         }
-        public async Task<IEnumerable<Course>> GetList(CourseFilter filter)
+        public async Task<List<Course>> GetList(CourseFilter filter)
         {
             const string func = "GetList";
             _logger.LogTrace("{}: Entering {}.", func, func);

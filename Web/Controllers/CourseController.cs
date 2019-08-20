@@ -4,7 +4,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Weable.TMS.Model.Data;
+using Weable.TMS.Model.Filter;
 using Weable.TMS.Model.ServiceModel;
+using Weable.TMS.Web.Models;
 
 namespace Weable.TMS.Web.Controllers
 {
@@ -16,9 +18,13 @@ namespace Weable.TMS.Web.Controllers
         {
             _courseRepo = courseRepository;
         }
-        public IActionResult Index()
+        public async Task<IActionResult> Index(ListCourseModel model)
         {
-            var model = _courseRepo.GetList();
+            if (model == null)
+                model = new ListCourseModel();
+            var filter = model.ToCourseFilter();
+            var course = await _courseRepo.GetList(filter);
+            model.Courses.AddRange(CourseModel.createModels(course));
             return View(model);
         }
 
@@ -60,6 +66,8 @@ namespace Weable.TMS.Web.Controllers
 
             if (ModelState.IsValid)
             {
+                course.ModifyUserId = 1;
+                course.ModifyDate = DateTime.Now;
                 await _courseRepo.SaveData(course);
                 return RedirectToAction("Index");
             }

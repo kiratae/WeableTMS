@@ -20,7 +20,7 @@ namespace Weable.TMS.Entity.Repository
             _logger = logger;
         }
 
-        public async Task<IEnumerable<Course>> GetList(CourseFilter filter)
+        public async Task<List<Course>> GetList(CourseFilter filter)
         {
             const string func = "GetList";
             _logger.LogTrace("{}: Entering {}.", func, func);
@@ -29,9 +29,9 @@ namespace Weable.TMS.Entity.Repository
                 var courses = from c in _context.Course
                              select c;
 
-                if (!string.IsNullOrEmpty(filter.keyword))
+                if (!string.IsNullOrEmpty(filter.Keyword))
                 {
-                    courses = courses.Where(c => c.Name.ToLower().Contains(filter.keyword.ToLower()));
+                    courses = courses.Where(c => c.Name.ToLower().Contains(filter.Keyword.ToLower()));
                 }
 
                 return await courses.ToListAsync();

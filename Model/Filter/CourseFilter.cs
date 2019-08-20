@@ -6,6 +6,6 @@ namespace Weable.TMS.Model.Filter
 {
     public class CourseFilter
     {
-        public string keyword { get; set; }
+        public string Keyword { get; set; }
     }
 }
