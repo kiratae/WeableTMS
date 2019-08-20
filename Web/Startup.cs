@@ -10,9 +10,13 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
 using Weable.TMS.Model.Models;
-using Weable.TMS.Web.Repositories;
+using Weable.TMS.Entity.Repository;
+using Weable.TMS.Model.RepositoryModel;
+using Weable.TMS.Model.Service;
+using Weable.TMS.Model.ServiceModel;
 
 namespace Weable.TMS.Web
 {
@@ -38,7 +42,14 @@ namespace Weable.TMS.Web
                     .DisableBackslashEscaping();
                 }));
 
-            services.AddTransient<CourseRepository>();
+            services.AddLogging(config =>
+            {
+                config.AddDebug();
+                config.AddConsole();
+            });
+
+            services.AddTransient<ICourseRepository, CourseRepository>();
+            services.AddTransient<ICourseService, CourseService>();
 
             services.Configure<CookiePolicyOptions>(options =>
             {
