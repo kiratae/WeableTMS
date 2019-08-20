@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
-namespace Weable.TMS.Model.Models
+namespace Weable.TMS.Model.Data
 {
     public partial class TMSDBContext : DbContext
     {
