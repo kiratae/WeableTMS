@@ -7,5 +7,8 @@ namespace Weable.TMS.Entity.Repository
 {
     public class BaseRepository
     {
+        public BaseRepository()
+        {
+        }
     }
 }

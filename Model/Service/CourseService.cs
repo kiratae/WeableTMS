@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Weable.TMS.Infrastructure.Model;
 using Weable.TMS.Model.Data;
 using Weable.TMS.Model.Filter;
 using Weable.TMS.Model.RepositoryModel;
@@ -21,7 +22,6 @@ namespace Weable.TMS.Model.Service
         public async Task<bool> DeleteData(int? courseId)
         {
             const string func = "DeleteData";
-            _logger.LogTrace("{}: Entering {}.", func, func);
             try
             {
                 return await _courseRepo.DeleteData(courseId);
@@ -35,7 +35,6 @@ namespace Weable.TMS.Model.Service
         public async Task<Course> GetData(int? courseId)
         {
             const string func = "GetData";
-            _logger.LogTrace("{}: Entering {}.", func, func);
             try
             {
                 return await _courseRepo.GetData(courseId);
@@ -46,13 +45,13 @@ namespace Weable.TMS.Model.Service
                 throw ex;
             }
         }
-        public async Task<List<Course>> GetList(CourseFilter filter)
+        public PagedResult<Course> GetList(CourseFilter filter, Paging paging)
         {
             const string func = "GetList";
             _logger.LogTrace("{}: Entering {}.", func, func);
             try
             {
-                return await _courseRepo.GetList(filter);
+                return _courseRepo.GetList(filter, paging);
             }
             catch (Exception ex)
             {

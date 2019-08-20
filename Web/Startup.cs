@@ -17,6 +17,8 @@ using Weable.TMS.Entity.Repository;
 using Weable.TMS.Model.RepositoryModel;
 using Weable.TMS.Model.Service;
 using Weable.TMS.Model.ServiceModel;
+using AutoMapper;
+using Weable.TMS.Web.Helper;
 
 namespace Weable.TMS.Web
 {
@@ -38,15 +40,25 @@ namespace Weable.TMS.Web
                 option.UseMySql(Configuration.GetConnectionString("TMSDBContext"),
                 mySqlOptions =>
                 {
-                    mySqlOptions.ServerVersion(new Version(5, 0, 12), ServerType.MariaDb)
+                    mySqlOptions.ServerVersion(new Version(10, 1, 37), ServerType.MariaDb)
                     .DisableBackslashEscaping();
                 }));
 
+            // Logging Configurations
             services.AddLogging(config =>
             {
                 config.AddDebug();
                 config.AddConsole();
             });
+
+            // Auto Mapper Configurations
+            var mappingConfig = new MapperConfiguration(mc =>
+            {
+                mc.AddProfile(new MappingProfile());
+            });
+
+            IMapper mapper = mappingConfig.CreateMapper();
+            services.AddSingleton(mapper);
 
             services.AddTransient<ICourseRepository, CourseRepository>();
             services.AddTransient<ICourseService, CourseService>();

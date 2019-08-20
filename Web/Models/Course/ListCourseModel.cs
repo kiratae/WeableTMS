@@ -21,5 +21,14 @@ namespace Weable.TMS.Web.Models
             filter.Keyword = Keyword;
             return filter;
         }
+
+        public override Dictionary<string, string> ToPagingParameter(int pageNo)
+        {
+            return new Dictionary<string, string>
+                        {
+                            { "Keyword", Keyword.ToString() },
+                            { "pageNo", pageNo.ToString() }
+                        };
+        }
     }
 }

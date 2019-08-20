@@ -4,6 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Weable.TMS.Infrastructure.Model;
+using Weable.TMS.Infrastructure.Extension;
 using Weable.TMS.Model.Data;
 using Weable.TMS.Model.Filter;
 using Weable.TMS.Model.RepositoryModel;
@@ -20,7 +22,7 @@ namespace Weable.TMS.Entity.Repository
             _logger = logger;
         }
 
-        public async Task<List<Course>> GetList(CourseFilter filter)
+        public PagedResult<Course> GetList(CourseFilter filter, Paging paging)
         {
             const string func = "GetList";
             _logger.LogTrace("{}: Entering {}.", func, func);
@@ -34,7 +36,16 @@ namespace Weable.TMS.Entity.Repository
                     courses = courses.Where(c => c.Name.ToLower().Contains(filter.Keyword.ToLower()));
                 }
 
-                return await courses.ToListAsync();
+                // Not paging
+                if (paging == null)
+                {
+                    paging.CurrentPage = 0;
+                    paging.PageSize = int.MaxValue;
+                }
+
+                var result = courses.GetPaged(paging.CurrentPage, paging.PageSize);
+
+                return result;
             }
             catch (Exception ex)
             {

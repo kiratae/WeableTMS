@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AutoMapper;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -15,23 +16,19 @@ namespace Weable.TMS.Web.Models
 
         public CourseModel()
         {
+            
         }
 
-        public CourseModel(Course course)
+        public CourseModel(Course course, IMapper mapper)
         {
-            CourseId = course.CourseId;
-            Code = course.Code;
-            Name = course.Name;
-            IsActive = course.IsActive == 1 ? true : false;
+            mapper.Map(course, this, typeof(Course), typeof(CourseModel));
         }
 
-        public static List<CourseModel> createModels(List<Course> courses)
+        public static List<CourseModel> createModels(IList<Course> courses, IMapper mapper)
         {
             var list = new List<CourseModel>();
             foreach (Course course in courses)
-            {
-                list.Add(new CourseModel(course));
-            }
+                list.Add(new CourseModel(course, mapper));
             return list;
         }
     }

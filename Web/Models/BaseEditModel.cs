@@ -5,7 +5,8 @@ using System.Threading.Tasks;
 
 namespace Weable.TMS.Web.Models
 {
-    public class BaseEditModel
+    public class BaseEditModel: BaseModel
     {
+        public string ReturnUrl { get; set; }
     }
 }

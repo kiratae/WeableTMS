@@ -15,4 +15,8 @@
     <Folder Include="Context\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Helper\Infrastructure.csproj" />
+  </ItemGroup>
+
 </Project>

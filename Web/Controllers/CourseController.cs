@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Weable.TMS.Infrastructure.Model;
 using Weable.TMS.Model.Data;
 using Weable.TMS.Model.Filter;
 using Weable.TMS.Model.ServiceModel;
@@ -13,18 +15,21 @@ namespace Weable.TMS.Web.Controllers
     public class CourseController : Controller
     {
         private readonly ICourseService _courseRepo;
-
-        public CourseController(ICourseService courseRepository)
+        private readonly IMapper _mapper;
+        public CourseController(ICourseService courseRepository, IMapper mapper)
         {
             _courseRepo = courseRepository;
+            _mapper = mapper;
         }
-        public async Task<IActionResult> Index(ListCourseModel model)
+        public IActionResult Index(ListCourseModel model, int pageNo = 1)
         {
             if (model == null)
                 model = new ListCourseModel();
             var filter = model.ToCourseFilter();
-            var course = await _courseRepo.GetList(filter);
-            model.Courses.AddRange(CourseModel.createModels(course));
+            var paging = new Paging(pageNo, 2);
+            var result = _courseRepo.GetList(filter, paging);
+            model.Courses.AddRange(CourseModel.createModels(result.Results, _mapper));
+            model.Paging = PagingModel.createPaging(result);
             return View(model);
         }
 
