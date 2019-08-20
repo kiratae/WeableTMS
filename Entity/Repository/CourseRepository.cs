@@ -1,11 +1,11 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Weable.TMS.Model.Data;
+using Weable.TMS.Model.Filter;
 using Weable.TMS.Model.RepositoryModel;
 
 namespace Weable.TMS.Entity.Repository
@@ -20,16 +20,21 @@ namespace Weable.TMS.Entity.Repository
             _logger = logger;
         }
 
-        public IEnumerable<Course> GetList()
+        public async Task<IEnumerable<Course>> GetList(CourseFilter filter)
         {
             const string func = "GetList";
             _logger.LogTrace("{}: Entering {}.", func, func);
             try
             {
-                List<Course> list = new List<Course>();
-                list.AddRange(_context.Course.ToList());
+                var courses = from c in _context.Course
+                             select c;
 
-                return list;
+                if (!string.IsNullOrEmpty(filter.keyword))
+                {
+                    courses = courses.Where(c => c.Name.ToLower().Contains(filter.keyword.ToLower()));
+                }
+
+                return await courses.ToListAsync();
             }
             catch (Exception ex)
             {

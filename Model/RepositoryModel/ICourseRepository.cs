@@ -1,14 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Weable.TMS.Model.Data;
+using Weable.TMS.Model.Filter;
 
 namespace Weable.TMS.Model.RepositoryModel
 {
     public interface ICourseRepository
     {
-        IEnumerable<Course> GetList();
+        Task<IEnumerable<Course>> GetList(CourseFilter filter);
         Task<Course> GetData(int? courseId);
         Task<Course> SaveData(Course course);
         Task<bool> DeleteData(int? courseId);
