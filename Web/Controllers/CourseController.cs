@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Weable.TMS.Model.Models;
+using Weable.TMS.Model.Data;
 using Weable.TMS.Model.ServiceModel;
 
 namespace Weable.TMS.Web.Controllers

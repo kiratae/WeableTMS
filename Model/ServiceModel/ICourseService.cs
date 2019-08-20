@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
-using Weable.TMS.Model.Models;
+using Weable.TMS.Model.Data;
 
 namespace Weable.TMS.Model.ServiceModel
 {

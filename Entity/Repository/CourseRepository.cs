@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Weable.TMS.Model.Models;
+using Weable.TMS.Model.Data;
 using Weable.TMS.Model.RepositoryModel;
 
 namespace Weable.TMS.Entity.Repository

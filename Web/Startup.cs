@@ -12,7 +12,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
-using Weable.TMS.Model.Models;
+using Weable.TMS.Model.Data;
 using Weable.TMS.Entity.Repository;
 using Weable.TMS.Model.RepositoryModel;
 using Weable.TMS.Model.Service;
