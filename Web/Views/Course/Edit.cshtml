@@ -1,4 +1,5 @@
-﻿@model Weable.TMS.Model.Data.Course
+﻿@using cntr = Weable.TMS.Web.Controllers.CourseController
+@model Weable.TMS.Web.Models.EditCourseModel
 
 @{
     ViewData["Title"] = "Edit";
@@ -10,7 +11,7 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Edit">
+        <form id="edit-form" asp-action="@cntr.ActionEdit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="CourseId" />
             <div class="form-group">
@@ -24,15 +25,6 @@
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="IsActive" class="control-label"></label>
-                <input asp-for="IsActive" class="form-control" />
-                <span asp-validation-for="IsActive" class="text-danger"></span>
-            </div>
-            <input type="hidden" asp-for="CreateDate" />
-            <input type="hidden" asp-for="CreateUserId" />
-            <input type="hidden" asp-for="ModifyDate" />
-            <input type="hidden" asp-for="ModifyUserId" />
-            <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-default" />
             </div>
         </form>
@@ -40,6 +32,20 @@
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="@cntr.ActionList">Back to List</a>
 </div>
+
+@await Html.PartialAsync("_HtmlScript")
+
+<script>
+    var __return_url = '@Html.Raw('/'+@cntr.Name+'/'+@cntr.ActionList)';
+    $(document).ready(function () {
+        $("#edit-form").submit(function (e) {
+            e.preventDefault();
+            weSaveForm($(this), function () {
+                window.location.href = __return_url;
+            });
+        });
+    });
+</script>
 

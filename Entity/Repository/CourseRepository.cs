@@ -31,10 +31,10 @@ namespace Weable.TMS.Entity.Repository
                 var courses = from c in _context.Course
                              select c;
 
-                if (!string.IsNullOrEmpty(filter.Keyword))
-                {
-                    courses = courses.Where(c => c.Name.ToLower().Contains(filter.Keyword.ToLower()));
-                }
+                if (!string.IsNullOrEmpty(filter.Code))
+                    courses = courses.Where(c => c.Code.ToLower().Contains(filter.Code.ToLower()));
+                if (!string.IsNullOrEmpty(filter.Name))
+                    courses = courses.Where(c => c.Name.ToLower().Contains(filter.Name.ToLower()));
 
                 // Not paging
                 if (paging == null)

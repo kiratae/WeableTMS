@@ -21,7 +21,7 @@ namespace Weable.TMS.Web.Models
 
         public CourseModel(Course course, IMapper mapper)
         {
-            mapper.Map(course, this, typeof(Course), typeof(CourseModel));
+            mapper.Map(course, this);
         }
 
         public static List<CourseModel> createModels(IList<Course> courses, IMapper mapper)

@@ -14,6 +14,9 @@ namespace Weable.TMS.Web.Helper
         {
             // Add as many of these lines as you need to map your objects
             CreateMap<Course, CourseModel>();
+            CreateMap<Course, EditCourseModel>();
+            CreateMap<EditCourseModel, Course>();
+
             CreateMap<Training, TrainingModel>();
         }
     }
