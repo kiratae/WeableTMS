@@ -35,9 +35,8 @@
     <a asp-action="@cntr.ActionList">Back to List</a>
 </div>
 
-@await Html.PartialAsync("_HtmlScript")
-
-<script>
+@section Scripts{
+    <script>
     var __return_url = '@Html.Raw('/'+@cntr.Name+'/'+@cntr.ActionList)';
     $(document).ready(function () {
         $("#edit-form").submit(function (e) {
@@ -47,5 +46,5 @@
             });
         });
     });
-</script>
-
+    </script>
+}
