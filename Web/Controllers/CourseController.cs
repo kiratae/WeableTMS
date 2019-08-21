@@ -30,6 +30,7 @@ namespace Weable.TMS.Web.Controllers
             var result = _courseRepo.GetList(filter, paging);
             model.Courses.AddRange(CourseModel.createModels(result.Results, _mapper));
             model.Paging = PagingModel.createPaging(result);
+            model.setRoute("Course", "Index");
             return View(model);
         }
 

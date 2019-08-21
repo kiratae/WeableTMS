@@ -1,0 +1,22 @@
+﻿@model Weable.TMS.Web.Models.BaseListModel
+
+<ul class="pagination">
+    <li class="page-item @(Model.Paging.CurrentPage > 1?"":"disabled")">
+        <a asp-controller="@Model.Route.Controller" asp-action="@Model.Route.Action" asp-all-route-data="@Model.ToPagingParameter((Model.Paging.CurrentPage - 1 > 1 ? Model.Paging.CurrentPage : 1))" class="page-link">
+            <span aria-hidden="true">&laquo;</span>
+            <span class="sr-only">Previous</span>
+        </a>
+    </li>
+    @for (var p = 1; p <= Model.Paging.PageCount; p++)
+    {
+        <li class="page-item @(Model.Paging.CurrentPage == p ? "active" : "")">
+            <a asp-controller="@Model.Route.Controller" asp-action="@Model.Route.Action" asp-all-route-data="@Model.ToPagingParameter(p)" class="page-link">@p</a>
+        </li>
+    }
+    <li class="page-item @(Model.Paging.CurrentPage < Model.Paging.PageCount?"":"disabled")">
+        <a asp-controller="@Model.Route.Controller" asp-action="@Model.Route.Action" asp-all-route-data="@Model.ToPagingParameter((Model.Paging.CurrentPage + 1 < Model.Paging.PageCount ? Model.Paging.CurrentPage + 1 : Model.Paging.PageCount))" class="page-link">
+            <span aria-hidden="true">&raquo;</span>
+            <span class="sr-only">Next</span>
+        </a>
+    </li>
+</ul>

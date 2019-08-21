@@ -26,7 +26,7 @@ namespace Weable.TMS.Web.Models
         {
             return new Dictionary<string, string>
                         {
-                            { "Keyword", Keyword.ToString() },
+                            { "Keyword", Keyword },
                             { "pageNo", pageNo.ToString() }
                         };
         }
