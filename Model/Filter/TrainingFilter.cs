@@ -9,7 +9,7 @@ namespace Weable.TMS.Model.Filter
     {
         public int? CourseId { get; set; }
         public string Code { get; set; }
-        public string Keyword { get; set; } //Name
+        public string Name { get; set; }
         public TrainingStatus? TrnStatusId { get; set; }
         public DateTime? RegisterStartDate { get; set; }
         public DateTime? RegisterEndDate { get; set; }

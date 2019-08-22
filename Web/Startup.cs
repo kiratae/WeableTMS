@@ -63,6 +63,9 @@ namespace Weable.TMS.Web
             services.AddTransient<ICourseRepository, CourseRepository>();
             services.AddTransient<ICourseService, CourseService>();
 
+            services.AddTransient<ITrainingRepository, TrainingRepository>();
+            services.AddTransient<ITrainingService, TrainingService>();
+
             services.Configure<CookiePolicyOptions>(options =>
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.

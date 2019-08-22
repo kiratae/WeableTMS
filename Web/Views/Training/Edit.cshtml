@@ -1,0 +1,292 @@
+﻿@using cntr = Weable.TMS.Web.Controllers.TrainingController
+@model Weable.TMS.Web.Models.EditTrainingModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+@section Styles {
+    <style>
+        .btn-file {
+            position: relative;
+            overflow: hidden;
+        }
+
+            .btn-file input[type=file] {
+                position: absolute;
+                top: 0;
+                right: 0;
+                min-width: 100%;
+                min-height: 100%;
+                font-size: 100px;
+                text-align: right;
+                filter: alpha(opacity=0);
+                opacity: 0;
+                outline: none;
+                background: white;
+                cursor: inherit;
+                display: block;
+            }
+
+        #file-detail input {
+            cursor:pointer;
+        }
+
+        #file-detail input:hover {
+            color: #0F7E9B;
+            text-decoration: underline;
+        }
+
+        #img-upload {
+            width: 100%;
+        }
+    </style>
+}
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">ระบบบันทึกข้อมูลการฝึกอบรม</li>
+        <li class="breadcrumb-item active">โครงการฝึกอบรมใหม่</li>
+    </ol>
+</nav>
+
+<div class="card shadow h-100 pt-3">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-12">
+                <form asp-action="Edit">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input type="hidden" asp-for="TrainingId" />
+
+                    <h4 class="title">ข้อมูลโครงการ</h4>
+
+                    <div class="form-group row">
+                        <label asp-for="CourseId" class="col-sm-3 col-form-label text-right">โครงการที่เกี่ยวข้อง (หลักสูตร) <span class="text-danger">*</span></label>
+                        <div class="col-sm-7">
+                            @Html.DropDownListFor(x => x.CourseId, Model.Courses, "- เลือกหลักสูตร -", new { @class = "form-control" })
+                        </div>
+                        <span asp-validation-for="CourseId" class="text-danger"></span>
+                    </div>
+                    <div class="form-group row">
+                        <label asp-for="Name" class="col-sm-3 col-form-label text-right">ชื่อโครงการ <span class="text-danger">*</span></label>
+                        <div class="col-sm-7">
+                            <input asp-for="Name" class="form-control" />
+                        </div>
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-3 col-form-label"></label>
+                        <div class="custom-control custom-checkbox col-sm-4 ml-3">
+                            <input type="checkbox" asp-for="IsRecommend" class="custom-control-input" checked>
+                            <label class="custom-control-label" asp-for="IsRecommend"> โครงการแนะนำ</label>
+                        </div>
+                    </div>
+
+                    <hr />
+                    <h4 class="title">รายละเอียดโครงการ</h4>
+
+                    <div class="form-group">
+                        <label class="col-md-9 form-control-static">
+                            รูปภาพโครงการ :
+                            <span class="text-danger">*</span>
+                            <span style="font-size:12px; color:gray; font-style:italic">(ภาพต้องมีขนาดภาพ 1200x650 px) </span>
+                        </label>
+                    </div>
+                    <div class="form-group row">
+                        @Html.HiddenFor(x => x.TrnImage)
+                        <div class="border border-gray mx-3 p-3">
+                            <span class="btn btn-primary btn-file mb-2">
+                                Browse… <input type="file" id="imgInp">
+                            </span>
+                            <div class="input-group col-sm-6 ml-0 pl-0 mb-2" id="file-detail">
+                                <span class="input-group-prepend">
+                                    <span class="input-group-text">
+                                        <i class="fa fa-paperclip"></i>
+                                    </span>
+                                </span>
+                                <input type="text" class="form-control" readonly>
+                                <span class="input-group-append">
+                                    <button type="button" class="btn btn-outline-danger btn-file-delete">
+                                        <i class="fa fa-times"></i>
+                                    </button>
+                                </span>
+                            </div>
+                            <img id="img-upload" src="https://via.placeholder.com/1200x650.jpg" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="Description" class="control-label">รายละเอียด</label>
+                        <textarea asp-for="Description" class="form-control" rows="4"></textarea>
+                        <span asp-validation-for="Description" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Objective" class="control-label">วัตถุประสงค์</label>
+                        <textarea asp-for="Objective" class="form-control" rows="4"></textarea>
+                        <span asp-validation-for="Objective" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="TargetGroup" class="control-label">กลุ่มเป้าหมาย</label>
+                        <textarea asp-for="TargetGroup" class="form-control" rows="4"></textarea>
+                        <span asp-validation-for="TargetGroup" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Condition" class="control-label">เงื่อนไขการฝึกอบรม</label>
+                        <textarea asp-for="Condition" class="form-control" rows="4"></textarea>
+                        <span asp-validation-for="Condition" class="text-danger"></span>
+                    </div>
+
+                    <hr />
+                    <h4 class="title">รายชื่อผู้เกี่ยวข้อง</h4>
+
+                    <hr />
+                    <h4 class="title">เอกสารเพิ่มเติม</h4>
+
+                    <hr />
+                    <h4 class="title">การรับสมัคร</h4>
+
+                    <div class="form-group">
+                        <label asp-for="RegisterStartDate" class="control-label">วันที่รับสมัคร <span class="text-danger">*</span></label>
+                        <input asp-for="RegisterStartDate" class="form-control" />
+                        <span asp-validation-for="RegisterStartDate" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="RegisterEndDate" class="control-label">วันที่สิ้นสุดรับสมัคร <span class="text-danger">*</span></label>
+                        <input asp-for="RegisterEndDate" class="form-control" />
+                        <span asp-validation-for="RegisterEndDate" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="PublishAtdDate" class="control-label"></label>
+                        <input asp-for="PublishAtdDate" class="form-control" />
+                        <span asp-validation-for="PublishAtdDate" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="SeatQty" class="control-label"></label>
+                        <input asp-for="SeatQty" class="form-control" />
+                        <span asp-validation-for="SeatQty" class="text-danger"></span>
+                    </div>
+
+                    <hr />
+                    <h4 class="title">การจัดฝึกอบรม</h4>
+
+                    <div class="form-group">
+                        <label asp-for="TrnStartDate" class="control-label"></label>
+                        <input asp-for="TrnStartDate" class="form-control" />
+                        <span asp-validation-for="TrnStartDate" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="TrnEndDate" class="control-label"></label>
+                        <input asp-for="TrnEndDate" class="form-control" />
+                        <span asp-validation-for="TrnEndDate" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Location" class="control-label"></label>
+                        <input asp-for="Location" class="form-control" />
+                        <span asp-validation-for="Location" class="text-danger"></span>
+                    </div>
+
+                    <hr />
+                    <h4 class="title">เงื่อนไข</h4>
+
+                    <div class="form-group row">
+                        <label class="col-sm-12 col-form-label">การฝึกอบรมที่เคยเข้าร่วม <span class="text-danger">*</span></label>
+                        <div class="custom-control custom-checkbox col-sm-2 ml-3">
+                            @Html.RadioButtonFor(x => x.IsPrerequisite, false, new { @id = "isP1", @class = "custom-control-input" })
+                            <label class="custom-control-label" for="isP1"> ไม่จำเป็น</label>
+                        </div>
+                        <div class="custom-control custom-checkbox col-sm-2 ml-3">
+                            @Html.RadioButtonFor(x => x.IsPrerequisite, true, new { @id = "isP2", @class = "custom-control-input" })
+                            <label class="custom-control-label" for="isP2"> จำเป็น</label>
+                        </div>
+                    </div>
+
+                    <hr />
+                    <h4 class="title">การเผยแพร่โครงการ</h4>
+
+                    <div class="form-group row">
+                        <label class="col-sm-12 col-form-label">วันที่เผยแพร่โครงการ <span class="text-danger">*</span></label>
+                        <div class="custom-control custom-checkbox col-sm-2 ml-3">
+                            @Html.RadioButtonFor(x => x.IsPublishNow, false, new { @id = "isP1", @class = "custom-control-input" })
+                            <label class="custom-control-label" for="isP1"> เผยแพร่ทันที</label>
+                        </div>
+                        <div class="custom-control custom-checkbox col-sm-2 ml-3">
+                            @Html.RadioButtonFor(x => x.IsPublishNow, true, new { @id = "isP2", @class = "custom-control-input" })
+                            <label class="custom-control-label" for="isP2"> กำหนดเวลาเผยแพร่</label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="PublishDate" class="control-label"></label>
+                        <input asp-for="PublishDate" class="form-control" />
+                        <span asp-validation-for="PublishDate" class="text-danger"></span>
+                    </div>
+
+                    <hr />
+
+                    <div class="form-group text-center pt-3">
+                        <a asp-action="@cntr.ActionList" class="btn btn-secondary">ยกเลิก</a>
+                        <input type="submit" value="บันทึก" class="btn btn-success" />
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $('#file-detail').hide();
+
+            $(document).on('change', '.btn-file :file', function () {
+                var input = $(this),
+                    label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
+                input.trigger('fileselect', [label]);
+            });
+
+            $('.btn-file :file').on('fileselect', function (event, label) {
+
+                $(this).parent().hide();
+                $('#file-detail').show();
+                var input = $('#file-detail').find(':text'),
+                    log = label;
+
+                console.log(label);
+
+                if (input.length) {
+                    input.val(log);
+                } else {
+                    if (log) alert(log);
+                }
+
+            });
+            function readURL(input) {
+                if (input.files && input.files[0]) {
+                    var reader = new FileReader();
+
+                    reader.onload = function (e) {
+                        $('#img-upload').attr('src', e.target.result);
+                    }
+
+                    reader.readAsDataURL(input.files[0]);
+                }
+            }
+
+            $("#imgInp").change(function () {
+                readURL(this);
+            });
+
+            $('#file-detail').find(':text').click(function () {
+                alert($(this).val());
+            });
+
+            $('.btn-file-delete').click(function () {
+                $('#file-detail').hide();
+                $('.btn-file :file').parent().show();
+
+                $("#imgInp").val('');
+                $('#img-upload').attr('src', 'https://via.placeholder.com/1200x650.jpg');
+            });
+        });
+    </script>
+}

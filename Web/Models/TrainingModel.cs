@@ -42,7 +42,7 @@ namespace Weable.TMS.Web.Models
         {
             mapper.Map(training, this, typeof(Training), typeof(TrainingModel));
         }
-        public static List<TrainingModel> createModels(List<Training> trainings, IMapper mapper)
+        public static List<TrainingModel> createModels(IList<Training> trainings, IMapper mapper)
         {
             var list = new List<TrainingModel>();
             foreach (Training training in trainings)

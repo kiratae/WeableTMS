@@ -79,7 +79,7 @@ namespace Weable.TMS.Web.Models
         }
 
         public string Location { get; set; }
-        public String Habitat { get; set; }
+        public string Habitat { get; set; }
         public AttendeeType? AttendeeTypeId { get; set; }
         public int SeatQty { get; set; }
         public string SeatQtyText
@@ -134,7 +134,7 @@ namespace Weable.TMS.Web.Models
                 TrnStatusId = TrnStatusId,
                 CourseId = CourseId,
                 Code = string.IsNullOrWhiteSpace(Code) ? null : string.Format("%{0}%", Code.Trim()),
-                Keyword = string.IsNullOrWhiteSpace(Keyword) ? null : string.Format("%{0}%", Keyword.Trim()),
+                Name = string.IsNullOrWhiteSpace(Name) ? null : string.Format("%{0}%", Name.Trim()),
                 TraningStatusCloseIsNull = TraningStatusCloseIsNull,
                 TrainigStatusNoAlready = TrainigStatusNoAlready,
                 Year = Year

@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Weable.TMS.Infrastructure.Model;
 using Weable.TMS.Model.Data;
@@ -13,10 +12,10 @@ namespace Weable.TMS.Model.Service
     public class CourseService : BaseService, ICourseService
     {
         private readonly ILogger<ICourseService> _logger;
-        private readonly ICourseRepository _courseRepo;
-        public CourseService(ICourseRepository courseRepository, ILogger<ICourseService> logger)
+        private readonly ICourseRepository _repository;
+        public CourseService(ICourseRepository repository, ILogger<ICourseService> logger)
         {
-            _courseRepo = courseRepository;
+            _repository = repository;
             _logger = logger;
         }
         public async Task<bool> DeleteData(int? courseId)
@@ -24,7 +23,7 @@ namespace Weable.TMS.Model.Service
             const string func = "DeleteData";
             try
             {
-                return await _courseRepo.DeleteData(courseId);
+                return await _repository.DeleteData(courseId);
             }
             catch (Exception ex)
             {
@@ -37,7 +36,7 @@ namespace Weable.TMS.Model.Service
             const string func = "GetData";
             try
             {
-                return await _courseRepo.GetData(courseId);
+                return await _repository.GetData(courseId);
             }
             catch (Exception ex)
             {
@@ -51,7 +50,7 @@ namespace Weable.TMS.Model.Service
             _logger.LogTrace("{}: Entering {}.", func, func);
             try
             {
-                return _courseRepo.GetList(filter, paging);
+                return _repository.GetList(filter, paging);
             }
             catch (Exception ex)
             {
@@ -65,7 +64,7 @@ namespace Weable.TMS.Model.Service
             _logger.LogTrace("{}: Entering {}.", func, func);
             try
             {
-                return await _courseRepo.SaveData(course);
+                return await _repository.SaveData(course);
             }
             catch (Exception ex)
             {

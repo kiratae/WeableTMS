@@ -30,7 +30,8 @@ namespace Weable.TMS.Entity.Repository
             {
                 var courses = from c in _context.Course
                              select c;
-
+                if (filter.IsActive.HasValue)
+                    courses = courses.Where(c => c.IsActive == Convert.ToSByte(filter.IsActive));
                 if (!string.IsNullOrEmpty(filter.Code))
                     courses = courses.Where(c => c.Code.ToLower().Contains(filter.Code.ToLower()));
                 if (!string.IsNullOrEmpty(filter.Name))
@@ -39,8 +40,10 @@ namespace Weable.TMS.Entity.Repository
                 // Not paging
                 if (paging == null)
                 {
-                    paging.CurrentPage = 0;
-                    paging.PageSize = int.MaxValue;
+                    paging = new Paging() {
+                        CurrentPage = 1,
+                        PageSize = int.MaxValue
+                    };
                 }
 
                 var result = courses.GetPaged(paging.CurrentPage, paging.PageSize);

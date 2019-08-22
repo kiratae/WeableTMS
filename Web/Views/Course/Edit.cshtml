@@ -5,39 +5,55 @@
     ViewData["Title"] = "Edit";
 }
 
-<h2>Edit</h2>
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">ระบบบันทึกข้อมูลการฝึกอบรม</li>
+        <li class="breadcrumb-item">โครงการหลัก</li>
+        <li class="breadcrumb-item active">เพิ่มโครงการหลัก</li>
+    </ol>
+</nav>
 
-<h4>Course</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form id="edit-form" asp-action="@cntr.ActionEdit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="CourseId" />
-            <div class="form-group">
-                <label asp-for="Code" class="control-label"></label>
-                <input asp-for="Code" class="form-control" />
-                <span asp-validation-for="Code" class="text-danger"></span>
+
+<div class="card shadow h-100 pt-3">
+    <div class="card-body">
+        <div class="row justify-content-md-center">
+            <div class="col-md-10">
+                <form id="edit-form" asp-action="@cntr.ActionEdit">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input type="hidden" asp-for="CourseId" />
+                    <div class="form-group row">
+                        <label asp-for="Code" class="col-sm-3 col-form-label text-right">รหัสโครงการ <span class="text-danger">*</span></label>
+                        <div class="col-sm-4">
+                            <input asp-for="Code" class="form-control" />
+                        </div>
+                        <span asp-validation-for="Code" class="text-danger"></span>
+                    </div>
+                    <div class="form-group row">
+                        <label asp-for="Name" class="col-sm-3 col-form-label text-right">ชื่อโครงการ <span class="text-danger">*</span></label>
+                        <div class="col-sm-7">
+                            <input asp-for="Name" class="form-control" />
+                        </div>
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-3 col-form-label"></label>
+                        <div class="custom-control custom-checkbox col-sm-4 ml-3">
+                            <input type="checkbox" asp-for="IsActive" class="custom-control-input" checked>
+                            <label class="custom-control-label" asp-for="IsActive"> ใช้งานได้</label>
+                        </div>
+                    </div>
+                    <div class="form-group text-center pt-3">
+                        <a asp-action="@cntr.ActionList" class="btn btn-secondary">ยกเลิก</a>
+                        <input type="submit" value="บันทึก" class="btn btn-success" />
+                    </div>
+                </form>
             </div>
-            <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-default" />
-            </div>
-        </form>
+        </div>
     </div>
 </div>
 
-<div>
-    <a asp-action="@cntr.ActionList">Back to List</a>
-</div>
-
-@await Html.PartialAsync("_HtmlScript")
-
-<script>
+@section Scripts{
+    <script>
     var __return_url = '@Html.Raw('/'+@cntr.Name+'/'+@cntr.ActionList)';
     $(document).ready(function () {
         $("#edit-form").submit(function (e) {
@@ -47,5 +63,7 @@
             });
         });
     });
-</script>
+    </script>
+}
+
 

@@ -1,0 +1,43 @@
+﻿@using cntr = Weable.TMS.Web.Controllers.TrainingController
+@model Weable.TMS.Web.Models.ListTrainingModel
+
+@{
+    ViewData["Title"] = "โครงการฝึกอบรม";
+}
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">ระบบบันทึกข้อมูลการฝึกอบรม</li>
+        <li class="breadcrumb-item active">โครงการฝึกอบรม</li>
+    </ol>
+</nav>
+
+<div class="card shadow h-100">
+    <div class="card-body">
+        <form asp-controller="@cntr.Name" asp-action="@cntr.ActionList">
+            <div class="form-row">
+                <div class="form-group col">
+                    <input asp-for="Keyword" placeholder="ชื่อโครงการฝึกอบรม" class="form-control" />
+                </div>
+                <div class="form-group col">
+                    <button class="btn btn-primary float-right"><i class="fa fa-search"></i>&ensp;ค้นหา</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+@if (Model.Trainings.Count == 0)
+{
+    <h3 class="text-center pt-3"> ไม่พบข้อมูล !</h3>
+}
+@foreach (var item in Model.Trainings)
+{
+    <div class="card bg-primary text-white shadow">
+        <div class="card-body">
+            @item.Name
+        </div>
+    </div>
+}
+
+@await Html.PartialAsync("_Paging", Model)

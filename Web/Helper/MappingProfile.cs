@@ -18,6 +18,8 @@ namespace Weable.TMS.Web.Helper
             CreateMap<EditCourseModel, Course>();
 
             CreateMap<Training, TrainingModel>();
+            CreateMap<Training, EditTrainingModel>();
+            CreateMap<EditTrainingModel, Training>();
         }
     }
 }

@@ -15,7 +15,7 @@ namespace Weable.TMS.Web.Controllers
 {
     public class CourseController : Controller
     {
-        private readonly ICourseService _courseRepo;
+        private readonly ICourseService _service;
         private readonly IMapper _mapper;
         private readonly ILogger<CourseController> _logger;
         public static readonly string Name = "Course";
@@ -23,9 +23,9 @@ namespace Weable.TMS.Web.Controllers
         public static readonly string ActionListTrn = "ListTrn";
         public static readonly string ActionDelete = "Delete";
         public static readonly string ActionEdit = "Edit";
-        public CourseController(ICourseService courseRepository, IMapper mapper, ILogger<CourseController> logger)
+        public CourseController(ICourseService service, IMapper mapper, ILogger<CourseController> logger)
         {
-            _courseRepo = courseRepository;
+            _service = service;
             _mapper = mapper;
             _logger = logger;
         }
@@ -41,8 +41,8 @@ namespace Weable.TMS.Web.Controllers
                 if (model == null)
                     model = new ListCourseModel();
                 var filter = model.ToCourseFilter();
-                var paging = new Paging(pageNo, 2);
-                var result = _courseRepo.GetList(filter, paging);
+                var paging = new Paging(pageNo, 20);
+                var result = _service.GetList(filter, paging);
                 model.Courses.AddRange(CourseModel.createModels(result.Results, _mapper));
                 model.Paging = PagingModel.createPaging(result);
                 model.setRoute(Name, ActionList);
@@ -51,7 +51,7 @@ namespace Weable.TMS.Web.Controllers
             catch (Exception ex)
             {
                 _logger.LogError("{0}: Exception caught with page no. {1}.", func, pageNo, ex);
-                return NotFound();
+                return View("PageNotFound");
             }
         }
 
@@ -63,7 +63,7 @@ namespace Weable.TMS.Web.Controllers
                 EditCourseModel model;
                 if (id.HasValue)
                 {
-                    model = new EditCourseModel(await _courseRepo.GetData(id), _mapper);
+                    model = new EditCourseModel(await _service.GetData(id), _mapper);
                 }
                 else
                     model = new EditCourseModel();
@@ -73,7 +73,7 @@ namespace Weable.TMS.Web.Controllers
             catch (Exception ex)
             {
                 _logger.LogError("{0}: Exception caught with id {1}.", func, id, ex);
-                return NotFound();
+                return View("PageNotFound");
             }
         }
 
@@ -88,11 +88,19 @@ namespace Weable.TMS.Web.Controllers
                 {
                     Course existing = null;
                     if (model.CourseId.HasValue)
-                        existing = await _courseRepo.GetData(model.CourseId.Value);
-                    Course course = model.ToDataModel(_mapper, existing);
-                    course.ModifyUserId = 1;
-                    course.ModifyDate = DateTime.Now;
-                    await _courseRepo.SaveData(course);
+                    {
+                        existing = await _service.GetData(model.CourseId.Value);
+                        existing.ModifyUserId = 1;
+                        existing.ModifyDate = DateTime.Now;
+                        Course course = model.ToDataModel(_mapper, existing);
+                        await _service.SaveData(course);
+                    }
+                    else {
+                        Course course = model.ToDataModel(_mapper, existing);
+                        course.CreateUserId = 1;
+                        course.CreateDate = DateTime.Now;
+                        await _service.SaveData(course);
+                    }
                     return Json(new AjaxResultModel(AjaxResultModel.StatusCodeSuccess, "Save Complete!"));
                 }
                 catch (Exception ex)
@@ -113,7 +121,7 @@ namespace Weable.TMS.Web.Controllers
                 {
                     try
                     {
-                        await _courseRepo.DeleteData(id);
+                        await _service.DeleteData(id);
                     }
                     catch (Exception ex)
                     {

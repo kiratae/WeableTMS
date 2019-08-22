@@ -5,59 +5,87 @@
     ViewData["Title"] = "Course";
 }
 
-<h2>@ViewData["Title"]</h2>
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">ระบบบันทึกข้อมูลการฝึกอบรม</li>
+        <li class="breadcrumb-item active">โครงการหลัก</li>
+    </ol>
+</nav>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<form asp-controller="@cntr.Name" asp-action="@cntr.ActionList" class="form-inline">
-    <div class="form-group">
-        <label asp-for="Code" class="control-label"></label>
-        <input asp-for="Code" class="form-control" />
+<div class="card shadow h-100">
+    <div class="card-body">
+        <form asp-controller="@cntr.Name" asp-action="@cntr.ActionList">
+            <div class="form-row">
+                <div class="form-group col">
+                    <input asp-for="Code" placeholder="รหัสโครงการ" class="form-control" />
 
+                </div>
+                <div class="form-group col">
+                    <input asp-for="Keyword" placeholder="ชื่อโครงการ" class="form-control" />
+                </div>
+                <div class="form-group col">
+                    <button class="btn btn-primary float-right"><i class="fa fa-search"></i>&ensp;ค้นหา</button>
+                </div>
+            </div>
+        </form>
+        <div class="row">
+            <div class="col-md-12">
+                <button id="btn-delete-multi" class="btn btn-outline-secondary" type="button"><i class="fa fa-minus"></i>&ensp;ลบโครงการ</button>
+                <a asp-action="Edit" id="btn-add" class="btn btn-primary"><i class="fa fa-plus"></i>&ensp;เพิ่มโครงการ</a>
+            </div>
+        </div>
     </div>
-    <div class="form-group">
-        <label asp-for="Keyword" class="control-label"></label>
-        <input asp-for="Keyword" class="form-control" />
-    </div>
-    <button class="btn btn-primary">Filter</button>
-</form>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                Code
-            </th>
-            <th>
-                Name
-            </th>
-            <th>
-                Is Active
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model.Courses)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Code)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.IsActive)
-                </td>
-                <td>
-                    <a asp-action="@cntr.ActionEdit" asp-route-id="@item.CourseId">Edit</a> |
-                    <a asp-action="@cntr.ActionListTrn" asp-route-id="@item.CourseId">Details</a> |
-                    <a asp-action="@cntr.ActionDelete" asp-route-id="@item.CourseId">Delete</a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+</div>
 
-@await Html.PartialAsync("_Paging", Model)
+<div class="card shadow h-100 mt-3">
+    <div class="card-body">
+        <div class="table-responsive no-gutters">
+            <table class="table table-borderless table-border-bottom">
+                <thead class="thead-style">
+                    <tr>
+                        <th class="text-center">
+                            <div class="we-checkbox">
+                                <input type="checkbox" id="checkall" class="checkboxtable checkbox-all">
+                                <label for="checkall"></label>
+                            </div>
+                        </th>
+                        <th class="text-left"> รหัสโครงการ</th>
+                        <th class="text-left"> ชื่อโครงการ</th>
+                        <th class="text-center"> จำนวนโครงการย่อย</th>
+                        <th class="text-center sorting_disabled"> เครื่องมือ</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.Courses.Count == 0)
+                    {
+                        <tr role="row">
+                            <td colspan="5" class="text-center">ไม่พบข้อมูล !</td>
+                        </tr>
+                    }
+                    @foreach (var item in Model.Courses)
+                    {
+                        <tr>
+                            <td class="text-center"></td>
+                            <td  class="text-left">
+                                @Html.DisplayFor(modelItem => item.Code)
+                            </td>
+                            <td  class="text-left">
+                                @Html.DisplayFor(modelItem => item.Name)
+                            </td>
+                            <td class="text-center">
+                                1
+                            </td>
+                            <td class="text-center">
+                                <a asp-action="@cntr.ActionListTrn" asp-route-id="@item.CourseId" class="btn btn-info btn-circle"><i class="fa fa-list"></i></a>
+                                <a asp-action="@cntr.ActionEdit" asp-route-id="@item.CourseId" class="btn btn-warning btn-circle"><i class="fa fa-pencil-alt"></i></a>
+                                <a asp-action="@cntr.ActionDelete" asp-route-id="@item.CourseId" class="btn btn-danger btn-circle"><i class="fa fa-trash-alt"></i></a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        @await Html.PartialAsync("_Paging", Model)
+    </div>
+</div>
