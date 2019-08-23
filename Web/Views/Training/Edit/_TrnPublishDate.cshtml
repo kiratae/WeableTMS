@@ -1,0 +1,92 @@
+﻿@model Weable.TMS.Web.Models.EditTrainingModel
+
+<div class="form-group row">
+    <label class="col-sm-12 col-form-label">วันที่เผยแพร่โครงการ <span class="text-danger">*</span></label>
+    <div class="custom-control custom-checkbox col-sm-3 ml-3">
+        @Html.RadioButtonFor(x => x.IsPublishNow, true, new { @id = "IsPublish1", @class = "custom-control-input" })
+        <label class="custom-control-label" for="IsPublish1"> เผยแพร่ทันที</label>
+    </div>
+    <div class="custom-control custom-checkbox col-sm-3 ml-3">
+        @Html.RadioButtonFor(x => x.IsPublishNow, false, new { @id = "IsPublish2", @class = "custom-control-input" })
+        <label class="custom-control-label" for="IsPublish2"> กำหนดเวลาเผยแพร่</label>
+    </div>
+    @if (Model.IsPublishNow == false)
+    {
+        <div id="publishDate">
+            <div class="col-md-4 col-md-offset-3 pl-5">
+                <label class="form-control-static">วันที่</label>
+                <div class="input-group">
+                    @Html.TextBoxFor(x => x.PublishDate, Model.PublishDateText, new { @class = "form-control input-md datepicker", @placeholder = "วันที่เผยแพร่" })
+                    <div class="input-group-append">
+                        <span class="input-group-text">
+                            <i class="fa fa-calendar-alt"></i>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <label class="form-control-static">เวลา</label>
+                <div class="input-group">
+                    @Html.DropDownListFor(x => x.PublishHour, Model.PublishHours, new { @class = "form-control" })
+                    <span class="input-group-append">
+                        <span class="input-group-text">:</span>
+                    </span>
+                    @Html.DropDownListFor(x => x.PublishMinute, Model.PublishMinutes, new { @class = "form-control" })
+                    <span class="input-group-append">
+                        <span class="input-group-text">น.</span>
+                    </span>
+                </div>
+            </div>
+            <div class="col-md-9 col-md-offset-3">
+                <font size="2" class="grey controls"><i> กรุณาระบุวันที่และเวลาที่ต้องการเผยแพร่โครงการ</i></font>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div id="publishDate" style="display:none">
+            <div class="col-md-4 col-md-offset-3 pl-5">
+                <label class="form-control-static">วันที่</label>
+                <div class="input-group">
+                    @Html.TextBoxFor(x => x.PublishDate, Model.PublishDateText, new { @class = "form-control input-md datepicker", @placeholder = "วันที่เผยแพร่" })
+                    <div class="input-group-append">
+                        <span class="input-group-text">
+                            <i class="fa fa-calendar-alt"></i>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <label class="form-control-static">เวลา</label>
+                <div class="input-group">
+                    @Html.DropDownListFor(x => x.PublishHour, Model.PublishHours, new { @class = "form-control" })
+                    <span class="input-group-append">
+                        <span class="input-group-text">:</span>
+                    </span>
+                    @Html.DropDownListFor(x => x.PublishMinute, Model.PublishMinutes, new { @class = "form-control" })
+                    <span class="input-group-append">
+                        <span class="input-group-text">น.</span>
+                    </span>
+                </div>
+            </div>
+            <div class="col-md-9 col-md-offset-3">
+                <font size="2" class="grey controls"><i> กรุณาระบุวันที่และเวลาที่ต้องการเผยแพร่โครงการ</i></font>
+            </div>
+        </div>
+    }
+</div>
+
+<script>
+    $(document).ready(function () {
+        $("input[name='IsPublishNow']").change(function () {
+            var check = $(this).val().toString();
+            alert(check);
+            if (check == "False") {
+                $('#publishDate').show();
+            }
+            else {
+                $('#publishDate').hide();
+            }
+        });
+    });
+</script>

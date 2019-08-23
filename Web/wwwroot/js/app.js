@@ -7,10 +7,6 @@ $.ajaxSetup({
             //async: false
 });
 
-sweetAlert.setDefaults({
-    html: true,
-});
-
 //moment.locale('th');
 
 var __WE_MASK_NUMBER = new Mask("#,##0.00", "number");
@@ -382,13 +378,13 @@ function weSaveForm(form, successCallback, errorCallback = null) {
             $(form).serialize(),
             function (data, textStatus, xhr) {
                 if (data.statusCode === "0") {
-                    swal({
+                    Swal.fire({
                         title: "บันทึกข้อมูล",
                         text: "บันทึกข้อมูลเรียบร้อย",
                         type: "success",
-                        confirmButtonClass: 'btn btn-default',
-                        html: true
-                    }, function () {
+                        confirmButtonText: 'ตกลง',
+                        confirmButtonClass: 'btn btn-primary'
+                    }).then(function () {
                         if (successCallback !== null) {
                             successCallback();
                         }
@@ -397,13 +393,13 @@ function weSaveForm(form, successCallback, errorCallback = null) {
                     var msg = getErrorMessage(data.errors);
                     if (msg === null || msg === "undefined")
                         msg = "";
-                    swal({
+                    Swal.fire({
                         title: "บันทึกไม่สำเร็จ",
-                        text: msg,
+                        html: msg,
                         type: "error",
-                        confirmButtonClass: 'btn btn-default',
-                        html: true
-                    }, function() {
+                        confirmButtonText: 'ตกลง',
+                        confirmButtonClass: 'btn btn-primary'
+                    }).then(function() {
                         if(errorCallback instanceof Function) {
                             errorCallback();
                         }

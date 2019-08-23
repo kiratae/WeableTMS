@@ -7,9 +7,13 @@
 
   <ItemGroup>
     <Compile Remove="Content\**" />
+    <Compile Remove="wwwroot\lib\pikaday\**" />
     <Content Remove="Content\**" />
+    <Content Remove="wwwroot\lib\pikaday\**" />
     <EmbeddedResource Remove="Content\**" />
+    <EmbeddedResource Remove="wwwroot\lib\pikaday\**" />
     <None Remove="Content\**" />
+    <None Remove="wwwroot\lib\pikaday\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -24,10 +28,6 @@
     <ProjectReference Include="..\Entity\Entity.csproj" />
     <ProjectReference Include="..\Helper\Infrastructure.csproj" />
     <ProjectReference Include="..\Model\Model.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Views\Training\Edit\" />
   </ItemGroup>
 
 </Project>

@@ -1,4 +1,5 @@
 ﻿@using cntr = Weable.TMS.Web.Controllers.TrainingController
+@using fileCntr = Weable.TMS.Web.Controllers.FileController
 @model Weable.TMS.Web.Models.EditTrainingModel
 
 @{
@@ -29,13 +30,13 @@
             }
 
         #file-detail input {
-            cursor:pointer;
+            cursor: pointer;
         }
 
-        #file-detail input:hover {
-            color: #0F7E9B;
-            text-decoration: underline;
-        }
+            #file-detail input:hover {
+                color: #0F7E9B;
+                text-decoration: underline;
+            }
 
         #img-upload {
             width: 100%;
@@ -58,17 +59,18 @@
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <input type="hidden" asp-for="TrainingId" />
 
+                    <!-- ข้อมูลโครงการ -->
                     <h4 class="title">ข้อมูลโครงการ</h4>
 
                     <div class="form-group row">
-                        <label asp-for="CourseId" class="col-sm-3 col-form-label text-right">โครงการที่เกี่ยวข้อง (หลักสูตร) <span class="text-danger">*</span></label>
+                        <label asp-for="CourseId" class="col-sm-3 col-form-label text-right">โครงการที่เกี่ยวข้อง (หลักสูตร)<span class="text-danger">*</span></label>
                         <div class="col-sm-7">
                             @Html.DropDownListFor(x => x.CourseId, Model.Courses, "- เลือกหลักสูตร -", new { @class = "form-control" })
                         </div>
                         <span asp-validation-for="CourseId" class="text-danger"></span>
                     </div>
                     <div class="form-group row">
-                        <label asp-for="Name" class="col-sm-3 col-form-label text-right">ชื่อโครงการ <span class="text-danger">*</span></label>
+                        <label asp-for="Name" class="col-sm-3 col-form-label text-right">ชื่อโครงการ<span class="text-danger">*</span></label>
                         <div class="col-sm-7">
                             <input asp-for="Name" class="form-control" />
                         </div>
@@ -83,6 +85,7 @@
                     </div>
 
                     <hr />
+                    <!-- รายละเอียดโครงการ -->
                     <h4 class="title">รายละเอียดโครงการ</h4>
 
                     <div class="form-group">
@@ -93,6 +96,10 @@
                         </label>
                     </div>
                     <div class="form-group row">
+                        <div id="progress-wrp">
+                            <div class="progress-bar"></div>
+                            <div class="status">0%</div>
+                        </div>
                         @Html.HiddenFor(x => x.TrnImage)
                         <div class="border border-gray mx-3 p-3">
                             <span class="btn btn-primary btn-file mb-2">
@@ -137,55 +144,21 @@
                     </div>
 
                     <hr />
-                    <h4 class="title">รายชื่อผู้เกี่ยวข้อง</h4>
+                    <!-- รายชื่อผู้เกี่ยวข้อง -->
+                    <h4 class="title my-3">รายชื่อผู้เกี่ยวข้อง</h4>
 
                     <hr />
-                    <h4 class="title">เอกสารเพิ่มเติม</h4>
+                    <!-- เอกสารเพิ่มเติม -->
+                    <h4 class="title my-3">เอกสารเพิ่มเติม</h4>
 
                     <hr />
-                    <h4 class="title">การรับสมัคร</h4>
+                    <!-- การรับสมัคร -->
+                    <h4 class="title my-3">การรับสมัคร</h4>
 
-                    <div class="form-group">
-                        <label asp-for="RegisterStartDate" class="control-label">วันที่รับสมัคร <span class="text-danger">*</span></label>
-                        <input asp-for="RegisterStartDate" class="form-control" />
-                        <span asp-validation-for="RegisterStartDate" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="RegisterEndDate" class="control-label">วันที่สิ้นสุดรับสมัคร <span class="text-danger">*</span></label>
-                        <input asp-for="RegisterEndDate" class="form-control" />
-                        <span asp-validation-for="RegisterEndDate" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="PublishAtdDate" class="control-label"></label>
-                        <input asp-for="PublishAtdDate" class="form-control" />
-                        <span asp-validation-for="PublishAtdDate" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="SeatQty" class="control-label"></label>
-                        <input asp-for="SeatQty" class="form-control" />
-                        <span asp-validation-for="SeatQty" class="text-danger"></span>
-                    </div>
+                    @await Html.PartialAsync("~/Views/Training/Edit/_TrnDate.cshtml", Model)
 
                     <hr />
-                    <h4 class="title">การจัดฝึกอบรม</h4>
-
-                    <div class="form-group">
-                        <label asp-for="TrnStartDate" class="control-label"></label>
-                        <input asp-for="TrnStartDate" class="form-control" />
-                        <span asp-validation-for="TrnStartDate" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="TrnEndDate" class="control-label"></label>
-                        <input asp-for="TrnEndDate" class="form-control" />
-                        <span asp-validation-for="TrnEndDate" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="Location" class="control-label"></label>
-                        <input asp-for="Location" class="form-control" />
-                        <span asp-validation-for="Location" class="text-danger"></span>
-                    </div>
-
-                    <hr />
+                    <!-- เงื่อนไข -->
                     <h4 class="title">เงื่อนไข</h4>
 
                     <div class="form-group row">
@@ -201,25 +174,10 @@
                     </div>
 
                     <hr />
+                    <!-- การเผยแพร่โครงการ -->
                     <h4 class="title">การเผยแพร่โครงการ</h4>
 
-                    <div class="form-group row">
-                        <label class="col-sm-12 col-form-label">วันที่เผยแพร่โครงการ <span class="text-danger">*</span></label>
-                        <div class="custom-control custom-checkbox col-sm-2 ml-3">
-                            @Html.RadioButtonFor(x => x.IsPublishNow, false, new { @id = "isP1", @class = "custom-control-input" })
-                            <label class="custom-control-label" for="isP1"> เผยแพร่ทันที</label>
-                        </div>
-                        <div class="custom-control custom-checkbox col-sm-2 ml-3">
-                            @Html.RadioButtonFor(x => x.IsPublishNow, true, new { @id = "isP2", @class = "custom-control-input" })
-                            <label class="custom-control-label" for="isP2"> กำหนดเวลาเผยแพร่</label>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label asp-for="PublishDate" class="control-label"></label>
-                        <input asp-for="PublishDate" class="form-control" />
-                        <span asp-validation-for="PublishDate" class="text-danger"></span>
-                    </div>
+                    @await Html.PartialAsync("~/Views/Training/Edit/_TrnPublishDate.cshtml", Model)
 
                     <hr />
 
@@ -238,54 +196,161 @@
         $(document).ready(function () {
             $('#file-detail').hide();
 
+            var Upload = function (file) {
+                this.file = file;
+            };
+            Upload.prototype.getType = function () {
+                return this.file.type;
+            };
+            Upload.prototype.getSize = function () {
+                return this.file.size;
+            };
+            Upload.prototype.getName = function () {
+                return this.file.name;
+            };
+
+            Upload.prototype.doUpload = function () {
+                var that = this;
+                var formData = new FormData();
+
+                // add assoc key values, this will be posts values
+                console.log(this.file);
+                formData.append("files", this.file);
+
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("Index", "UploadFiles")",
+                    xhr: function () {
+                        var myXhr = $.ajaxSettings.xhr();
+                        if (myXhr.upload) {
+                            myXhr.upload.addEventListener('progress', that.progressHandling, false);
+                        }
+                        return myXhr;
+                    },
+                    success: function (data) {
+                        // your callback here
+                        alert("Files Uploaded!");
+                    },
+                    error: function (error) {
+                        // handle error
+                    },
+                    enctype: 'multipart/form-data',
+                    async: true,
+                    data: formData,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    timeout: 60000
+                });
+
+            };
+
+            Upload.prototype.progressHandling = function (event) {
+                var percent = 0;
+                var position = event.loaded || event.position;
+                var total = event.total;
+                var progress_bar_id = "#progress-wrp";
+                if (event.lengthComputable) {
+                    percent = Math.ceil(position / total * 100);
+                }
+                // update progressbars classes so it fits your code
+                $(progress_bar_id + " .progress-bar").css("width", +percent + "%");
+                $(progress_bar_id + " .status").text(percent + "%");
+            };
+
+
             $(document).on('change', '.btn-file :file', function () {
-                var input = $(this),
-                    label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
-                input.trigger('fileselect', [label]);
+                var file = $(this)[0].files[0];
+                var upload = new Upload(file);
+                // maby check size or type here with upload.getSize() and upload.getType()
+
+                // execute upload
+                upload.doUpload();
             });
 
-            $('.btn-file :file').on('fileselect', function (event, label) {
+            //$('.btn-file :file').on('fileselect', function (event, label) {
 
-                $(this).parent().hide();
-                $('#file-detail').show();
-                var input = $('#file-detail').find(':text'),
-                    log = label;
+            //    $(this).parent().hide();
+            //    $('#file-detail').show();
+            //    var input = $('#file-detail').find(':text'),
+            //        log = label;
 
-                console.log(label);
+            //    if (input.length) {
+            //        input.val(log);
+            //    } else {
+            //        if (log) alert(log);
+            //    }
 
-                if (input.length) {
-                    input.val(log);
-                } else {
-                    if (log) alert(log);
-                }
+            //});
+            //function readURL(input) {
+            //    if (input.files && input.files[0]) {
+            //        // upload file
+            //        $.ajax({
 
-            });
-            function readURL(input) {
-                if (input.files && input.files[0]) {
-                    var reader = new FileReader();
+            //        });
+            //        console.log(input.files[0]);
+            //        var reader = new FileReader();
 
-                    reader.onload = function (e) {
-                        $('#img-upload').attr('src', e.target.result);
-                    }
+            //        reader.onload = function (e) {
+            //            $('#img-upload').attr('src', e.target.result);
+            //        }
 
-                    reader.readAsDataURL(input.files[0]);
-                }
-            }
+            //        reader.readAsDataURL(input.files[0]);
+            //    }
+            //}
 
-            $("#imgInp").change(function () {
-                readURL(this);
-            });
+            //$("#imgInp").change(function () {
+            //    readURL(this);
+            //});
 
-            $('#file-detail').find(':text').click(function () {
-                alert($(this).val());
-            });
+            //$('#file-detail').find(':text').click(function () {
+            //    // Download file
+            //    alert($(this).val());
+            //});
 
             $('.btn-file-delete').click(function () {
-                $('#file-detail').hide();
-                $('.btn-file :file').parent().show();
 
-                $("#imgInp").val('');
-                $('#img-upload').attr('src', 'https://via.placeholder.com/1200x650.jpg');
+                const swalWithBootstrapButtons = Swal.mixin({
+                    customClass: {
+                        confirmButton: 'btn btn-success mx-1',
+                        cancelButton: 'btn btn-danger mx-1'
+                    },
+                    buttonsStyling: false
+                });
+
+                swalWithBootstrapButtons.fire({
+                    title: 'Are you sure?',
+                    text: "You won't be able to revert this!",
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Yes, delete it!',
+                    cancelButtonText: 'No, cancel!',
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.value) {
+                        swalWithBootstrapButtons.fire(
+                            'Deleted!',
+                            'Your file has been deleted.',
+                            'success'
+                        );
+                        $('#file-detail').hide();
+                        $('.btn-file :file').parent().show();
+
+                        $("#imgInp").val('');
+                        $('#img-upload').attr('src', 'https://via.placeholder.com/1200x650.jpg');
+
+                    } else if (
+                        /* Read more about handling dismissals below */
+                        result.dismiss === Swal.DismissReason.cancel
+                    ) {
+                        swalWithBootstrapButtons.fire(
+                            'Cancelled',
+                            'Your imaginary file is safe :)',
+                            'error'
+                        )
+                    }
+                });
+
             });
         });
     </script>

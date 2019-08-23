@@ -63,6 +63,9 @@ namespace Weable.TMS.Web
             services.AddTransient<ICourseRepository, CourseRepository>();
             services.AddTransient<ICourseService, CourseService>();
 
+            services.AddTransient<IFileRepository, FileRepository>();
+            services.AddTransient<IFileService, FileService>();
+
             services.AddTransient<ITrainingRepository, TrainingRepository>();
             services.AddTransient<ITrainingService, TrainingService>();
 
