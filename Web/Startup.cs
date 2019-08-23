@@ -44,6 +44,16 @@ namespace Weable.TMS.Web
                     .DisableBackslashEscaping();
                 }));
 
+            // Session Configurations
+            services.AddSession(options =>
+            {
+                // Set a short timeout for easy testing.
+                options.IdleTimeout = TimeSpan.FromSeconds(10);
+                options.Cookie.HttpOnly = true;
+                // Make the session cookie essential
+                options.Cookie.IsEssential = true;
+            });
+
             // Logging Configurations
             services.AddLogging(config =>
             {
@@ -92,6 +102,7 @@ namespace Weable.TMS.Web
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+            app.UseSession();
             app.UseCookiePolicy();
 
             app.UseMvc(routes =>

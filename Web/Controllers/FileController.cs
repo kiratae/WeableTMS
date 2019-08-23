@@ -8,9 +8,10 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Microsoft.Net.Http.Headers;
 using Weable.TMS.Model.ServiceModel;
 using Weable.TMS.Web.Models;
+using Weable.TMS.Model.Data;
+using File = Weable.TMS.Model.Data.File;
 
 namespace Weable.TMS.Web.Controllers
 {
@@ -36,20 +37,34 @@ namespace Weable.TMS.Web.Controllers
             const string func = "Upload";
             try
             {
+                var list = new List<File>();
                 foreach (IFormFile source in files)
                 {
-                    string filename = DateTime.Now.ToString("yyyyMMdd") + "_trainingTimelineImg_" + ContentDispositionHeaderValue.Parse(source.ContentDisposition).FileName.ToString();
+                    string random = new Random().Next(0,99999999).ToString();
+                    string fileGuid = Guid.NewGuid().ToString();
+                    string filename = DateTime.Now.ToString("yyyyMMdd") + "_trainingTimelineImg_" + random;
 
                     filename = this.EnsureCorrectFilename(filename);
 
                     using (FileStream output = System.IO.File.Create(this.GetPathAndFilename(filename)))
                         await source.CopyToAsync(output);
+
+                    var file = new File() {
+                        FileGuid = fileGuid,
+                        FileName = GetPathAndFilename(filename),
+                        MimeType = source.ContentType,
+                        FileSize = (int)source.Length,
+                        IsTemp = 1,
+                        CreateDate = DateTime.Now
+                    };
+                    await _service.SaveData(file);
+                    list.Add(file);
                 }
 
                 // process uploaded files
                 // Don't rely on or trust the FileName property without validation.
 
-                return Json(new AjaxResultModel(AjaxResultModel.StatusCodeSuccess, "Save Complete!"));
+                return Json(list.ToArray());
             }
             catch (Exception ex)
             {
