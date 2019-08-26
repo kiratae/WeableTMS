@@ -3,30 +3,22 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
     <RootNamespace>Weable.TMS.Web</RootNamespace>
+    <UserSecretsId>fffc8a22-8691-4083-8459-4358268321dd</UserSecretsId>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
   </PropertyGroup>
-
-  <ItemGroup>
-    <Compile Remove="Content\**" />
-    <Compile Remove="wwwroot\lib\pikaday\**" />
-    <Content Remove="Content\**" />
-    <Content Remove="wwwroot\lib\pikaday\**" />
-    <EmbeddedResource Remove="Content\**" />
-    <EmbeddedResource Remove="wwwroot\lib\pikaday\**" />
-    <None Remove="Content\**" />
-    <None Remove="wwwroot\lib\pikaday\**" />
-  </ItemGroup>
-
+  
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="9.0.0" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="7.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.7.12" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.3" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Entity\Entity.csproj" />
-    <ProjectReference Include="..\Helper\Infrastructure.csproj" />
+    <ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
     <ProjectReference Include="..\Model\Model.csproj" />
   </ItemGroup>
 

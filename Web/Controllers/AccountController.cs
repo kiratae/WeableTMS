@@ -20,6 +20,7 @@ namespace Web.Controllers
         {
             if (username != null && password != null && username.Equals("admin") && password.Equals("password"))
             {
+                HttpContext.Session.SetInt32("userId", 1);
                 HttpContext.Session.SetString("username", username);
                 return RedirectToAction("Index", "Home");
             }
