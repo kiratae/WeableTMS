@@ -13,7 +13,6 @@ namespace Weable.TMS.Model.Data
             DistrictModifyUser = new HashSet<District>();
             FacultyCreateUser = new HashSet<Faculty>();
             FacultyModifyUser = new HashSet<Faculty>();
-            InverseCreateUser = new HashSet<User>();
             InverseModifyUser = new HashSet<User>();
             Log = new HashSet<Log>();
             ProvinceCreateUser = new HashSet<Province>();
@@ -56,7 +55,6 @@ namespace Weable.TMS.Model.Data
         public DateTime? ModifyDate { get; set; }
         public int? ModifyUserId { get; set; }
 
-        public virtual User CreateUser { get; set; }
         public virtual Faculty Faculty { get; set; }
         public virtual User ModifyUser { get; set; }
         public virtual ICollection<Course> CourseCreateUser { get; set; }
@@ -65,7 +63,6 @@ namespace Weable.TMS.Model.Data
         public virtual ICollection<District> DistrictModifyUser { get; set; }
         public virtual ICollection<Faculty> FacultyCreateUser { get; set; }
         public virtual ICollection<Faculty> FacultyModifyUser { get; set; }
-        public virtual ICollection<User> InverseCreateUser { get; set; }
         public virtual ICollection<User> InverseModifyUser { get; set; }
         public virtual ICollection<Log> Log { get; set; }
         public virtual ICollection<Province> ProvinceCreateUser { get; set; }

@@ -1,6 +1,6 @@
 using System;
 
-namespace Weable.TMS.Web.Models
+namespace Web.Models
 {
     public class ErrorViewModel
     {

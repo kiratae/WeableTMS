@@ -45,7 +45,7 @@ namespace Weable.TMS.Model.Data
         public DateTime CreateDate { get; set; }
         public int CreateUserId { get; set; }
         public DateTime? ModifyDate { get; set; }
-        public int ModifyUserId { get; set; }
+        public int? ModifyUserId { get; set; }
 
         public virtual Course Course { get; set; }
         public virtual User CreateUser { get; set; }

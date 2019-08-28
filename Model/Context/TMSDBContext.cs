@@ -1402,7 +1402,6 @@ namespace Weable.TMS.Model.Data
                 entity.HasOne(d => d.ModifyUser)
                     .WithMany(p => p.TrainingModifyUser)
                     .HasForeignKey(d => d.ModifyUserId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_Training_User_2");
 
                 entity.HasOne(d => d.TrnImageNavigation)
@@ -2013,12 +2012,6 @@ namespace Weable.TMS.Model.Data
                     .IsRequired()
                     .HasColumnName("username")
                     .HasColumnType("varchar(50)");
-
-                entity.HasOne(d => d.CreateUser)
-                    .WithMany(p => p.InverseCreateUser)
-                    .HasForeignKey(d => d.CreateUserId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_User_User");
 
                 entity.HasOne(d => d.Faculty)
                     .WithMany(p => p.User)
