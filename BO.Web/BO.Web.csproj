@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
-    <RootNamespace>Weable.TMS.Web</RootNamespace>
+    <RootNamespace>Weable.TMS.BO.Web</RootNamespace>
     <UserSecretsId>fffc8a22-8691-4083-8459-4358268321dd</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
   </PropertyGroup>

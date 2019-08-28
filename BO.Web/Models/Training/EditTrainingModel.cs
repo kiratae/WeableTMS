@@ -10,7 +10,7 @@ using Weable.TMS.Model.Data;
 using Weable.TMS.Model.Filter;
 using Weable.TMS.Model.ServiceModel;
 
-namespace Weable.TMS.Web.Models
+namespace Weable.TMS.BO.Web.Models
 {
     public class EditTrainingModel : BaseEditModel
     {

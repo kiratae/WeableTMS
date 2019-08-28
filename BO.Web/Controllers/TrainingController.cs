@@ -9,10 +9,10 @@ using Microsoft.Extensions.Logging;
 using Weable.TMS.Infrastructure.Model;
 using Weable.TMS.Model.Data;
 using Weable.TMS.Model.ServiceModel;
-using Weable.TMS.Web.Models;
-using Weable.TMS.Web.Resources;
+using Weable.TMS.BO.Web.Models;
+using Weable.TMS.BO.Web.Resources;
 
-namespace Weable.TMS.Web.Controllers
+namespace Weable.TMS.BO.Web.Controllers
 {
     public class TrainingController : Controller
     {

@@ -7,21 +7,26 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Weable.TMS.Infrastructure.Extension;
 using Weable.TMS.Model.Data;
-using Weable.TMS.Web.Controllers;
-using Weable.TMS.Web.Models;
+using Weable.TMS.Model.Enumeration;
+using Weable.TMS.BO.Web.Controllers;
+using Weable.TMS.BO.Web.Models;
 
-namespace Web.Controllers
+namespace Weable.TMS.BO.Web.Controllers
 {
     public class AccountController : Controller
     {
-        private readonly UserManager<IdentityUser> _userManager;
-        private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly ILogger<TrainingController> _logger;
+        public static readonly string Name = "Account";
+        public static readonly string ActionLogin = "Login";
+        public static readonly string ActionLogout = "Logout";
 
         public AccountController(
-            UserManager<IdentityUser> userManager,
-            SignInManager<IdentityUser> signInManager,
+            UserManager<ApplicationUser> userManager,
+            SignInManager<ApplicationUser> signInManager,
             ILogger<TrainingController> logger)
         {
             _userManager = userManager;
@@ -37,29 +42,55 @@ namespace Web.Controllers
             return View();
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public IActionResult Edit() {
             return View();
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> Edit(EditAccountModel model)
         {
             if (ModelState.IsValid)
             {
-                var user = new IdentityUser { UserName = model.Username };
-                var result = await _userManager.CreateAsync(user, model.Password);
+                Role adminRole = (Role)Enum.Parse(typeof(Role), "Staff");
 
-                if (result.Succeeded)
+                // Our default user
+                var user = new ApplicationUser
                 {
-                    await _signInManager.SignInAsync(user, isPersistent: false);
-                    return View("Index", "Home");
+                    FullName = "Tanaphon Kleaklom",
+                    Email = "kirataetwo@gmail.com",
+                    UserName = model.Username,
+                    LockoutEnabled = false
+                };
+
+                // Add the user to the database if it doesn't already exist
+                if (await _userManager.FindByNameAsync(user.UserName) == null)
+                {
+                    // WARNING: Do NOT check in credentials of any kind into source control
+
+
+                    var result = await _userManager.CreateAsync(user, password: model.Password);
+
+                    if (!result.Succeeded)
+                    {
+                        // FIXME: Do not throw an Exception object
+                        throw new Exception("Creating user failed");
+                    }
+
+                    // Assign all roles to the default user
+                    result = await _userManager.AddToRoleAsync(user, adminRole.GetRoleName());
+                    // If you add a role to the enumafter the user is created,
+                    // the role will not be assigned to the user as of now
+
+                    if (!result.Succeeded)
+                    {
+                        // FIXME: Do not throw an Exception object
+                        throw new Exception("Adding user to role failed");
+                    }
                 }
 
-                foreach (var error in result.Errors)
-                {
-                    ModelState.AddModelError("", error.Description);
-                }
             }
 
             return View(model);
@@ -97,10 +128,11 @@ namespace Web.Controllers
             return View(model);
         }
 
-        public IActionResult Logout()
+        [Authorize]
+        public async Task<IActionResult> Logout()
         {
-            HttpContext.Session.Remove("username");
-            return RedirectToAction("Index");
+            await _signInManager.SignOutAsync();
+            return RedirectToAction(ActionLogin);
         }
 
         private IActionResult RedirectToLocal(string returnUrl)

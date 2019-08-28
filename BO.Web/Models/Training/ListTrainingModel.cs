@@ -8,7 +8,7 @@ using Weable.TMS.Model.Data;
 using Weable.TMS.Model.Enumeration;
 using Weable.TMS.Model.Filter;
 
-namespace Weable.TMS.Web.Models
+namespace Weable.TMS.BO.Web.Models
 {
     public class ListTrainingModel: BaseListModel
     {

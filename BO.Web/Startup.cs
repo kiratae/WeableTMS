@@ -12,8 +12,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
-using Weable.TMS.Model.Data;
 using Weable.TMS.Entity.Repository;
+using Weable.TMS.Model.Data;
 using Weable.TMS.Model.RepositoryModel;
 using Weable.TMS.Model.Service;
 using Weable.TMS.Model.ServiceModel;
@@ -22,6 +22,10 @@ using Weable.TMS.Web.Helper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI;
 using System.Globalization;
+using Weable.TMS.Model.Context;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication;
+using System.Net;
 
 namespace Weable.TMS.Web
 {
@@ -48,47 +52,38 @@ namespace Weable.TMS.Web
 
             // DbContext
             services.AddDbContext<TMSDBContext>(option =>
-                option.UseMySql(Configuration.GetConnectionString("TMSDBContext"),
+                option.UseMySql(Configuration.GetConnectionString("TMSDbContext"),
+                mySqlOptions =>
+                {
+                    mySqlOptions.ServerVersion(new Version(10, 1, 37), ServerType.MariaDb)
+                    .DisableBackslashEscaping();
+                }));
+            services.AddDbContext<ApplicationDbContext>(option =>
+                option.UseMySql(Configuration.GetConnectionString("ApplicationDbContext"),
                 mySqlOptions =>
                 {
                     mySqlOptions.ServerVersion(new Version(10, 1, 37), ServerType.MariaDb)
                     .DisableBackslashEscaping();
                 }));
 
-            // Identity Configurations
-            services.AddDefaultIdentity<IdentityUser>()
-                .AddEntityFrameworkStores<TMSDBContext>();
-
-            services.Configure<IdentityOptions>(options =>
+            // Configure Identity
+            services.AddIdentity<ApplicationUser, IdentityRole>(options =>
             {
-                // Password settings.
+                // Configure identity options here.
                 options.Password.RequireDigit = false;
+                options.Password.RequiredLength = 6;
                 options.Password.RequireLowercase = false;
                 options.Password.RequireNonAlphanumeric = false;
                 options.Password.RequireUppercase = false;
-                options.Password.RequiredLength = 6;
-                options.Password.RequiredUniqueChars = 1;
+            })
+            .AddEntityFrameworkStores<ApplicationDbContext>(); // Tell Identity which EF DbContext to use
 
-                // Lockout settings.
-                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
-                options.Lockout.MaxFailedAccessAttempts = 5;
-                options.Lockout.AllowedForNewUsers = true;
-
-                // User settings.
-                options.User.AllowedUserNameCharacters =
-                "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
-                options.User.RequireUniqueEmail = false;
-            });
-
-            services.ConfigureApplicationCookie(options =>
+            // Configure the Application Cookie
+            services.AddAuthentication()
+            .AddCookie(options =>
             {
-                // Cookie settings
-                options.Cookie.HttpOnly = true;
-                options.ExpireTimeSpan = TimeSpan.FromMinutes(5);
-
-                options.LoginPath = "/Identity/Account/Login";
-                options.AccessDeniedPath = "/Identity/Account/AccessDenied";
-                options.SlidingExpiration = true;
+                options.LoginPath = "/account/login";
+                options.LogoutPath = "/account/logout";
             });
 
             // Session Configurations
@@ -157,8 +152,16 @@ namespace Weable.TMS.Web
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    template: "{controller=Course}/{action=Index}/{id?}");
             });
         }
+
+        static Func<RedirectContext<CookieAuthenticationOptions>, Task> ReplaceRedirectorWithStatusCode(HttpStatusCode statusCode) => context =>
+        {
+            // Adapted from https://stackoverflow.com/questions/42030137/suppress-redirect-on-api-urls-in-asp-net-core
+            context.Response.StatusCode = (int)statusCode;
+            return Task.CompletedTask;
+        };
+
     }
 }

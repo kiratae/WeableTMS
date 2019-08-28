@@ -4,9 +4,9 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Weable.TMS.Web.Models;
+using Weable.TMS.BO.Web.Models;
 
-namespace Weable.TMS.Web.Controllers
+namespace Weable.TMS.BO.Web.Controllers
 {
     public class HomeController : Controller
     {

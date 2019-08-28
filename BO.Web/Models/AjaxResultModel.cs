@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Weable.TMS.Web.Models
+namespace Weable.TMS.BO.Web.Models
 {
     public class AjaxResultModel
     {

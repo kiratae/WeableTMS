@@ -1,32 +1,42 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Weable.TMS.Infrastructure.Model;
 using Weable.TMS.Model.Data;
 using Weable.TMS.Model.Filter;
 using Weable.TMS.Model.ServiceModel;
-using Weable.TMS.Web.Models;
+using Weable.TMS.BO.Web.Models;
 
-namespace Weable.TMS.Web.Controllers
+namespace Weable.TMS.BO.Web.Controllers
 {
+    [Authorize]
     public class CourseController : Controller
     {
         private readonly ICourseService _service;
         private readonly IMapper _mapper;
+        private readonly IHttpContextAccessor _httpAccessor;
         private readonly ILogger<CourseController> _logger;
         public static readonly string Name = "Course";
         public static readonly string ActionList = "List";
         public static readonly string ActionListTrn = "ListTrn";
         public static readonly string ActionDelete = "Delete";
         public static readonly string ActionEdit = "Edit";
-        public CourseController(ICourseService service, IMapper mapper, ILogger<CourseController> logger)
+        public CourseController(
+            ICourseService service,
+            IMapper mapper,
+            IHttpContextAccessor httpContextAccessor,
+            ILogger<CourseController> logger)
         {
             _service = service;
             _mapper = mapper;
+            _httpAccessor = httpContextAccessor;
             _logger = logger;
         }
         public ActionResult Index()
@@ -90,11 +100,13 @@ namespace Weable.TMS.Web.Controllers
                     {
                         existing = await _service.GetData(model.CourseId.Value);
                         existing.ModifyUserId = 1;
+                        //existing.ModifyUserId = _httpAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
                         existing.ModifyDate = DateTime.Now;
                         Course course = model.ToDataModel(_mapper, existing);
                         await _service.SaveData(course);
                     }
-                    else {
+                    else
+                    {
                         Course course = model.ToDataModel(_mapper, existing);
                         course.CreateUserId = 1;
                         course.CreateDate = DateTime.Now;

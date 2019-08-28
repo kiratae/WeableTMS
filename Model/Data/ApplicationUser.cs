@@ -10,5 +10,7 @@ namespace Weable.TMS.Model.Data
     {
         [Required]
         public string FullName { get; set; }
+        public int? PersonId { get; set; }
+        public int? FacultyId { get; set; }
     }
 }

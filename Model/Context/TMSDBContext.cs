@@ -15,7 +15,6 @@ namespace Weable.TMS.Model.Data
         {
         }
 
-        public virtual DbSet<Application> Application { get; set; }
         public virtual DbSet<Attendee> Attendee { get; set; }
         public virtual DbSet<ConfigSection> ConfigSection { get; set; }
         public virtual DbSet<Configuration> Configuration { get; set; }
@@ -28,10 +27,6 @@ namespace Weable.TMS.Model.Data
         public virtual DbSet<Province> Province { get; set; }
         public virtual DbSet<Reference> Reference { get; set; }
         public virtual DbSet<Region> Region { get; set; }
-        public virtual DbSet<Role> Role { get; set; }
-        public virtual DbSet<RoleMember> RoleMember { get; set; }
-        public virtual DbSet<Securable> Securable { get; set; }
-        public virtual DbSet<SecurablePermission> SecurablePermission { get; set; }
         public virtual DbSet<Sequence> Sequence { get; set; }
         public virtual DbSet<SequencePeriod> SequencePeriod { get; set; }
         public virtual DbSet<Subdistrict> Subdistrict { get; set; }
@@ -61,32 +56,6 @@ namespace Weable.TMS.Model.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Application>(entity =>
-            {
-                entity.ToTable("application");
-
-                entity.HasIndex(e => e.Name)
-                    .HasName("UC_Name")
-                    .IsUnique();
-
-                entity.Property(e => e.ApplicationId)
-                    .HasColumnName("application_id")
-                    .HasColumnType("int(11)");
-
-                entity.Property(e => e.Data)
-                    .HasColumnName("data")
-                    .HasColumnType("text");
-
-                entity.Property(e => e.Name)
-                    .IsRequired()
-                    .HasColumnName("name")
-                    .HasColumnType("varchar(100)");
-
-                entity.Property(e => e.OrderNo)
-                    .HasColumnName("order_no")
-                    .HasColumnType("smallint(6)");
-            });
-
             modelBuilder.Entity<Attendee>(entity =>
             {
                 entity.ToTable("attendee");
@@ -807,223 +776,6 @@ namespace Weable.TMS.Model.Data
                     .HasConstraintName("FK_Region_User_2");
             });
 
-            modelBuilder.Entity<Role>(entity =>
-            {
-                entity.ToTable("role");
-
-                entity.HasIndex(e => e.ApplicationId)
-                    .HasName("IX_ApplicationId");
-
-                entity.HasIndex(e => new { e.ApplicationId, e.Name })
-                    .HasName("UC_ApplicationId_Name")
-                    .IsUnique();
-
-                entity.Property(e => e.RoleId)
-                    .HasColumnName("role_id")
-                    .HasColumnType("int(11)");
-
-                entity.Property(e => e.ApplicationId)
-                    .HasColumnName("application_id")
-                    .HasColumnType("int(11)");
-
-                entity.Property(e => e.IsActive)
-                    .HasColumnName("is_active")
-                    .HasColumnType("tinyint(1)");
-
-                entity.Property(e => e.IsSystem)
-                    .HasColumnName("is_system")
-                    .HasColumnType("tinyint(1)");
-
-                entity.Property(e => e.Name)
-                    .IsRequired()
-                    .HasColumnName("name")
-                    .HasColumnType("varchar(100)");
-
-                entity.Property(e => e.Note)
-                    .HasColumnName("note")
-                    .HasColumnType("text");
-
-                entity.Property(e => e.OrderNo)
-                    .HasColumnName("order_no")
-                    .HasColumnType("smallint(6)");
-
-                entity.HasOne(d => d.Application)
-                    .WithMany(p => p.Role)
-                    .HasForeignKey(d => d.ApplicationId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Role_Application");
-            });
-
-            modelBuilder.Entity<RoleMember>(entity =>
-            {
-                entity.HasKey(e => new { e.RoleId, e.UserId })
-                    .HasName("PRIMARY");
-
-                entity.ToTable("role_member");
-
-                entity.HasIndex(e => e.RoleId)
-                    .HasName("IX_RoleId");
-
-                entity.HasIndex(e => e.UserId)
-                    .HasName("IX_UserId");
-
-                entity.Property(e => e.RoleId)
-                    .HasColumnName("role_id")
-                    .HasColumnType("int(11)");
-
-                entity.Property(e => e.UserId)
-                    .HasColumnName("user_id")
-                    .HasColumnType("int(11)");
-
-                entity.Property(e => e.IsSystem)
-                    .HasColumnName("is_system")
-                    .HasColumnType("tinyint(1)");
-
-                entity.HasOne(d => d.Role)
-                    .WithMany(p => p.RoleMember)
-                    .HasForeignKey(d => d.RoleId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_RoleMember_Role");
-
-                entity.HasOne(d => d.User)
-                    .WithMany(p => p.RoleMember)
-                    .HasForeignKey(d => d.UserId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_RoleMember_User");
-            });
-
-            modelBuilder.Entity<Securable>(entity =>
-            {
-                entity.ToTable("securable");
-
-                entity.HasIndex(e => e.ApplicationId)
-                    .HasName("IX_ApplicationId");
-
-                entity.HasIndex(e => e.ParentId)
-                    .HasName("IX_PerentId");
-
-                entity.HasIndex(e => e.RootId)
-                    .HasName("IX_RootId");
-
-                entity.HasIndex(e => new { e.ApplicationId, e.Signature })
-                    .HasName("UC_ApplicationId_Signature")
-                    .IsUnique();
-
-                entity.Property(e => e.SecurableId)
-                    .HasColumnName("securable_id")
-                    .HasColumnType("int(11)");
-
-                entity.Property(e => e.ApplicationId)
-                    .HasColumnName("application_id")
-                    .HasColumnType("int(11)");
-
-                entity.Property(e => e.Data)
-                    .HasColumnName("data")
-                    .HasColumnType("text");
-
-                entity.Property(e => e.IsActive)
-                    .HasColumnName("is_active")
-                    .HasColumnType("tinyint(1)");
-
-                entity.Property(e => e.IsExcluded)
-                    .HasColumnName("is_excluded")
-                    .HasColumnType("tinyint(1)");
-
-                entity.Property(e => e.Name)
-                    .IsRequired()
-                    .HasColumnName("name")
-                    .HasColumnType("varchar(100)");
-
-                entity.Property(e => e.OrderNo)
-                    .HasColumnName("order_no")
-                    .HasColumnType("smallint(6)");
-
-                entity.Property(e => e.ParentId)
-                    .HasColumnName("parent_id")
-                    .HasColumnType("int(11)");
-
-                entity.Property(e => e.RootId)
-                    .HasColumnName("root_id")
-                    .HasColumnType("int(11)");
-
-                entity.Property(e => e.SecurableType).HasColumnName("securable_type");
-
-                entity.Property(e => e.Signature)
-                    .IsRequired()
-                    .HasColumnName("signature")
-                    .HasColumnType("varchar(50)");
-
-                entity.HasOne(d => d.Application)
-                    .WithMany(p => p.Securable)
-                    .HasForeignKey(d => d.ApplicationId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Securable_Application");
-
-                entity.HasOne(d => d.Parent)
-                    .WithMany(p => p.InverseParent)
-                    .HasForeignKey(d => d.ParentId)
-                    .HasConstraintName("FK_Securable_Securable");
-
-                entity.HasOne(d => d.Root)
-                    .WithMany(p => p.InverseRoot)
-                    .HasForeignKey(d => d.RootId)
-                    .HasConstraintName("FK_Securable_Securable_2");
-            });
-
-            modelBuilder.Entity<SecurablePermission>(entity =>
-            {
-                entity.ToTable("securable_permission");
-
-                entity.HasIndex(e => e.RoleId)
-                    .HasName("IX_RoleId");
-
-                entity.HasIndex(e => e.SecurableId)
-                    .HasName("IX_SecurableId");
-
-                entity.HasIndex(e => e.UserId)
-                    .HasName("IX_UserId");
-
-                entity.HasIndex(e => new { e.SecurableId, e.UserId, e.RoleId })
-                    .HasName("UC_SecurableId_UserId_RoleId")
-                    .IsUnique();
-
-                entity.Property(e => e.SecurablePermissionId)
-                    .HasColumnName("securable_permission_id")
-                    .HasColumnType("int(11)");
-
-                entity.Property(e => e.IsSystem)
-                    .HasColumnName("is_system")
-                    .HasColumnType("tinyint(1)");
-
-                entity.Property(e => e.RoleId)
-                    .HasColumnName("role_id")
-                    .HasColumnType("int(11)");
-
-                entity.Property(e => e.SecurableId)
-                    .HasColumnName("securable_id")
-                    .HasColumnType("int(11)");
-
-                entity.Property(e => e.UserId)
-                    .HasColumnName("user_id")
-                    .HasColumnType("int(11)");
-
-                entity.HasOne(d => d.Role)
-                    .WithMany(p => p.SecurablePermission)
-                    .HasForeignKey(d => d.RoleId)
-                    .HasConstraintName("FK_SecurablePermission_Role");
-
-                entity.HasOne(d => d.Securable)
-                    .WithMany(p => p.SecurablePermission)
-                    .HasForeignKey(d => d.SecurableId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_SecurablePermission_Securable");
-
-                entity.HasOne(d => d.User)
-                    .WithMany(p => p.SecurablePermission)
-                    .HasForeignKey(d => d.UserId)
-                    .HasConstraintName("FK_SecurablePermission_User");
-            });
-
             modelBuilder.Entity<Sequence>(entity =>
             {
                 entity.ToTable("sequence");
@@ -1277,7 +1029,8 @@ namespace Weable.TMS.Model.Data
 
                 entity.Property(e => e.AttendeeQty)
                     .HasColumnName("attendee_qty")
-                    .HasColumnType("int(11)");
+                    .HasColumnType("int(11)")
+                    .HasDefaultValueSql("'0'");
 
                 entity.Property(e => e.Code)
                     .HasColumnName("code")

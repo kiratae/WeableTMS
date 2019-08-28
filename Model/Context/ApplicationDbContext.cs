@@ -17,7 +17,6 @@ namespace Weable.TMS.Model.Context
         public ApplicationDbContext(DbContextOptions options)
             : base(options)
         {
-
         }
     }
 }

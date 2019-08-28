@@ -24,7 +24,6 @@ namespace Weable.TMS.Model.Data
         public int? ParentId { get; set; }
         public int? RootId { get; set; }
 
-        public virtual Application Application { get; set; }
         public virtual Securable Parent { get; set; }
         public virtual Securable Root { get; set; }
         public virtual ICollection<Securable> InverseParent { get; set; }

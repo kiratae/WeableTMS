@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Weable.TMS.Web.Models
+namespace Weable.TMS.BO.Web.Models
 {
     public class EditAccountModel : BaseEditModel
     {

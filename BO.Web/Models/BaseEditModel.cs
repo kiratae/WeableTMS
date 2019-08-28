@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Weable.TMS.Infrastructure.Model;
 
-namespace Weable.TMS.Web.Models
+namespace Weable.TMS.BO.Web.Models
 {
     public class BaseEditModel: BaseModel
     {

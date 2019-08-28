@@ -19,8 +19,6 @@ namespace Weable.TMS.Model.Data
             ProvinceModifyUser = new HashSet<Province>();
             RegionCreateUser = new HashSet<Region>();
             RegionModifyUser = new HashSet<Region>();
-            RoleMember = new HashSet<RoleMember>();
-            SecurablePermission = new HashSet<SecurablePermission>();
             SubdistrictCreateUser = new HashSet<Subdistrict>();
             SubdistrictModifyUser = new HashSet<Subdistrict>();
             TitleCreateUser = new HashSet<Title>();
@@ -69,8 +67,6 @@ namespace Weable.TMS.Model.Data
         public virtual ICollection<Province> ProvinceModifyUser { get; set; }
         public virtual ICollection<Region> RegionCreateUser { get; set; }
         public virtual ICollection<Region> RegionModifyUser { get; set; }
-        public virtual ICollection<RoleMember> RoleMember { get; set; }
-        public virtual ICollection<SecurablePermission> SecurablePermission { get; set; }
         public virtual ICollection<Subdistrict> SubdistrictCreateUser { get; set; }
         public virtual ICollection<Subdistrict> SubdistrictModifyUser { get; set; }
         public virtual ICollection<Title> TitleCreateUser { get; set; }

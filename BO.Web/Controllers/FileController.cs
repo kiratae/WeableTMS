@@ -9,11 +9,11 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Weable.TMS.Model.ServiceModel;
-using Weable.TMS.Web.Models;
+using Weable.TMS.BO.Web.Models;
 using Weable.TMS.Model.Data;
 using File = Weable.TMS.Model.Data.File;
 
-namespace Weable.TMS.Web.Controllers
+namespace Weable.TMS.BO.Web.Controllers
 {
     public class FileController : Controller
     {

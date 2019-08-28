@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Weable.TMS.Model.Data;
-using Weable.TMS.Web.Models;
+using Weable.TMS.BO.Web.Models;
 
 namespace Weable.TMS.Web.Helper
 {
