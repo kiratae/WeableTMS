@@ -15,6 +15,7 @@ using File = Weable.TMS.Model.Data.File;
 
 namespace Weable.TMS.BO.Web.Controllers
 {
+    [Authorize]
     public class FileController : Controller
     {
         private readonly IFileService _service;

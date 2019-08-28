@@ -6,71 +6,139 @@
     <title>@ViewData["Title"] - Web</title>
 
     <environment include="Development">
-        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+        <!-- Custom fonts for this template-->
+        <link href="~/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+
+        <link href="~/vendor/sweetalert2/dist/sweetalert2.css" rel="stylesheet" type="text/css">
+        <link href="~/vendor/pikaday/pikaday.css" rel="stylesheet" type="text/css">
+
     </environment>
     <environment exclude="Development">
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-              asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
-              asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute"
-              crossorigin="anonymous"
-              integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"/>
-    </environment>
-    <link rel="stylesheet" href="~/css/site.css" />
-</head>
-<body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Web</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-    </header>
-    <div class="container">
-        <partial name="_CookieConsentPartial" />
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
+        <!-- Custom fonts for this template-->
+        <link href="~/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2019 - Web - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        <link href="~/vendor/sweetalert2/dist/sweetalert2.css" rel="stylesheet" type="text/css">
+        <link href="~/vendor/pikaday/pikaday.css" rel="stylesheet" type="text/css">
+
+    </environment>
+    <!-- Custom styles for this template-->
+    <link href="~/css/wefont.css" rel="stylesheet">
+    <link href="~/css/site.css" rel="stylesheet">
+    <link href="~/css/sb-admin-2.css" rel="stylesheet">
+
+    <style>
+        [data-toggle="collapse"] .fa:before {
+            content: "\f077";
+        }
+
+        [aria-expanded="false"] .fa:before {
+            content: "\f078";
+        }
+
+        [data-toggle="collapse"].collapsed .fa:before {
+            content: "\f078";
+        }
+    </style>
+</head>
+<body id="page-top">
+    <!-- Preloader -->
+    <div class="preloader">
+        <div class="spinner">
+            <div class="double-bounce1"></div>
+            <div class="double-bounce2"></div>
         </div>
-    </footer>
+    </div>
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+
+            <!-- Main Content -->
+            <div id="content">
+                <!-- Topbar -->
+                <nav class="navbar navbar-expand navbar-light bg-white topbar static-top shadow">
+                    <div class="navbar-nav mr-auto">
+                        <!-- Sidebar - Brand -->
+                        <a class="sidebar-brand d-flex align-items-center justify-content-center text-decoration-none" href="#">
+                            <div class="sidebar-brand-icon">
+                                <i class="fas fa-graduation-cap fa-3x"></i>
+                            </div>
+                            <div class="sidebar-brand-text mx-3"><h1 class="mt-2">TMS</h1></div>
+                        </a>
+                    </div>
+                </nav>
+                <!-- End of Topbar -->
+                <!-- Begin Page Content -->
+                @RenderBody()
+                <!-- /.container-fluid -->
+
+            </div>
+            <!-- End of Main Content -->
+            <!-- Footer -->
+            <footer class="sticky-footer bg-white">
+                <div class="container my-auto">
+                    <div class="copyright text-center my-auto">
+                        <span>Copyright &copy; Your Website 2019</span>
+                    </div>
+                </div>
+            </footer>
+            <!-- End of Footer -->
+
+        </div>
+        <!-- End of Content Wrapper -->
+
+    </div>
+    <!-- End of Page Wrapper -->
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
 
     <environment include="Development">
-        <script src="~/lib/jquery/dist/jquery.js"></script>
-        <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.js"></script>
+        <!-- Bootstrap core JavaScript-->
+        <script src="~/vendor/jquery/jquery.min.js"></script>
+        <script src="~/vendor/bootstrap/js/bootstrap.min.js"></script>
+
+        <!-- Core plugin JavaScript-->
+        <script src="~/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+        <script src="~/vendor/moment/moment.js"></script>
+        <script src="~/vendor/mask/masks.js"></script>
+        <script src="~/vendor/sweetalert2/dist/sweetalert2.min.js"></script>
+        <script src="~/vendor/pikaday/pikaday.js"></script>
+        <script src="~/vendor/pikaday/pikaday.jquery.js"></script>
+
+        <!-- Page level plugins -->
+        <script src="~/vendor/chart.js/Chart.min.js"></script>
     </environment>
     <environment exclude="Development">
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"
-                asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
-                asp-fallback-test="window.jQuery"
-                crossorigin="anonymous"
-                integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=">
-        </script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"
-                asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"
-                asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"
-                crossorigin="anonymous"
-                integrity="sha384-xrRywqdh3PHs8keKZN+8zzc5TX0GRTLCcmivcbNJWm2rs5C8PRhcEn3czEjhAO9o">
-        </script>
+        <!-- Bootstrap core JavaScript-->
+        <script src="~/vendor/jquery/jquery.min.js"></script>
+        <script src="~/vendor/bootstrap/js/bootstrap.min.js"></script>
+
+        <!-- Core plugin JavaScript-->
+        <script src="~/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+        <script src="~/vendor/moment/moment.js"></script>
+        <script src="~/vendor/mask/masks.js"></script>
+        <script src="~/vendor/sweetalert2/dist/sweetalert2.min.js"></script>
+        <script src="~/vendor/pikaday/pikaday.js"></script>
+        <script src="~/vendor/pikaday/pikaday.jquery.js"></script>
+
+        <!-- Page level plugins -->
+        <script src="~/vendor/chart.js/Chart.min.js"></script>
     </environment>
+
+    <!-- Custom scripts for all pages-->
+    <script src="~/js/sb-admin-2.min.js" asp-append-version="true"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/app.js" asp-append-version="true"></script>
+    <script>
+        $(document).ready(function () {
+            $("form").attr('autocomplete', 'off');
+        });
+    </script>
 
     @RenderSection("Scripts", required: false)
 </body>

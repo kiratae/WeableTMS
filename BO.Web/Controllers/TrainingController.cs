@@ -11,9 +11,11 @@ using Weable.TMS.Model.Data;
 using Weable.TMS.Model.ServiceModel;
 using Weable.TMS.BO.Web.Models;
 using Weable.TMS.BO.Web.Resources;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Weable.TMS.BO.Web.Controllers
 {
+    [Authorize]
     public class TrainingController : Controller
     {
         private readonly ITrainingService _service;
