@@ -1,4 +1,6 @@
-﻿@model Weable.TMS.Web.Models.EditTrainingModel
+﻿@using Weable.TMS.Web.Controllers
+@using System.Web
+@model Weable.TMS.Web.Models.EditTrainingModel
 
 @{
     ViewData["Title"] = "Details";
@@ -73,56 +75,56 @@
                 <span>
                     วันที่จัดอบรม:<br>
                     @if (Model.TrnStartDateText == Model.TrnEndDateText)
-{
+                    {
                         <strong> @Model.TrnStartDateTextTH</strong>
-}
-else
-{
+                    }
+                    else
+                    {
                         <strong>@Model.TrnStartDateTextTH - @Model.TrnEndDateTextTH</strong>
-}
+                    }
                 </span>
             </div>
             <div class="col-6 col-md mb-3">
                 <span>
                     วันที่รับสมัคร:<br>
                     @if (Model.RegisterStartDateText == Model.RegisterEndDateText)
-{
+                    {
                         <strong>@Model.RegisterEndDateTextTH</strong>
-}
-else
-{
+                    }
+                    else
+                    {
                         <strong>@Model.RegisterStartDateTextTH - @Model.RegisterEndDateTextTH</strong>
-}
+                    }
                 </span>
             </div>
             <div class="col-6 col-md mb-3">
                 <span>
                     สถานะ:<br>
                     @{
-    string StatusName = "-";
-    if (DateTime.Now.Date < Model.RegisterStartDate)
-    {
-        StatusName = "รอเปิดรับสมัคร";
-    }
-    if (Model.RegisterStartDate <= DateTime.Now.Date && Model.RegisterEndDate >= DateTime.Now.Date)
-    {
-        if (Model.AttendeeQty >= Model.SeatQty)
-        {
-            StatusName = "มีผู้สมัครครบแล้ว";
-        }
-        else
-        {
-            StatusName = "กำลังเปิดรับสมัคร";
-        }
-    }
-    if (Model.RegisterEndDate < DateTime.Now.Date)
-    {
-        StatusName = "ปิดรับสมัคร";
-    }
-    if (Model.TrnEndDate < DateTime.Now.Date)
-    {
-        StatusName = "จัดฝึกอบรมแล้ว";
-    }
+                        string StatusName = "-";
+                        if (DateTime.Now.Date < Model.RegisterStartDate)
+                        {
+                            StatusName = "รอเปิดรับสมัคร";
+                        }
+                        if (Model.RegisterStartDate <= DateTime.Now.Date && Model.RegisterEndDate >= DateTime.Now.Date)
+                        {
+                            if (Model.AttendeeQty >= Model.SeatQty)
+                            {
+                                StatusName = "มีผู้สมัครครบแล้ว";
+                            }
+                            else
+                            {
+                                StatusName = "กำลังเปิดรับสมัคร";
+                            }
+                        }
+                        if (Model.RegisterEndDate < DateTime.Now.Date)
+                        {
+                            StatusName = "ปิดรับสมัคร";
+                        }
+                        if (Model.TrnEndDate < DateTime.Now.Date)
+                        {
+                            StatusName = "จัดฝึกอบรมแล้ว";
+                        }
 
                     }
                     <strong>@StatusName</strong>
@@ -130,7 +132,7 @@ else
             </div>
             <div class="col-md mb-3">
                 @{
-    var AvailableSeat = (Model.SeatQty - Model.AttendeeQty) < 0 ? 0 : Model.SeatQty - Model.AttendeeQty;
+                    var AvailableSeat = (Model.SeatQty - Model.AttendeeQty) < 0 ? 0 : Model.SeatQty - Model.AttendeeQty;
                 }
                 <span class="title"><strong>จำนวนที่ว่าง : @AvailableSeat<br>จำนวนที่รับสมัคร : @Model.SeatQty</strong></span>
             </div>
@@ -175,13 +177,13 @@ else
                 <label class="col-sm-4">วันที่รับสมัคร</label>
                 <div class="col-sm-8">
                     @if (Model.RegisterStartDateText == Model.RegisterEndDateText)
-{
+                    {
                         <span class="title">@Model.RegisterEndDateTextTH</span>
-}
-else
-{
+                    }
+                    else
+                    {
                         <span class="title">@Model.RegisterStartDateTextTH - @Model.RegisterEndDateTextTH</span>
-}
+                    }
                 </div>
             </div>
             <div class="form-group row">
@@ -194,19 +196,19 @@ else
                 <label class="col-sm-4">วันที่จัดอบรม</label>
                 <div class="col-sm-8">
                     @if (Model.TrnStartDateText == Model.TrnEndDateText)
-{
+                    {
                         <span class="title">@Model.TrnEndDateTextTH</span>
-}
-else
-{
+                    }
+                    else
+                    {
                         <span class="title">@Model.TrnStartDateTextTH - @Model.TrnEndDateTextTH</span>
-}
+                    }
                 </div>
             </div>
             <div class="form-group row">
                 <label class="col-sm-4">สถานที่จัดอบรม</label>
                 <div class="col-sm-8">
-                    <span class="title">@(string.IsNullOrEmpty(Model.Location)?"-":Model.Location)</span>
+                    <span class="title">@(string.IsNullOrEmpty(Model.Location) ? "-" : Model.Location)</span>
                 </div>
             </div>
         </div>
@@ -232,13 +234,13 @@ else
         </div>
         <div class="col-12 text-center">
             <a asp-action="Index" class="btn btn-secondary">ดูหลักสูตรอื่น</a>
-            <a href="#" class="btn btn-primary">ลงทะเบียน</a>
+            <a href="@Url.Action(RegisTrainingController.ActionEdit, RegisTrainingController.Name, new { Id = Model.TrainingId, ReturnUrl = HttpUtility.UrlPathEncode(Html.ViewContext.HttpContext.Request.Path) })" class="btn btn-primary">ลงทะเบียน</a>
         </div>
     </div>
 
 </div>
 
-@section Scripts 
+@section Scripts
 {
     <script>
         function getTimeRemaining(endtime) {

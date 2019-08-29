@@ -19,6 +19,7 @@ namespace Weable.TMS.Web.Controllers
         private readonly IMapper _mapper;
         private readonly ILogger<HomeController> _logger;
         public static readonly string Name = "Home";
+        public static readonly string ActionTraining = "Index";
         public static readonly string ActionDetail = "Detail";
 
         public HomeController(

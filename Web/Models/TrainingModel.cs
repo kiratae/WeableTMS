@@ -39,11 +39,19 @@ namespace Weable.TMS.Web.Models
         {
             get { return FormatShortDate(TrnStartDate); }
         }
+        public string TrnStartTimeText
+        {
+            get { return FormatTime(TrnStartDate); }
+        }
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime TrnEndDate { get; set; }
         public string TrnEndDateText
         {
             get { return FormatShortDate(TrnEndDate); }
+        }
+        public string TrnEndTimeText
+        {
+            get { return FormatTime(TrnEndDate); }
         }
         public int? SeatQty { get; set; }
         public int? AttendeeQty { get; set; }

@@ -1,1 +1,53 @@
-﻿2222222222222222222
+﻿@using cntr = Weable.TMS.Web.Controllers.RegisTrainingController
+@model Weable.TMS.Web.Models.EditRegisTrainingModel
+
+<!-- Nav tabs -->
+<div class="col-12 mb-4">
+    <div class="card shadow">
+        <div class="card-body">
+
+            <ul class="nav process-model more-icon-preocess mt-2 d-flex justify-content-center" role="tablist">
+                <li class="visited">
+                    <a href="#tab_01" aria-controls="tab_01" role="tab" data-toggle="tab">
+                        <i class="fa fa-id-card" aria-hidden="true"></i>
+                        <p>ขั้นตอนที่ 1</p>
+                    </a>
+                </li>
+                <li class="active">
+                    <a href="#tab_02" aria-controls="tab_02" role="tab" data-toggle="tab">
+                        <i class="fa fa-user-edit" aria-hidden="true"></i>
+                        <p>ขั้นตอนที่ 2</p>
+                    </a>
+                </li>
+                <li role="presentation">
+                    <a class="disabled">
+                        <i class="fa fa-user-check" aria-hidden="true"></i>
+                        <p>ขั้นตอนที่ 3</p>
+                    </a>
+                </li>
+            </ul>
+
+        </div>
+    </div>
+</div>
+<!-- end design process steps-->
+
+<div class="col-12 mb-4">
+    <div class="card shadow">
+        <div class="card-body">
+
+            <form id="main" asp-action="@cntr.ActionEdit" asp-controller="@cntr.Name" method="post" class="form-horizontal">
+
+                <div class="form-group text-center">
+                    <a class="btn btn-secondary" onclick="scrollWin()" data-toggle="tab" href="#tab_01">ย้อนกลับ</a>
+                    <a class="btn btn-primary" href="" onclick="scrollWin()" data-toggle="tab" id="btn-submit-02">ตกลง</a>
+                </div>
+
+                @Html.HiddenFor(x => x.CitizenId)
+                @Html.HiddenFor(x => x.PersonId)
+                @Html.HiddenFor(x => x.Training.TrainingId)
+            </form>
+
+        </div>
+    </div>
+</div>

@@ -65,6 +65,9 @@ namespace Web
             services.AddTransient<IFileRepository, FileRepository>();
             services.AddTransient<IFileService, FileService>();
 
+            services.AddTransient<IRegisTrainingRepository, RegisTrainingRepository>();
+            services.AddTransient<IRegisTrainingService, RegisTrainingService>();
+
             services.AddTransient<ITrainingRepository, TrainingRepository>();
             services.AddTransient<ITrainingService, TrainingService>();
         }

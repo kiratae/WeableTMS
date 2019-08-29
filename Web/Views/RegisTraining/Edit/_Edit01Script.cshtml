@@ -1,0 +1,47 @@
+﻿@using cntr = Weable.TMS.Web.Controllers.RegisTrainingController
+@model Weable.TMS.Web.Models.EditRegisTrainingModel
+
+<script type="text/javascript">
+    var __return_url = '@Html.Raw(Model.ReturnUrl)';
+	$(document).ready(function () {
+		$("#CitizenId").keypress(function (e) {
+			if (e.keyCode == 13)
+				return false;
+		});
+		$('#btn-search').click(function (e) {
+			console.log("search click")
+            e.preventDefault();
+			if ($("#CitizenId").val() === "" || $("#CitizenId").val().length !== 13) {
+                $('#validate').text("** กรุณากรอกหมายเลขบัตรประชาชน **")
+            }
+			else {
+                var citizenId = $("#CitizenId").val();
+				var form = $('form[id=search]');//.submit();
+				$.ajax({
+					url: '@Url.Action(cntr.ActionCheckAllCondition, cntr.Name)',
+					type: "GET",
+					dataType: "json",
+                    data: { citizenId: citizenId, trainingId:'@Model.Training.TrainingId'},
+					success: function (data, textStatus, xhr) {
+						if (data){
+							if (data.msgCode == 0) {
+								$('#validate').text("** " + data.msg +" **")
+							} else if (data.msgCode == 1) {
+								$(form).submit();
+							}
+						}
+					}
+				});
+            }
+        });
+
+        $('#btn-cancel').click(function (e) {
+            e.preventDefault();
+            ReturnToMainPage()
+        });
+    });
+
+    function ReturnToMainPage() {
+        window.location.href = __return_url;
+    }
+</script>
