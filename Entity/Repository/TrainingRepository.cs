@@ -25,7 +25,6 @@ namespace Weable.TMS.Entity.Repository
         public PagedResult<Training> GetList(TrainingFilter filter, Paging paging)
         {
             const string func = "GetList";
-            _logger.LogTrace("{}: Entering {}.", func, func);
             try
             {
                 var trainings = from t in _context.Training
@@ -66,7 +65,6 @@ namespace Weable.TMS.Entity.Repository
         public async Task<Training> GetData(int? trainingId)
         {
             const string func = "GetData";
-            _logger.LogTrace("{}: Entering {}.", func, func);
             try
             {
                 return await _context.Training.FindAsync(trainingId);
@@ -81,7 +79,6 @@ namespace Weable.TMS.Entity.Repository
         public async Task<Training> SaveData(Training training)
         {
             const string func = "SaveData";
-            _logger.LogTrace("{}: Entering {}.", func, func);
             try
             {
                 if (training.TrainingId == 0)
@@ -106,7 +103,6 @@ namespace Weable.TMS.Entity.Repository
         public async Task<bool> DeleteData(int? trainingId)
         {
             const string func = "DeleteData";
-            _logger.LogTrace("{}: Entering {}.", func, func);
             try
             {
                 var training = await _context.Training.FindAsync(trainingId);
