@@ -18,7 +18,7 @@ using Weable.TMS.Model.RepositoryModel;
 using Weable.TMS.Model.Service;
 using Weable.TMS.Model.ServiceModel;
 using AutoMapper;
-using Weable.TMS.Web.Helper;
+using Weable.TMS.BO.Web.Helper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI;
 using System.Globalization;

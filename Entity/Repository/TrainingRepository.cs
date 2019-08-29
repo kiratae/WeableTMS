@@ -28,19 +28,28 @@ namespace Weable.TMS.Entity.Repository
             _logger.LogTrace("{}: Entering {}.", func, func);
             try
             {
-                var trainings = from c in _context.Training
-                             select c;
+                var trainings = from t in _context.Training
+                                join c in _context.Course on t.CourseId equals c.CourseId
+                                select t;
 
                 if (!string.IsNullOrEmpty(filter.Code))
                     trainings = trainings.Where(c => c.Code.ToLower().Contains(filter.Code.ToLower()));
                 if (!string.IsNullOrEmpty(filter.Name))
                     trainings = trainings.Where(c => c.Name.ToLower().Contains(filter.Name.ToLower()));
 
+                foreach (var t in trainings)
+                {
+                    t.Course = _context.Course.Find(t.CourseId);
+                }
+
                 // Not paging
                 if (paging == null)
                 {
-                    paging.CurrentPage = 0;
-                    paging.PageSize = int.MaxValue;
+                    paging = new Paging()
+                    {
+                        CurrentPage = 1,
+                        PageSize = trainings.Count() + 1
+                    };
                 }
 
                 var result = trainings.GetPaged(paging.CurrentPage, paging.PageSize);

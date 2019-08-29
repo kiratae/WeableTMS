@@ -1,4 +1,5 @@
-﻿
+﻿@model Weable.TMS.Web.Models.EditTrainingModel
+
 @{
     ViewData["Title"] = "Details";
 }
@@ -7,15 +8,293 @@
     <img src="~/images/banner1.svg" />
 </div>
 
-<div style="background: linear-gradient(90deg, #0F7E9B 50%, #DEAE40 50%)">
+<div class="d-none d-md-block" style="background: linear-gradient(90deg, #0F7E9B 50%, #DEAE40 50%)">
     <div class="container">
         <div class="row text-white">
-            <div class="col-6 py-3">
+            <div class="col-12 col-md-6 py-3">
                 <h3 class="font-weight-bold">ชื่อหลักสูตร</h3>
-                <h4>ดำน้ำ ดูประการัง ปลูกป่า ดำนา ดูดิสนี่ออนไอซ์ นั่งเรือ ส่องสัตว์ ดูงิ้ว ดูละครเวที</h4>
+                <h4>@Model.Name</h4>
             </div>
-            <div class="col-6">test</div>
+            <div id="clockdiv" class="col-12 col-md-6 row py-3 align-items-center">
+                <div class="col-3 text-center border-right">
+                    <h1 class="days">0</h1>
+                    <small>วัน</small>
+                </div>
+                <div class="col-3 text-center border-right">
+                    <h1 class="hours">00</h1>
+                    <small>ชั่วโมง</small>
+                </div>
+                <div class="col-3 text-center border-right">
+                    <h1 class="minutes">00</h1>
+                    <small>นาที</small>
+                </div>
+                <div class="col-3 text-center border-right">
+                    <h1 class="seconds">00</h1>
+                    <small>วินาที</small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="d-md-none d-block bg-primary">
+    <div class="container">
+        <div class="row text-white">
+            <div class="col-12 col-md-6 py-3">
+                <h4>@Model.Name</h4>
+            </div>
+            <div id="clockdivmobile" class="col-12 col-md-6 pb-3 row align-items-center">
+                <div class="col-3 text-center border-right">
+                    <h1 class="days">0</h1>
+                    <small>วัน</small>
+                </div>
+                <div class="col-3 text-center border-right">
+                    <h1 class="hours">00</h1>
+                    <small>ชั่วโมง</small>
+                </div>
+                <div class="col-3 text-center border-right">
+                    <h1 class="minutes">00</h1>
+                    <small>นาที</small>
+                </div>
+                <div class="col-3 text-center border-right">
+                    <h1 class="seconds">00</h1>
+                    <small>วินาที</small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="bg-gray-200">
+    <div class="container">
+        <div class="row pt-3">
+            <div class="col-6 col-md mb-3">
+                <span>สถานที่:<br><strong>@Model.Location</strong></span>
+            </div>
+            <div class="col-6 col-md mb-3">
+                <span>
+                    วันที่จัดอบรม:<br>
+                    @if (Model.TrnStartDateText == Model.TrnEndDateText)
+{
+                        <strong> @Model.TrnStartDateTextTH</strong>
+}
+else
+{
+                        <strong>@Model.TrnStartDateTextTH - @Model.TrnEndDateTextTH</strong>
+}
+                </span>
+            </div>
+            <div class="col-6 col-md mb-3">
+                <span>
+                    วันที่รับสมัคร:<br>
+                    @if (Model.RegisterStartDateText == Model.RegisterEndDateText)
+{
+                        <strong>@Model.RegisterEndDateTextTH</strong>
+}
+else
+{
+                        <strong>@Model.RegisterStartDateTextTH - @Model.RegisterEndDateTextTH</strong>
+}
+                </span>
+            </div>
+            <div class="col-6 col-md mb-3">
+                <span>
+                    สถานะ:<br>
+                    @{
+    string StatusName = "-";
+    if (DateTime.Now.Date < Model.RegisterStartDate)
+    {
+        StatusName = "รอเปิดรับสมัคร";
+    }
+    if (Model.RegisterStartDate <= DateTime.Now.Date && Model.RegisterEndDate >= DateTime.Now.Date)
+    {
+        if (Model.AttendeeQty >= Model.SeatQty)
+        {
+            StatusName = "มีผู้สมัครครบแล้ว";
+        }
+        else
+        {
+            StatusName = "กำลังเปิดรับสมัคร";
+        }
+    }
+    if (Model.RegisterEndDate < DateTime.Now.Date)
+    {
+        StatusName = "ปิดรับสมัคร";
+    }
+    if (Model.TrnEndDate < DateTime.Now.Date)
+    {
+        StatusName = "จัดฝึกอบรมแล้ว";
+    }
+
+                    }
+                    <strong>@StatusName</strong>
+                </span>
+            </div>
+            <div class="col-md mb-3">
+                @{
+    var AvailableSeat = (Model.SeatQty - Model.AttendeeQty) < 0 ? 0 : Model.SeatQty - Model.AttendeeQty;
+                }
+                <span class="title"><strong>จำนวนที่ว่าง : @AvailableSeat<br>จำนวนที่รับสมัคร : @Model.SeatQty</strong></span>
+            </div>
         </div>
     </div>
 </div>
 
+<div class="container mb-5">
+
+    <div class="pt-md-5 pt-3 row">
+        <div class="col-12 pb-3">
+            <div class="form-group">
+                <label class="title">@Model.Name</label>
+                <p>&emsp;@(string.IsNullOrEmpty(Model.Description) ? "-" : Model.Description)</p>
+            </div>
+            <div class="form-group">
+                <label class="title">วัตถุประสงค์</label>
+                <p>&emsp;@(string.IsNullOrEmpty(Model.Objective) ? "-" : Model.Objective)</p>
+            </div>
+            <div class="form-group">
+                <label class="title">กลุ่มเป้าหมาย</label>
+                <p>&emsp;@(string.IsNullOrEmpty(Model.TargetGroup) ? "-" : Model.TargetGroup)</p>
+            </div>
+            <div class="form-group">
+                <label class="title">เงื่อนไขการสำเร็จการฝึกอบรม</label>
+                <p>&emsp;@(string.IsNullOrEmpty(Model.Condition) ? "-" : Model.Condition)</p>
+            </div>
+        </div>
+        <div class="col-12 col-md-6 mb-3">
+            <div class="form-group">
+                <label class="title">ผู้รับผิดชอบโครงการ</label>
+                <p>นายเอ นามสมมติ</p>
+            </div>
+            <div class="form-group">
+                <label class="title">ผู้ประสานงานโครงการ</label>
+                <p>นายเอ นามสมมติ<br>เบอร์โทรศัพท์ : 098-7654321<br>Fax : -<br>Email : a@gmail.com</p>
+            </div>
+        </div>
+        <div class="col-12 col-md-6">
+            <label class="title border-bottom">รายละเอียดกิจกรรม</label>
+            <div class="form-group row">
+                <label class="col-sm-4">วันที่รับสมัคร</label>
+                <div class="col-sm-8">
+                    @if (Model.RegisterStartDateText == Model.RegisterEndDateText)
+{
+                        <span class="title">@Model.RegisterEndDateTextTH</span>
+}
+else
+{
+                        <span class="title">@Model.RegisterStartDateTextTH - @Model.RegisterEndDateTextTH</span>
+}
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-4">วันที่ประกาศรายชื่อผู้มีสิทธิ์เข้าร่วมการอบรม</label>
+                <div class="col-sm-8">
+                    <span class="title">@Model.PublishAtdDateTimeTextTH น.</span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-4">วันที่จัดอบรม</label>
+                <div class="col-sm-8">
+                    @if (Model.TrnStartDateText == Model.TrnEndDateText)
+{
+                        <span class="title">@Model.TrnEndDateTextTH</span>
+}
+else
+{
+                        <span class="title">@Model.TrnStartDateTextTH - @Model.TrnEndDateTextTH</span>
+}
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-4">สถานที่จัดอบรม</label>
+                <div class="col-sm-8">
+                    <span class="title">@(string.IsNullOrEmpty(Model.Location)?"-":Model.Location)</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="form-group">
+                <label class="title">เอกสารเพิ่มเติม</label>
+                <p>&emsp;ไม่มีข้อมูล</p>
+            </div>
+            <div class="form-group">
+                <label class="title">รูปภาพเพิ่มเติม</label>
+                <p>&emsp;ไม่มีข้อมูล</p>
+            </div>
+        </div>
+        <div class="col-12 pt-3 pb-5">
+            <div id="map">
+                <div class="embed-responsive embed-responsive-21by9">
+                    @{
+                        var mapSrc = "https://maps.google.com/maps?q=" + Model.LocationLatitude + "," + Model.LocationLongitude + "&t=&z=13&ie=UTF8&iwloc=&output=embed";
+                    }
+                    <iframe class="embed-responsive-item" src="@mapSrc"></iframe>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 text-center">
+            <a asp-action="Index" class="btn btn-secondary">ดูหลักสูตรอื่น</a>
+            <a href="#" class="btn btn-primary">ลงทะเบียน</a>
+        </div>
+    </div>
+
+</div>
+
+@section Scripts 
+{
+    <script>
+        function getTimeRemaining(endtime) {
+
+			var t = Date.parse(endtime) - Date.parse(new Date());
+			var seconds = Math.floor((t / 1000) % 60);
+			var minutes = Math.floor((t / 1000 / 60) % 60);
+			var hours = Math.floor((t / (1000 * 60 * 60)) % 24);
+			var days = Math.floor(t / (1000 * 60 * 60 * 24));
+            return {
+                'total': t,
+                'days': days,
+                'hours': hours,
+                'minutes': minutes,
+                'seconds': seconds
+            };
+        }
+
+        function initializeClock(id, endtime) {
+            var clock = document.getElementById(id);
+            var daysSpan = clock.querySelector('.days');
+            var hoursSpan = clock.querySelector('.hours');
+            var minutesSpan = clock.querySelector('.minutes');
+            var secondsSpan = clock.querySelector('.seconds');
+
+            function updateClock() {
+                var t = getTimeRemaining(endtime);
+
+                daysSpan.innerHTML = t.days;
+                hoursSpan.innerHTML = ('0' + t.hours).slice(-2);
+                minutesSpan.innerHTML = ('0' + t.minutes).slice(-2);
+                secondsSpan.innerHTML = ('0' + t.seconds).slice(-2);
+
+                if (t.total <= 0) {
+					clearInterval(timeinterval);
+					daysSpan.innerHTML = ('0');
+					hoursSpan.innerHTML = ('00');
+					minutesSpan.innerHTML = ('00');
+					secondsSpan.innerHTML = ('00');
+
+                }
+            }
+
+            updateClock();
+            var timeinterval = setInterval(updateClock, 1000);
+        }
+
+        var nearestDate = '@Model.TrnStartDate';
+        console.log(nearestDate);
+		var spl1 = nearestDate.split(" ");
+		var spl2 = spl1[0].split("/");
+		var spl3 = spl1[1].split(":");
+
+        var deadline = new Date(parseInt(spl2[2]) - 543, parseInt(spl2[1]) - 1, parseInt(spl2[0]), parseInt(spl3[0]), parseInt(spl3[1]), parseInt(spl3[2]), 00);
+        console.log(deadline);
+        initializeClock('clockdiv', deadline);
+        initializeClock('clockdivmobile', deadline);
+    </script>
+}
