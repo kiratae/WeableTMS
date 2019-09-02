@@ -73,6 +73,20 @@ namespace Weable.TMS.Entity.Repository
             }
         }
 
+        public int GetAttendeeQty(int trainingId)
+        {
+            const string func = "GetAttendeeQty";
+            try
+            {
+                return _context.Attendee.Where(a => a.TrainingId == trainingId).Count();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogInformation("{}: Exception caught.", func, ex);
+                throw ex;
+            }
+        }
+
         public RegisTraining GetRegisTraining(string citizenId)
         {
             const string func = "SaveRegisTraining";
