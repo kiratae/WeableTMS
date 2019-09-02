@@ -80,6 +80,10 @@
 
     </script>
 
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+
     @await Html.PartialAsync("Edit/_Edit01Script", Model)
+
+    @await Html.PartialAsync("Edit/_Edit02Script")
 }
 

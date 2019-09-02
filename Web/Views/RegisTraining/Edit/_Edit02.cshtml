@@ -1,5 +1,17 @@
-﻿@using cntr = Weable.TMS.Web.Controllers.RegisTrainingController
+﻿@using Weable.TMS.Model.Enumeration
+@using cntr = Weable.TMS.Web.Controllers.RegisTrainingController
 @model Weable.TMS.Web.Models.EditRegisTrainingModel
+
+@{
+
+    TimeSpan DiffDate = DateTime.Now.Subtract(Model.BirthDate.HasValue ? Model.BirthDate.Value : DateTime.Now);
+    string TotalDays = DiffDate.Days.ToString();
+    string Months = ((DiffDate.Days) % 365).ToString();
+    string RemainginYears = ((DiffDate.Days) / 365).ToString();
+    string RemainingMonths = (Convert.ToInt32(Months) / 31).ToString();
+    string RemainingDays = (Convert.ToInt32(Months) % 31).ToString();
+
+}
 
 <!-- Nav tabs -->
 <div class="col-12 mb-4">
@@ -38,14 +50,187 @@
 
             <form id="main" asp-action="@cntr.ActionEdit" asp-controller="@cntr.Name" method="post" class="form-horizontal">
 
-                <div class="form-group text-center">
-                    <a class="btn btn-secondary" onclick="scrollWin()" data-toggle="tab" href="#tab_01">ย้อนกลับ</a>
-                    <a class="btn btn-primary" href="" onclick="scrollWin()" data-toggle="tab" id="btn-submit-02">ตกลง</a>
-                </div>
+                <div class="row mx-3 mt-3">
+                    <div class="col-md-12">
 
-                @Html.HiddenFor(x => x.CitizenId)
-                @Html.HiddenFor(x => x.PersonId)
-                @Html.HiddenFor(x => x.Training.TrainingId)
+                        <div class="form-group row">
+                            <label class="col-md-2">เพศ / sex <span class="text-danger">*</span></label>
+                            <div class="col-md-6 row">
+                                <div class="col-md-6">
+                                    <div class="custom-control custom-checkbox">
+                                        @Html.RadioButtonFor(x => x.GenderTypeId, GenderType.Male, new { @id = "GenderTypeId1", @class = "custom-control-input" })
+                                        <label class="custom-control-label" for="GenderTypeId1"> ชาย / Male</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="custom-control custom-checkbox">
+                                        @Html.RadioButtonFor(x => x.GenderTypeId, GenderType.Female, new { @id = "GenderTypeId2", @class = "custom-control-input" })
+                                        <label class="custom-control-label" for="GenderTypeId2"> หญิง / Female</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    @*---------------- ข้อมูลส่วนตัว ---------------------------------*@
+                    <div class="col-md-12 mb-3">
+                        <h4 class="title">ข้อมูลส่วนตัว</h4>
+                    </div>
+                    <div class="col-md-12 mb-3">
+                        <div class="form-group row">
+                            <label class="col-md-4 col-form-label text-right">คำนำหน้า / Title<span class="text-danger"> *</span></label>
+                            <div class="col-md-2">
+                                <select asp-for="TitleId" class="form-control" asp-items="ViewBag.TitleId"></select>
+                            </div>
+                            <div id="titleNote" class="col-md-5 row no-gutters">
+                                <label class="col-md-4 col-form-label text-right pr-4">โปรดระบุ<span class="text-danger"> *</span></label>
+                                <div class="col-md-8">
+                                    <input asp-for="TitleNote" class="form-control" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-md-4 col-form-label text-right">ชื่อ / First name<span class="text-danger"> *</span></label>
+                            <div class="col-md-7">
+                                <input asp-for="FirstName" class="form-control" />
+                                <span asp-validation-for="FirstName" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-md-4 col-form-label text-right">นามสกุล / Last name<span class="text-danger"> *</span></label>
+                            <div class="col-md-7">
+                                <input asp-for="LastName" class="form-control" />
+                                <span asp-validation-for="LastName" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-md-4 col-form-label text-right">วันเกิด / Birthday<span class="text-danger"> *</span></label>
+                            <div class="col-md-3">
+                                @Html.TextBoxFor(x => x.BirthDate, Model.BirthDateText, new { @class = "form-control datepicker", @placeholder = "วัน/เดือน/ปี" })
+                            </div>
+                            <label class="col-md-3 col-form-label">อายุ <span id="birthday-year">@RemainginYears ปี</span> <span id='birthday-month'>@(RemainingMonths != "0" ? (RemainingMonths + " เดือน") : "")</span></label>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-md-4 col-form-label text-right">รหัสนักศึกษา / Student code<span class="text-danger"> *</span></label>
+                            <div class="col-md-7">
+                                <input asp-for="StudentCode" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-md-4 col-form-label text-right">มหาวิทยาลัย / University<span class="text-danger"> *</span></label>
+                            <div class="col-md-7">
+                                <select class="form-control">
+                                    <option value="value">text</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-md-4 col-form-label text-right">คณะ / Faculty<span class="text-danger"> *</span></label>
+                            <div class="col-md-7">
+                                <select class="form-control">
+                                    <option value="value">text</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-md-4 col-form-label text-right">หลักสูตร / Course<span class="text-danger"> *</span></label>
+                            <div class="col-md-7">
+                                <select asp-for="UniversityCourseId" class="form-control" asp-items="ViewBag.UniversityCourseId">
+                                    <option value="value">text</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    @*---------------- ข้อมูลการติดต่อ ---------------------------------*@
+                    <div class="col-md-12 mb-3">
+                        <h4 class="title">ข้อมูลส่วนตัว</h4>
+                    </div>
+                    <div class="col-md-12 mb-3">
+                        <div class="form-group row">
+                            <label class="col-md-4 col-form-label text-right">บ้านเลขที่ / Address No.<span class="text-danger"> *</span></label>
+                            <div class="col-md-7">
+                                <input asp-for="AddressNo" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-md-4 col-form-label text-right">อาคาร, หอพัก / Building<span class="text-danger"> *</span></label>
+                            <div class="col-md-7">
+                                <input asp-for="Building" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-md-4 col-form-label text-right">หมู่ / Moo.<span class="text-danger"> *</span></label>
+                            <div class="col-md-7">
+                                <input asp-for="Moo" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-md-4 col-form-label text-right">ซอย / Soi.<span class="text-danger"> *</span></label>
+                            <div class="col-md-7">
+                                <input asp-for="Road" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-md-4 col-form-label text-right">ถนน / Road<span class="text-danger"> *</span></label>
+                            <div class="col-md-7">
+                                <input asp-for="Soi" class="form-control" />
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-md-4 col-form-label text-right">จังหวัด / Province<span class="text-danger"> *</span></label>
+                            <div class="col-md-7">
+                                <select class="form-control">
+                                    <option value="value">text</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-md-4 col-form-label text-right">เขต,อำเภอ / District<span class="text-danger"> *</span></label>
+                            <div class="col-md-7">
+                                <select class="form-control">
+                                    <option value="value">text</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-md-4 col-form-label text-right">แขวง,ตำบล / Subdistrict<span class="text-danger"> *</span></label>
+                            <div class="col-md-7">
+                                <select asp-for="SubdistrictId" class="form-control" asp-items="ViewBag.SubdistrictId">
+                                    <option value="value">text</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-md-4 col-form-label text-right">รหัสไปรษณีย์ / Postal code<span class="text-danger"> *</span></label>
+                            <div class="col-md-7">
+                                <input asp-for="PostalCode" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-md-4 col-form-label text-right">เบอร์โทรศัพท์ / Mobile No.<span class="text-danger"> *</span></label>
+                            <div class="col-md-7">
+                                <input asp-for="MobilePhone" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-md-4 col-form-label text-right">อีเมล / E-mail<span class="text-danger"> *</span></label>
+                            <div class="col-md-7">
+                                <input asp-for="Email" class="form-control" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group text-center col-md-12">
+                        <a class="btn btn-secondary" onclick="scrollWin()" data-toggle="tab" href="#tab_01">ย้อนกลับ</a>
+                        <a class="btn btn-primary" href="" onclick="scrollWin()" data-toggle="tab" id="btn-submit-02">ตกลง</a>
+                    </div>
+
+                    @Html.HiddenFor(x => x.CitizenId)
+                    @Html.HiddenFor(x => x.PersonId)
+                    @Html.HiddenFor(x => x.Training.TrainingId)
+                </div>
             </form>
 
         </div>

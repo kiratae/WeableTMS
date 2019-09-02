@@ -124,5 +124,36 @@ namespace Weable.TMS.Web.Controllers
                 throw ex;
             }
         }
+
+        [HttpPost]
+        public ActionResult Edit(EditRegisTrainingModel model) {
+            const string func = "Edit";
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    #region Check Attendee Qty 
+                    int atdQty = _regisService.GetAttendeeQty(model.Training.TrainingId.Value);
+                    model.Training.AttendeeQty = atdQty;
+                    #endregion
+
+                    model.Training.AttendeeQty = model.Training.AttendeeQty + 1;
+                    RegisTraining regisTraining = new RegisTraining
+                    {
+                        Training = model.ToTrainingDataModel(_mapper),
+                        Attendee = model.ToAttendeeDataModel(_mapper),
+                        Person = model.ToPersonDataModel(_mapper),
+                    };
+                    _regisService.SaveRegisTraining(regisTraining);
+                    return Json(new AjaxResultModel(AjaxResultModel.StatusCodeSuccess, "Save Success"));
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError("{0}: Exception caught.", func, ex);
+                    ModelState.AddModelError("", "Save Failed");
+                }
+            }
+            return Json(new AjaxResultModel(AjaxResultModel.StatusCodeError, ModelState));
+        }
     }
 }

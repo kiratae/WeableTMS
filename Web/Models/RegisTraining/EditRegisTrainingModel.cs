@@ -144,5 +144,13 @@ namespace Weable.TMS.Web.Models
             return attendee;
         }
 
+        public Training ToTrainingDataModel(IMapper mapper)
+        {
+            Training training = new Training();
+            training = mapper.Map(this, training);
+
+            return training;
+        }
+
     }
 }
