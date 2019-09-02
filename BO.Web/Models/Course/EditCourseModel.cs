@@ -9,6 +9,11 @@ namespace Weable.TMS.BO.Web.Models
 {
     public class EditCourseModel : BaseEditModel
     {
+        public int? CourseId { get; set; }
+        public string Code { get; set; }
+        public string Name { get; set; }
+        public bool IsActive { get; set; }
+
         public EditCourseModel()
         {
             IsActive = true;
@@ -19,13 +24,6 @@ namespace Weable.TMS.BO.Web.Models
         {
             mapper.Map(course, this, typeof(Course), typeof(EditCourseModel));
         }
-
-        public int? CourseId { get; set; }
-        public string Code { get; set; }
-
-        public string Name { get; set; }
-
-        public bool IsActive { get; set; }
 
         public Course ToDataModel(IMapper mapper, Course course = null)
         {

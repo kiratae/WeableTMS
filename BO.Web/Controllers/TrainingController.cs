@@ -12,6 +12,8 @@ using Weable.TMS.Model.ServiceModel;
 using Weable.TMS.BO.Web.Models;
 using Weable.TMS.BO.Web.Resources;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using System.Security.Claims;
 
 namespace Weable.TMS.BO.Web.Controllers
 {
@@ -21,6 +23,7 @@ namespace Weable.TMS.BO.Web.Controllers
         private readonly ITrainingService _service;
         private readonly ICourseService _courseService;
         private readonly IMapper _mapper;
+        private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IStringLocalizer<TrainingController> _resourses;
         private readonly ILogger<TrainingController> _logger;
         public static readonly string Name = "Training";
@@ -33,12 +36,14 @@ namespace Weable.TMS.BO.Web.Controllers
             ITrainingService service,
             ICourseService courseService,
             IMapper mapper,
+            IHttpContextAccessor httpContextAccessor,
             IStringLocalizer<TrainingController> resourses,
             ILogger<TrainingController> logger)
         {
             _service = service;
             _courseService = courseService;
             _mapper = mapper;
+            _httpContextAccessor = httpContextAccessor;
             _resourses = resourses;
             _logger = logger;
         }
@@ -106,7 +111,7 @@ namespace Weable.TMS.BO.Web.Controllers
                     if (model.TrainingId.HasValue)
                     {
                         existing = await _service.GetData(model.TrainingId.Value);
-                        existing.ModifyUserId = 1;
+                        existing.ModifyUserId = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
                         existing.ModifyDate = DateTime.Now;
                         Training training = model.ToDataModel(_mapper, existing);
                         await _service.SaveData(training);
@@ -116,7 +121,7 @@ namespace Weable.TMS.BO.Web.Controllers
                         Training training = model.ToDataModel(_mapper, existing);
                         training.TrnImage = 2;
                         training.Code = "TODO:Gen Code";
-                        training.CreateUserId = 1;
+                        training.CreateUserId = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
                         training.CreateDate = DateTime.Now;
                         await _service.SaveData(training);
                     }

@@ -13,7 +13,7 @@ namespace Weable.TMS.BO.Web.Models
         public string Name { get; set; }
         public string Code { get; set; }
         public string Keyword { get; set; }
-        public List<CourseModel> Courses { get; set; }
+        public List<CourseModel> Courses { get; protected set; }
 
         public ListCourseModel() {
             Courses = new List<CourseModel>();

@@ -4,35 +4,32 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Weable.TMS.BO.Web.Models;
 using Weable.TMS.Infrastructure.Model;
 using Weable.TMS.Model.Data;
-using Weable.TMS.Model.Filter;
 using Weable.TMS.Model.ServiceModel;
-using Weable.TMS.BO.Web.Models;
 
 namespace Weable.TMS.BO.Web.Controllers
 {
-    [Authorize]
-    public class CourseController : Controller
+    public class ProvinceController : Controller
     {
-        private readonly ICourseService _service;
+        private readonly IProvinceService _service;
         private readonly IMapper _mapper;
         private readonly IHttpContextAccessor _httpContextAccessor;
-        private readonly ILogger<CourseController> _logger;
-        public static readonly string Name = "Course";
+        private readonly ILogger<ProvinceController> _logger;
+        public static readonly string Name = "Title";
         public static readonly string ActionList = "List";
-        public static readonly string ActionListTrn = "ListTrn";
         public static readonly string ActionDelete = "Delete";
         public static readonly string ActionEdit = "Edit";
-        public CourseController(
-            ICourseService service,
+        public ProvinceController(
+            IProvinceService service,
             IMapper mapper,
             IHttpContextAccessor httpContextAccessor,
-            ILogger<CourseController> logger)
+            ILogger<ProvinceController> logger
+            )
         {
             _service = service;
             _mapper = mapper;
@@ -43,17 +40,17 @@ namespace Weable.TMS.BO.Web.Controllers
         {
             return RedirectToAction(ActionList);
         }
-        public IActionResult List(ListCourseModel model, int pageNo = 1)
+        public IActionResult List(ListProvinceModel model, int pageNo = 1)
         {
             const string func = "List";
             try
             {
                 if (model == null)
-                    model = new ListCourseModel();
-                var filter = model.ToCourseFilter();
+                    model = new ListProvinceModel();
+                var filter = model.ToProvinceFilter();
                 var paging = new Paging(pageNo, 20);
                 var result = _service.GetList(filter, paging);
-                model.Courses.AddRange(CourseModel.createModels(result.Results, _mapper));
+                model.Provinces.AddRange(ProvinceModel.createModels(result.Results, _mapper));
                 model.Paging = PagingModel.createPaging(result);
                 return View(model);
             }
@@ -69,13 +66,13 @@ namespace Weable.TMS.BO.Web.Controllers
             const string func = "Edit";
             try
             {
-                EditCourseModel model;
+                EditProvinceModel model;
                 if (id.HasValue)
                 {
-                    model = new EditCourseModel(await _service.GetData(id), _mapper);
+                    model = new EditProvinceModel(await _service.GetData(id), _mapper);
                 }
                 else
-                    model = new EditCourseModel();
+                    model = new EditProvinceModel();
 
                 return View(model);
             }
@@ -88,28 +85,28 @@ namespace Weable.TMS.BO.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(EditCourseModel model)
+        public async Task<IActionResult> Edit(EditProvinceModel model)
         {
             const string func = "Edit";
             if (ModelState.IsValid)
             {
                 try
                 {
-                    Course existing = null;
-                    if (model.CourseId.HasValue)
+                    Province existing = null;
+                    if (model.ProvinceId.HasValue)
                     {
-                        existing = await _service.GetData(model.CourseId.Value);
+                        existing = await _service.GetData(model.ProvinceId.Value);
                         existing.ModifyUserId = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
                         existing.ModifyDate = DateTime.Now;
-                        Course course = model.ToDataModel(_mapper, existing);
-                        await _service.SaveData(course);
+                        Province province = model.ToDataModel(_mapper, existing);
+                        await _service.SaveData(province);
                     }
                     else
                     {
-                        Course course = model.ToDataModel(_mapper, existing);
-                        course.CreateUserId = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-                        course.CreateDate = DateTime.Now;
-                        await _service.SaveData(course);
+                        Province province = model.ToDataModel(_mapper, existing);
+                        province.CreateUserId = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+                        province.CreateDate = DateTime.Now;
+                        await _service.SaveData(province);
                     }
                     return Json(new AjaxResultModel(AjaxResultModel.StatusCodeSuccess, "Save Complete!"));
                 }
@@ -148,21 +145,5 @@ namespace Weable.TMS.BO.Web.Controllers
             }
             return Json(new AjaxResultModel(AjaxResultModel.StatusCodeError, ModelState));
         }
-
-        public ActionResult ListTrn(ListTrainingModel model, int pageNo = 1)
-        {
-            const string func = "ListTrn";
-            try
-            {
-                return View(model);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError("{0}: Exception caught with page no. {1}.", func, pageNo, ex);
-                return NotFound();
-            }
-        }
-
     }
-
 }
