@@ -23,6 +23,7 @@ namespace Weable.TMS.Model.Data
         public virtual DbSet<Faculty> Faculty { get; set; }
         public virtual DbSet<File> File { get; set; }
         public virtual DbSet<Log> Log { get; set; }
+        public virtual DbSet<Menu> Menu { get; set; }
         public virtual DbSet<Person> Person { get; set; }
         public virtual DbSet<Province> Province { get; set; }
         public virtual DbSet<Reference> Reference { get; set; }
@@ -43,7 +44,6 @@ namespace Weable.TMS.Model.Data
         public virtual DbSet<TrnSatisfactionQuestion> TrnSatisfactionQuestion { get; set; }
         public virtual DbSet<University> University { get; set; }
         public virtual DbSet<UniversityCourse> UniversityCourse { get; set; }
-        public virtual DbSet<User> User { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -171,12 +171,6 @@ namespace Weable.TMS.Model.Data
             {
                 entity.ToTable("course");
 
-                entity.HasIndex(e => e.CreateUserId)
-                    .HasName("FK_Course_User_idx");
-
-                entity.HasIndex(e => e.ModifyUserId)
-                    .HasName("FK_Course_User_2_idx");
-
                 entity.Property(e => e.CourseId)
                     .HasColumnName("course_id")
                     .HasColumnType("int(11)");
@@ -191,8 +185,9 @@ namespace Weable.TMS.Model.Data
                     .HasColumnType("datetime");
 
                 entity.Property(e => e.CreateUserId)
+                    .IsRequired()
                     .HasColumnName("create_user_id")
-                    .HasColumnType("int(11)");
+                    .HasColumnType("varchar(95)");
 
                 entity.Property(e => e.IsActive)
                     .HasColumnName("is_active")
@@ -204,34 +199,17 @@ namespace Weable.TMS.Model.Data
 
                 entity.Property(e => e.ModifyUserId)
                     .HasColumnName("modify_user_id")
-                    .HasColumnType("int(11)");
+                    .HasColumnType("varchar(95)");
 
                 entity.Property(e => e.Name)
                     .IsRequired()
                     .HasColumnName("name")
                     .HasColumnType("varchar(200)");
-
-                entity.HasOne(d => d.CreateUser)
-                    .WithMany(p => p.CourseCreateUser)
-                    .HasForeignKey(d => d.CreateUserId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Course_User");
-
-                entity.HasOne(d => d.ModifyUser)
-                    .WithMany(p => p.CourseModifyUser)
-                    .HasForeignKey(d => d.ModifyUserId)
-                    .HasConstraintName("FK_Course_User_2");
             });
 
             modelBuilder.Entity<District>(entity =>
             {
                 entity.ToTable("district");
-
-                entity.HasIndex(e => e.CreateUserId)
-                    .HasName("FK_District_User_idx");
-
-                entity.HasIndex(e => e.ModifyUserId)
-                    .HasName("FK_District_User_2_idx");
 
                 entity.HasIndex(e => e.ProvinceId)
                     .HasName("FK_District_Province_idx");
@@ -249,8 +227,9 @@ namespace Weable.TMS.Model.Data
                     .HasColumnType("datetime");
 
                 entity.Property(e => e.CreateUserId)
+                    .IsRequired()
                     .HasColumnName("create_user_id")
-                    .HasColumnType("int(11)");
+                    .HasColumnType("varchar(95)");
 
                 entity.Property(e => e.GeoName)
                     .HasColumnName("geo_name")
@@ -266,7 +245,7 @@ namespace Weable.TMS.Model.Data
 
                 entity.Property(e => e.ModifyUserId)
                     .HasColumnName("modify_user_id")
-                    .HasColumnType("int(11)");
+                    .HasColumnType("varchar(95)");
 
                 entity.Property(e => e.Name)
                     .IsRequired()
@@ -281,17 +260,6 @@ namespace Weable.TMS.Model.Data
                     .HasColumnName("province_id")
                     .HasColumnType("int(11)");
 
-                entity.HasOne(d => d.CreateUser)
-                    .WithMany(p => p.DistrictCreateUser)
-                    .HasForeignKey(d => d.CreateUserId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_District_User");
-
-                entity.HasOne(d => d.ModifyUser)
-                    .WithMany(p => p.DistrictModifyUser)
-                    .HasForeignKey(d => d.ModifyUserId)
-                    .HasConstraintName("FK_District_User_2");
-
                 entity.HasOne(d => d.Province)
                     .WithMany(p => p.District)
                     .HasForeignKey(d => d.ProvinceId)
@@ -302,12 +270,6 @@ namespace Weable.TMS.Model.Data
             modelBuilder.Entity<Faculty>(entity =>
             {
                 entity.ToTable("faculty");
-
-                entity.HasIndex(e => e.CreateUserId)
-                    .HasName("fk_faculty_user_idx");
-
-                entity.HasIndex(e => e.ModifyUserId)
-                    .HasName("fk_faculty_user2_idx");
 
                 entity.HasIndex(e => e.UniversityId)
                     .HasName("fk_faculty_university_idx");
@@ -321,8 +283,9 @@ namespace Weable.TMS.Model.Data
                     .HasColumnType("datetime");
 
                 entity.Property(e => e.CreateUserId)
+                    .IsRequired()
                     .HasColumnName("create_user_id")
-                    .HasColumnType("int(11)");
+                    .HasColumnType("varchar(95)");
 
                 entity.Property(e => e.IsActive)
                     .HasColumnName("is_active")
@@ -334,7 +297,7 @@ namespace Weable.TMS.Model.Data
 
                 entity.Property(e => e.ModifyUserId)
                     .HasColumnName("modify_user_id")
-                    .HasColumnType("int(11)");
+                    .HasColumnType("varchar(95)");
 
                 entity.Property(e => e.NameEn)
                     .HasColumnName("name_en")
@@ -352,17 +315,6 @@ namespace Weable.TMS.Model.Data
                 entity.Property(e => e.UniversityId)
                     .HasColumnName("university_id")
                     .HasColumnType("int(11)");
-
-                entity.HasOne(d => d.CreateUser)
-                    .WithMany(p => p.FacultyCreateUser)
-                    .HasForeignKey(d => d.CreateUserId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("fk_faculty_user");
-
-                entity.HasOne(d => d.ModifyUser)
-                    .WithMany(p => p.FacultyModifyUser)
-                    .HasForeignKey(d => d.ModifyUserId)
-                    .HasConstraintName("fk_faculty_user2");
 
                 entity.HasOne(d => d.University)
                     .WithMany(p => p.Faculty)
@@ -421,9 +373,6 @@ namespace Weable.TMS.Model.Data
                 entity.HasIndex(e => e.LogTypeId)
                     .HasName("IX_LogTypeId");
 
-                entity.HasIndex(e => e.UserId)
-                    .HasName("IX_UserId");
-
                 entity.Property(e => e.LogId)
                     .HasColumnName("log_id")
                     .HasColumnType("int(11)");
@@ -458,12 +407,65 @@ namespace Weable.TMS.Model.Data
 
                 entity.Property(e => e.UserId)
                     .HasColumnName("user_id")
+                    .HasColumnType("varchar(95)");
+            });
+
+            modelBuilder.Entity<Menu>(entity =>
+            {
+                entity.ToTable("menu");
+
+                entity.Property(e => e.MenuId)
+                    .HasColumnName("menu_id")
                     .HasColumnType("int(11)");
 
-                entity.HasOne(d => d.User)
-                    .WithMany(p => p.Log)
-                    .HasForeignKey(d => d.UserId)
-                    .HasConstraintName("FK_Log_User");
+                entity.Property(e => e.Code)
+                    .HasColumnName("code")
+                    .HasColumnType("varchar(100)");
+
+                entity.Property(e => e.CreateDate)
+                    .HasColumnName("create_date")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.CreateUserId)
+                    .IsRequired()
+                    .HasColumnName("create_user_id")
+                    .HasColumnType("varchar(95)");
+
+                entity.Property(e => e.FileName)
+                    .IsRequired()
+                    .HasColumnName("file_name")
+                    .HasColumnType("varchar(100)");
+
+                entity.Property(e => e.IsActive)
+                    .HasColumnName("is_active")
+                    .HasColumnType("tinyint(1)");
+
+                entity.Property(e => e.ModifyDate)
+                    .HasColumnName("modify_date")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.ModifyUserId)
+                    .HasColumnName("modify_user_id")
+                    .HasColumnType("varchar(95)");
+
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasColumnName("name")
+                    .HasColumnType("varchar(200)");
+
+                entity.Property(e => e.ParentId)
+                    .HasColumnName("parent_id")
+                    .HasColumnType("int(11)");
+
+                entity.Property(e => e.Url)
+                    .IsRequired()
+                    .HasColumnName("url")
+                    .HasColumnType("varchar(500)");
+
+                entity.Property(e => e.UserRole)
+                    .IsRequired()
+                    .HasColumnName("user_role")
+                    .HasColumnType("varchar(250)");
             });
 
             modelBuilder.Entity<Person>(entity =>
@@ -603,12 +605,6 @@ namespace Weable.TMS.Model.Data
             {
                 entity.ToTable("province");
 
-                entity.HasIndex(e => e.CreateUserId)
-                    .HasName("FK_Province_User_idx");
-
-                entity.HasIndex(e => e.ModifyUserId)
-                    .HasName("FK_Province_User_2_idx");
-
                 entity.HasIndex(e => e.RegionId)
                     .HasName("FK_Province_Region_idx");
 
@@ -629,8 +625,9 @@ namespace Weable.TMS.Model.Data
                     .HasColumnType("datetime");
 
                 entity.Property(e => e.CreateUserId)
+                    .IsRequired()
                     .HasColumnName("create_user_id")
-                    .HasColumnType("int(11)");
+                    .HasColumnType("varchar(95)");
 
                 entity.Property(e => e.GeoName)
                     .HasColumnName("geo_name")
@@ -646,7 +643,7 @@ namespace Weable.TMS.Model.Data
 
                 entity.Property(e => e.ModifyUserId)
                     .HasColumnName("modify_user_id")
-                    .HasColumnType("int(11)");
+                    .HasColumnType("varchar(95)");
 
                 entity.Property(e => e.Name)
                     .IsRequired()
@@ -660,17 +657,6 @@ namespace Weable.TMS.Model.Data
                 entity.Property(e => e.RegionId)
                     .HasColumnName("region_id")
                     .HasColumnType("int(11)");
-
-                entity.HasOne(d => d.CreateUser)
-                    .WithMany(p => p.ProvinceCreateUser)
-                    .HasForeignKey(d => d.CreateUserId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Province_User");
-
-                entity.HasOne(d => d.ModifyUser)
-                    .WithMany(p => p.ProvinceModifyUser)
-                    .HasForeignKey(d => d.ModifyUserId)
-                    .HasConstraintName("FK_Province_User_2");
 
                 entity.HasOne(d => d.Region)
                     .WithMany(p => p.Province)
@@ -717,12 +703,6 @@ namespace Weable.TMS.Model.Data
             {
                 entity.ToTable("region");
 
-                entity.HasIndex(e => e.CreateUserId)
-                    .HasName("FK_Province_User_idx");
-
-                entity.HasIndex(e => e.ModifyUserId)
-                    .HasName("FK_Province_User_2_idx");
-
                 entity.Property(e => e.RegionId)
                     .HasColumnName("region_id")
                     .HasColumnType("int(11)");
@@ -732,8 +712,9 @@ namespace Weable.TMS.Model.Data
                     .HasColumnType("datetime");
 
                 entity.Property(e => e.CreateUserId)
+                    .IsRequired()
                     .HasColumnName("create_user_id")
-                    .HasColumnType("int(11)");
+                    .HasColumnType("varchar(95)");
 
                 entity.Property(e => e.GeoName)
                     .HasColumnName("geo_name")
@@ -749,7 +730,7 @@ namespace Weable.TMS.Model.Data
 
                 entity.Property(e => e.ModifyUserId)
                     .HasColumnName("modify_user_id")
-                    .HasColumnType("int(11)");
+                    .HasColumnType("varchar(95)");
 
                 entity.Property(e => e.Name)
                     .IsRequired()
@@ -763,17 +744,6 @@ namespace Weable.TMS.Model.Data
                 entity.Property(e => e.OrderNo)
                     .HasColumnName("order_no")
                     .HasColumnType("smallint(6)");
-
-                entity.HasOne(d => d.CreateUser)
-                    .WithMany(p => p.RegionCreateUser)
-                    .HasForeignKey(d => d.CreateUserId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Region_User");
-
-                entity.HasOne(d => d.ModifyUser)
-                    .WithMany(p => p.RegionModifyUser)
-                    .HasForeignKey(d => d.ModifyUserId)
-                    .HasConstraintName("FK_Region_User_2");
             });
 
             modelBuilder.Entity<Sequence>(entity =>
@@ -876,14 +846,8 @@ namespace Weable.TMS.Model.Data
             {
                 entity.ToTable("subdistrict");
 
-                entity.HasIndex(e => e.CreateUserId)
-                    .HasName("FK_Subdistrict_User_idx");
-
                 entity.HasIndex(e => e.DistrictId)
                     .HasName("FK_Subdistrict_District_idx");
-
-                entity.HasIndex(e => e.ModifyUserId)
-                    .HasName("FK_Subdistrict_User_2_idx");
 
                 entity.Property(e => e.SubdistrictId)
                     .HasColumnName("subdistrict_id")
@@ -898,8 +862,9 @@ namespace Weable.TMS.Model.Data
                     .HasColumnType("datetime");
 
                 entity.Property(e => e.CreateUserId)
+                    .IsRequired()
                     .HasColumnName("create_user_id")
-                    .HasColumnType("int(11)");
+                    .HasColumnType("varchar(95)");
 
                 entity.Property(e => e.DistrictId)
                     .HasColumnName("district_id")
@@ -919,7 +884,7 @@ namespace Weable.TMS.Model.Data
 
                 entity.Property(e => e.ModifyUserId)
                     .HasColumnName("modify_user_id")
-                    .HasColumnType("int(11)");
+                    .HasColumnType("varchar(95)");
 
                 entity.Property(e => e.Name)
                     .IsRequired()
@@ -930,22 +895,11 @@ namespace Weable.TMS.Model.Data
                     .HasColumnName("note")
                     .HasColumnType("text");
 
-                entity.HasOne(d => d.CreateUser)
-                    .WithMany(p => p.SubdistrictCreateUser)
-                    .HasForeignKey(d => d.CreateUserId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Subdistrict_User");
-
                 entity.HasOne(d => d.District)
                     .WithMany(p => p.Subdistrict)
                     .HasForeignKey(d => d.DistrictId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Subdistrict_District");
-
-                entity.HasOne(d => d.ModifyUser)
-                    .WithMany(p => p.SubdistrictModifyUser)
-                    .HasForeignKey(d => d.ModifyUserId)
-                    .HasConstraintName("FK_Subdistrict_User_2");
             });
 
             modelBuilder.Entity<Title>(entity =>
@@ -967,8 +921,9 @@ namespace Weable.TMS.Model.Data
                     .HasColumnType("datetime");
 
                 entity.Property(e => e.CreateUserId)
+                    .IsRequired()
                     .HasColumnName("create_user_id")
-                    .HasColumnType("int(11)");
+                    .HasColumnType("varchar(95)");
 
                 entity.Property(e => e.IsActive)
                     .HasColumnName("is_active")
@@ -980,7 +935,7 @@ namespace Weable.TMS.Model.Data
 
                 entity.Property(e => e.ModifyUserId)
                     .HasColumnName("modify_user_id")
-                    .HasColumnType("int(11)");
+                    .HasColumnType("varchar(95)");
 
                 entity.Property(e => e.Name)
                     .IsRequired()
@@ -994,17 +949,6 @@ namespace Weable.TMS.Model.Data
                 entity.Property(e => e.OrderNo)
                     .HasColumnName("order_no")
                     .HasColumnType("smallint(6)");
-
-                entity.HasOne(d => d.CreateUser)
-                    .WithMany(p => p.TitleCreateUser)
-                    .HasForeignKey(d => d.CreateUserId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Title_User");
-
-                entity.HasOne(d => d.ModifyUser)
-                    .WithMany(p => p.TitleModifyUser)
-                    .HasForeignKey(d => d.ModifyUserId)
-                    .HasConstraintName("FK_Title_User_2");
             });
 
             modelBuilder.Entity<Training>(entity =>
@@ -1013,12 +957,6 @@ namespace Weable.TMS.Model.Data
 
                 entity.HasIndex(e => e.CourseId)
                     .HasName("fk_Training_Course1_idx");
-
-                entity.HasIndex(e => e.CreateUserId)
-                    .HasName("fk_Training_User1_idx");
-
-                entity.HasIndex(e => e.ModifyUserId)
-                    .HasName("fk_Training_User2_idx");
 
                 entity.HasIndex(e => e.TrnImage)
                     .HasName("fk_Training_File1_idx");
@@ -1029,8 +967,7 @@ namespace Weable.TMS.Model.Data
 
                 entity.Property(e => e.AttendeeQty)
                     .HasColumnName("attendee_qty")
-                    .HasColumnType("int(11)")
-                    .HasDefaultValueSql("'0'");
+                    .HasColumnType("int(11)");
 
                 entity.Property(e => e.Code)
                     .HasColumnName("code")
@@ -1049,8 +986,9 @@ namespace Weable.TMS.Model.Data
                     .HasColumnType("datetime");
 
                 entity.Property(e => e.CreateUserId)
+                    .IsRequired()
                     .HasColumnName("create_user_id")
-                    .HasColumnType("int(11)");
+                    .HasColumnType("varchar(95)");
 
                 entity.Property(e => e.Description)
                     .HasColumnName("description")
@@ -1085,8 +1023,9 @@ namespace Weable.TMS.Model.Data
                     .HasColumnType("datetime");
 
                 entity.Property(e => e.ModifyUserId)
+                    .IsRequired()
                     .HasColumnName("modify_user_id")
-                    .HasColumnType("int(11)");
+                    .HasColumnType("varchar(95)");
 
                 entity.Property(e => e.Name)
                     .HasColumnName("name")
@@ -1145,17 +1084,6 @@ namespace Weable.TMS.Model.Data
                     .HasForeignKey(d => d.CourseId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_Training_Course");
-
-                entity.HasOne(d => d.CreateUser)
-                    .WithMany(p => p.TrainingCreateUser)
-                    .HasForeignKey(d => d.CreateUserId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("fk_Training_User");
-
-                entity.HasOne(d => d.ModifyUser)
-                    .WithMany(p => p.TrainingModifyUser)
-                    .HasForeignKey(d => d.ModifyUserId)
-                    .HasConstraintName("fk_Training_User_2");
 
                 entity.HasOne(d => d.TrnImageNavigation)
                     .WithMany(p => p.Training)
@@ -1476,12 +1404,6 @@ namespace Weable.TMS.Model.Data
             {
                 entity.ToTable("trn_satisfaction_question");
 
-                entity.HasIndex(e => e.CreateUserId)
-                    .HasName("IX_CreateUserId");
-
-                entity.HasIndex(e => e.ModifyUserId)
-                    .HasName("IX_ModifyUserId");
-
                 entity.Property(e => e.TrnSatisfactionQuestionId)
                     .HasColumnName("trn_satisfaction_question_id")
                     .HasColumnType("int(11)");
@@ -1518,28 +1440,11 @@ namespace Weable.TMS.Model.Data
                 entity.Property(e => e.OrderNo)
                     .HasColumnName("order_no")
                     .HasColumnType("smallint(6)");
-
-                entity.HasOne(d => d.CreateUser)
-                    .WithMany(p => p.TrnSatisfactionQuestionCreateUser)
-                    .HasForeignKey(d => d.CreateUserId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_TrnSatisfactionQuestion_User");
-
-                entity.HasOne(d => d.ModifyUser)
-                    .WithMany(p => p.TrnSatisfactionQuestionModifyUser)
-                    .HasForeignKey(d => d.ModifyUserId)
-                    .HasConstraintName("FK_TrnSatisfactionQuestion_User_2");
             });
 
             modelBuilder.Entity<University>(entity =>
             {
                 entity.ToTable("university");
-
-                entity.HasIndex(e => e.CreateUserId)
-                    .HasName("fk_university_user_idx");
-
-                entity.HasIndex(e => e.ModifyUserId)
-                    .HasName("fk_university_user2_idx");
 
                 entity.Property(e => e.UniversityId)
                     .HasColumnName("university_id")
@@ -1550,8 +1455,9 @@ namespace Weable.TMS.Model.Data
                     .HasColumnType("datetime");
 
                 entity.Property(e => e.CreateUserId)
+                    .IsRequired()
                     .HasColumnName("create_user_id")
-                    .HasColumnType("int(11)");
+                    .HasColumnType("varchar(95)");
 
                 entity.Property(e => e.IsActive)
                     .HasColumnName("is_active")
@@ -1563,7 +1469,7 @@ namespace Weable.TMS.Model.Data
 
                 entity.Property(e => e.ModifyUserId)
                     .HasColumnName("modify_user_id")
-                    .HasColumnType("int(11)");
+                    .HasColumnType("varchar(95)");
 
                 entity.Property(e => e.NameEn)
                     .HasColumnName("name_en")
@@ -1577,31 +1483,14 @@ namespace Weable.TMS.Model.Data
                 entity.Property(e => e.Note)
                     .HasColumnName("note")
                     .HasColumnType("text");
-
-                entity.HasOne(d => d.CreateUser)
-                    .WithMany(p => p.UniversityCreateUser)
-                    .HasForeignKey(d => d.CreateUserId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("fk_university_user");
-
-                entity.HasOne(d => d.ModifyUser)
-                    .WithMany(p => p.UniversityModifyUser)
-                    .HasForeignKey(d => d.ModifyUserId)
-                    .HasConstraintName("fk_university_user2");
             });
 
             modelBuilder.Entity<UniversityCourse>(entity =>
             {
                 entity.ToTable("university_course");
 
-                entity.HasIndex(e => e.CreateUserId)
-                    .HasName("fk_university_course_user_idx");
-
                 entity.HasIndex(e => e.FacultyId)
                     .HasName("fk_university_course_faculty_idx");
-
-                entity.HasIndex(e => e.ModifyUserId)
-                    .HasName("fk_university_course_user2_idx");
 
                 entity.Property(e => e.UniversityCourseId)
                     .HasColumnName("university_course_id")
@@ -1612,8 +1501,9 @@ namespace Weable.TMS.Model.Data
                     .HasColumnType("datetime");
 
                 entity.Property(e => e.CreateUserId)
+                    .IsRequired()
                     .HasColumnName("create_user_id")
-                    .HasColumnType("int(11)");
+                    .HasColumnType("varchar(95)");
 
                 entity.Property(e => e.DegreeName)
                     .IsRequired()
@@ -1634,7 +1524,7 @@ namespace Weable.TMS.Model.Data
 
                 entity.Property(e => e.ModifyUserId)
                     .HasColumnName("modify_user_id")
-                    .HasColumnType("int(11)");
+                    .HasColumnType("varchar(95)");
 
                 entity.Property(e => e.Name)
                     .IsRequired()
@@ -1649,132 +1539,11 @@ namespace Weable.TMS.Model.Data
                     .HasColumnName("university_course_type_id")
                     .HasColumnType("tinyint(4)");
 
-                entity.HasOne(d => d.CreateUser)
-                    .WithMany(p => p.UniversityCourseCreateUser)
-                    .HasForeignKey(d => d.CreateUserId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("fk_university_course_user");
-
                 entity.HasOne(d => d.Faculty)
                     .WithMany(p => p.UniversityCourse)
                     .HasForeignKey(d => d.FacultyId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_university_course_faculty");
-
-                entity.HasOne(d => d.ModifyUser)
-                    .WithMany(p => p.UniversityCourseModifyUser)
-                    .HasForeignKey(d => d.ModifyUserId)
-                    .HasConstraintName("fk_university_course_user2");
-            });
-
-            modelBuilder.Entity<User>(entity =>
-            {
-                entity.ToTable("user");
-
-                entity.HasIndex(e => e.CreateUserId)
-                    .HasName("IX_CreateUserId");
-
-                entity.HasIndex(e => e.FacultyId)
-                    .HasName("fk_user_faculty_idx");
-
-                entity.HasIndex(e => e.ModifyUserId)
-                    .HasName("IX_ModifyUserId");
-
-                entity.HasIndex(e => e.PersonId)
-                    .HasName("IX_PersonId");
-
-                entity.HasIndex(e => e.Username)
-                    .HasName("UC_UserName")
-                    .IsUnique();
-
-                entity.Property(e => e.UserId)
-                    .HasColumnName("user_id")
-                    .HasColumnType("int(11)");
-
-                entity.Property(e => e.CreateDate)
-                    .HasColumnName("create_date")
-                    .HasColumnType("datetime");
-
-                entity.Property(e => e.CreateUserId)
-                    .HasColumnName("create_user_id")
-                    .HasColumnType("int(11)");
-
-                entity.Property(e => e.Data)
-                    .HasColumnName("data")
-                    .HasColumnType("text");
-
-                entity.Property(e => e.FacultyId)
-                    .HasColumnName("faculty_id")
-                    .HasColumnType("int(11)");
-
-                entity.Property(e => e.FirstName)
-                    .IsRequired()
-                    .HasColumnName("first_name")
-                    .HasColumnType("varchar(100)");
-
-                entity.Property(e => e.IsActive)
-                    .HasColumnName("is_active")
-                    .HasColumnType("tinyint(1)");
-
-                entity.Property(e => e.IsPwdExpired)
-                    .HasColumnName("is_pwd_expired")
-                    .HasColumnType("tinyint(1)");
-
-                entity.Property(e => e.IsSystem)
-                    .HasColumnName("is_system")
-                    .HasColumnType("tinyint(1)");
-
-                entity.Property(e => e.LastName)
-                    .HasColumnName("last_name")
-                    .HasColumnType("varchar(100)");
-
-                entity.Property(e => e.ModifyDate)
-                    .HasColumnName("modify_date")
-                    .HasColumnType("datetime");
-
-                entity.Property(e => e.ModifyUserId)
-                    .HasColumnName("modify_user_id")
-                    .HasColumnType("int(11)");
-
-                entity.Property(e => e.Name)
-                    .IsRequired()
-                    .HasColumnName("name")
-                    .HasColumnType("varchar(200)");
-
-                entity.Property(e => e.Note)
-                    .HasColumnName("note")
-                    .HasColumnType("text");
-
-                entity.Property(e => e.Password)
-                    .HasColumnName("password")
-                    .HasColumnType("varchar(50)");
-
-                entity.Property(e => e.PersonId)
-                    .HasColumnName("person_id")
-                    .HasColumnType("int(11)");
-
-                entity.Property(e => e.PwdModifyDate)
-                    .HasColumnName("pwd_modify_date")
-                    .HasColumnType("datetime");
-
-                entity.Property(e => e.Title)
-                    .HasColumnName("title")
-                    .HasColumnType("varchar(50)");
-
-                entity.Property(e => e.Username)
-                    .IsRequired()
-                    .HasColumnName("username")
-                    .HasColumnType("varchar(50)");
-
-                entity.HasOne(d => d.Faculty)
-                    .WithMany(p => p.User)
-                    .HasForeignKey(d => d.FacultyId)
-                    .HasConstraintName("fk_user_faculty");
-
-                entity.HasOne(d => d.ModifyUser)
-                    .WithMany(p => p.InverseModifyUser)
-                    .HasForeignKey(d => d.ModifyUserId)
-                    .HasConstraintName("FK_User_User_2");
             });
         }
     }

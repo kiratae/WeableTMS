@@ -20,8 +20,6 @@ namespace Weable.TMS.Model.Data
         public DateTime? ModifyDate { get; set; }
         public int? ModifyUserId { get; set; }
 
-        public virtual User CreateUser { get; set; }
-        public virtual User ModifyUser { get; set; }
         public virtual ICollection<TrnSatisfactionFormCh2> TrnSatisfactionFormCh2 { get; set; }
     }
 }

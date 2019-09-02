@@ -43,13 +43,11 @@ namespace Weable.TMS.Model.Data
         public int? Year { get; set; }
         public string Token { get; set; }
         public DateTime CreateDate { get; set; }
-        public int CreateUserId { get; set; }
+        public string CreateUserId { get; set; }
         public DateTime? ModifyDate { get; set; }
-        public int? ModifyUserId { get; set; }
+        public string ModifyUserId { get; set; }
 
         public virtual Course Course { get; set; }
-        public virtual User CreateUser { get; set; }
-        public virtual User ModifyUser { get; set; }
         public virtual File TrnImageNavigation { get; set; }
         public virtual ICollection<Attendee> Attendee { get; set; }
         public virtual ICollection<TrnCoordinator> TrnCoordinator { get; set; }

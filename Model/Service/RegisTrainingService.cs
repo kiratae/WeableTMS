@@ -53,6 +53,20 @@ namespace Weable.TMS.Model.Service
             }
         }
 
+        public int GetAttendeeQty(int trainingId)
+        {
+            const string func = "CheckRepeatRegis";
+            try
+            {
+                return _repository.GetAttendeeQty(trainingId);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogInformation("{}: Exception caught.", func, ex);
+                throw ex;
+            }
+        }
+
         public RegisTraining GetRegisTraining(string citizenId)
         {
             const string func = "GetRegisTraining";
