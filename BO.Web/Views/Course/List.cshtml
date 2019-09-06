@@ -7,8 +7,8 @@
 
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
-        <li class="breadcrumb-item">ระบบบันทึกข้อมูลการฝึกอบรม</li>
-        <li class="breadcrumb-item active">โครงการหลัก</li>
+        <li class="breadcrumb-item">การจัดการการฝึกอบรม</li>
+        <li class="breadcrumb-item active">หลักสูตร</li>
     </ol>
 </nav>
 
@@ -17,7 +17,7 @@
         <form asp-controller="@cntr.Name" asp-action="@cntr.ActionList">
             <div class="form-row">
                 <div class="form-group col">
-                    <input asp-for="Name" placeholder="ชื่อโครงการ" class="form-control" />
+                    <input asp-for="Name" placeholder="ชื่อหลักสูตร" class="form-control" />
                 </div>
                 <div class="form-group col">
                     <button class="btn btn-primary float-right"><i class="fa fa-search"></i>&ensp;ค้นหา</button>
@@ -26,8 +26,7 @@
         </form>
         <div class="row">
             <div class="col-md-12">
-                <button id="btn-delete-multi" class="btn btn-outline-secondary" type="button"><i class="fa fa-minus"></i>&ensp;ลบโครงการ</button>
-                <a asp-action="Edit" id="btn-add" class="btn btn-primary"><i class="fa fa-plus"></i>&ensp;เพิ่มโครงการ</a>
+                <button id="btn-add" class="btn btn-primary"><i class="fa fa-plus"></i>&ensp;เพิ่มหลักสูตร</button>
             </div>
         </div>
     </div>
@@ -39,38 +38,35 @@
             <table class="table table-borderless table-border-bottom">
                 <thead class="thead-style">
                     <tr>
-                        <th class="text-center">
-                            <div class="we-checkbox">
-                                <input type="checkbox" id="checkall" class="checkboxtable checkbox-all">
-                                <label for="checkall"></label>
-                            </div>
-                        </th>
-                        <th class="text-left"> ชื่อโครงการ</th>
-                        <th class="text-center"> จำนวนโครงการย่อย</th>
-                        <th class="text-center sorting_disabled"> เครื่องมือ</th>
+                        <th class="text-center">ลำดับ</th>
+                        <th class="text-left">ชื่อหลักสูตร</th>
+                        <th class="text-center">จำนวนการฝึกอบรม</th>
+                        <th class="text-center">เครื่องมือ</th>
                     </tr>
                 </thead>
                 <tbody>
                     @if (Model.Courses.Count == 0)
                     {
                         <tr role="row">
-                            <td colspan="5" class="text-center">ไม่พบข้อมูล !</td>
+                            <td colspan="4" class="text-center">ไม่พบข้อมูล !</td>
                         </tr>
                     }
+                    @{ int index = 1; }
                     @foreach (var item in Model.Courses)
                     {
                         <tr>
-                            <td class="text-center"></td>
-                            <td  class="text-left">
+                            <td class="text-center">@(index++)</td>
+                            <td class="text-left">
                                 @Html.DisplayFor(modelItem => item.Name)
                             </td>
                             <td class="text-center">
                                 1
                             </td>
                             <td class="text-center">
+                                @{ var deleteUrl = Url.Action(@cntr.ActionDelete, @cntr.Name, new { id = item.CourseId }); }
                                 <a asp-action="@cntr.ActionListTrn" asp-route-id="@item.CourseId" class="btn btn-info btn-circle"><i class="fa fa-list"></i></a>
                                 <a asp-action="@cntr.ActionEdit" asp-route-id="@item.CourseId" class="btn btn-warning btn-circle"><i class="fa fa-pencil-alt"></i></a>
-                                <a asp-action="@cntr.ActionDelete" asp-route-id="@item.CourseId" class="btn btn-danger btn-circle"><i class="fa fa-trash-alt"></i></a>
+                                <a href="" data-x-url="@deleteUrl" class="btn btn-danger btn-circle btn-delete"><i class="fa fa-trash-alt"></i></a>
                             </td>
                         </tr>
                     }
@@ -81,3 +77,31 @@
         @await Html.PartialAsync("_Paging", Model)
     </div>
 </div>
+
+<div class="modal fade" id="EditModel" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+        $(document).ready(function() {
+            $('#btn-add').click(function() {
+                $('#EditModel').find('.modal-body').load('@Url.Action(@cntr.ActionEdit, @cntr.Name)');
+                $('#EditModel').modal('show');
+            });
+
+            $('.btn-delete').click(function (e) {
+                e.preventDefault();
+                var url = $(this).data('x-url');
+                console.log(url);
+                weDeleteSingleRow(url);
+            });
+        });
+    </script>
+}

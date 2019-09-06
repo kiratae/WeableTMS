@@ -4,7 +4,7 @@
 $.ajaxSetup({
     // Disable caching of AJAX responses
     cache: false
-            //async: false
+    //async: false
 });
 
 //moment.locale('th');
@@ -24,29 +24,29 @@ var __suspend_edit_inline_click = false;
 
 $(document).ready(function () {
     $('.datepicker').wePikaday();
-    $('input.number').weMask({maskObj: __WE_MASK_NUMBER});
-    $('input.num').weMask({maskObj: __WE_MASK_NUM});
-    $('input.int').weMask({maskObj: __WE_MASK_INT});
-    $('input.str-digit-3').weMask({maskObj: __WE_MASK_STR_DIGIT_3});
-    $('input.str-digit-5').weMask({maskObj: __WE_MASK_STR_DIGIT_5});
-    $('input.str-digit-7').weMask({maskObj: __WE_MASK_STR_DIGIT_7});
-    $('input.str-digit-8').weMask({maskObj: __WE_MASK_STR_DIGIT_8});
-    $('input.str-digit-13').weMask({maskObj: __WE_MASK_STR_DIGIT_13});
-    $('input.str-digit-14').weMask({maskObj: __WE_MASK_STR_DIGIT_14});
-    $('input.str-digit-16').weMask({maskObj: __WE_MASK_STR_DIGIT_16});
+    $('input.number').weMask({ maskObj: __WE_MASK_NUMBER });
+    $('input.num').weMask({ maskObj: __WE_MASK_NUM });
+    $('input.int').weMask({ maskObj: __WE_MASK_INT });
+    $('input.str-digit-3').weMask({ maskObj: __WE_MASK_STR_DIGIT_3 });
+    $('input.str-digit-5').weMask({ maskObj: __WE_MASK_STR_DIGIT_5 });
+    $('input.str-digit-7').weMask({ maskObj: __WE_MASK_STR_DIGIT_7 });
+    $('input.str-digit-8').weMask({ maskObj: __WE_MASK_STR_DIGIT_8 });
+    $('input.str-digit-13').weMask({ maskObj: __WE_MASK_STR_DIGIT_13 });
+    $('input.str-digit-14').weMask({ maskObj: __WE_MASK_STR_DIGIT_14 });
+    $('input.str-digit-16').weMask({ maskObj: __WE_MASK_STR_DIGIT_16 });
     //$('select.we-select2').select2();
     $('body').bind('DOMNodeInserted', function (e) {
         var element = e.target;
-        $(element).find('input.number').weMask({maskObj: __WE_MASK_NUMBER});
-        $(element).find('input.num').weMask({maskObj: __WE_MASK_NUM});
-        $(element).find('input.int').weMask({maskObj: __WE_MASK_INT});
-        $(element).find('input.str-digit-3').weMask({maskObj: __WE_MASK_STR_DIGIT_3});
-        $(element).find('input.str-digit-5').weMask({maskObj: __WE_MASK_STR_DIGIT_5});
-        $(element).find('input.str-digit-7').weMask({maskObj: __WE_MASK_STR_DIGIT_7});
-        $(element).find('input.str-digit-8').weMask({maskObj: __WE_MASK_STR_DIGIT_8});
-        $(element).find('input.str-digit-13').weMask({maskObj: __WE_MASK_STR_DIGIT_13});
-        $(element).find('input.str-digit-14').weMask({maskObj: __WE_MASK_STR_DIGIT_14});
-        $(element).find('input.str-digit-16').weMask({maskObj: __WE_MASK_STR_DIGIT_16});
+        $(element).find('input.number').weMask({ maskObj: __WE_MASK_NUMBER });
+        $(element).find('input.num').weMask({ maskObj: __WE_MASK_NUM });
+        $(element).find('input.int').weMask({ maskObj: __WE_MASK_INT });
+        $(element).find('input.str-digit-3').weMask({ maskObj: __WE_MASK_STR_DIGIT_3 });
+        $(element).find('input.str-digit-5').weMask({ maskObj: __WE_MASK_STR_DIGIT_5 });
+        $(element).find('input.str-digit-7').weMask({ maskObj: __WE_MASK_STR_DIGIT_7 });
+        $(element).find('input.str-digit-8').weMask({ maskObj: __WE_MASK_STR_DIGIT_8 });
+        $(element).find('input.str-digit-13').weMask({ maskObj: __WE_MASK_STR_DIGIT_13 });
+        $(element).find('input.str-digit-14').weMask({ maskObj: __WE_MASK_STR_DIGIT_14 });
+        $(element).find('input.str-digit-16').weMask({ maskObj: __WE_MASK_STR_DIGIT_16 });
         $(element).find('.datepicker').wePikaday();
     });
 
@@ -71,26 +71,26 @@ $(document).ready(function () {
         $('#' + cntrId).val($('#' + cntrId).prop('defaultValue'));
         $('#' + cntrId).change();
     });
-//
-//    $(document).on('change', ':file', function () {
-//        var input = $(this),
-//                numFiles = input.get(0).files ? input.get(0).files.length : 1,
-//                label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
-//        input.trigger('fileselect', [numFiles, label]);
-//    });
-//    $(':file').on('fileselect', function (event, numFiles, label) {
-//
-//        var input = $(this).parents('.input-group').find(':text'),
-//                log = numFiles > 1 ? numFiles + ' files selected' : label;
-//
-//        if (input.length) {
-//            input.val(log);
-//        } else {
-//            if (log)
-//                alert(log);
-//        }
-//
-//    });
+    //
+    //    $(document).on('change', ':file', function () {
+    //        var input = $(this),
+    //                numFiles = input.get(0).files ? input.get(0).files.length : 1,
+    //                label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
+    //        input.trigger('fileselect', [numFiles, label]);
+    //    });
+    //    $(':file').on('fileselect', function (event, numFiles, label) {
+    //
+    //        var input = $(this).parents('.input-group').find(':text'),
+    //                log = numFiles > 1 ? numFiles + ' files selected' : label;
+    //
+    //        if (input.length) {
+    //            input.val(log);
+    //        } else {
+    //            if (log)
+    //                alert(log);
+    //        }
+    //
+    //    });
 });
 
 String.prototype.format = function () {
@@ -335,78 +335,85 @@ function getErrorMessage(errors) {
 }
 
 function weDeleteSingleRow(url) {
-    swal({
+    Swal.fire({
         title: "ยืนยันการลบ",
         text: "โปรดยืนยันการลบข้อมูล",
         type: "warning",
         showCancelButton: true,
-        confirmButtonClass: "btn btn-danger",
+        confirmButtonClass: "btn btn-danger ml-1",
         confirmButtonText: "ลบ",
         cancelButtonText: "ยกเลิก",
-        closeOnConfirm: false
-    }, function () {
-        $.post(url,
+        cancelButtonClass: "btn btn-secondary mr-1",
+        buttonsStyling: false,
+        reverseButtons: true
+    }).then(function (result) {
+        if (result.value) {
+            $.post(url,
                 null,
                 function (data, textStatus, xhr) {
+                    console.log(data);
                     if (data.statusCode === "0") {
-                        swal({
+                        Swal.fire({
                             title: "ลบข้อมูล",
                             text: "ลบข้อมูลเรียบร้อย",
                             type: "success",
-                            confirmButtonClass: 'btn btn-default',
-                            html: true
-                        }, function () {
+                            confirmButtonClass: 'btn btn-primary',
+                            confirmButtonText: "ตกลง"
+                        }).then(function () {
                             location.reload();
                         });
                     } else {
                         var msg = getErrorMessage(data.errors);
                         if (msg === null || msg === "undefined")
                             msg = "";
-                        swal({
+                        Swal.fire({
                             title: "ลบข้อมูลไม่สำเร็จ",
-                            text: msg,
+                            html: msg,
                             type: "error",
-                            confirmButtonClass: 'btn btn-default',
-                            html: true
+                            confirmButtonClass: 'btn btn-primary',
+                            confirmButtonText: "ตกลง"
                         });
                     }
                 }, "json");
+        }
     });
 }
 function weSaveForm(form, successCallback, errorCallback = null) {
     $.post($(form).attr("action"),
-            $(form).serialize(),
-            function (data, textStatus, xhr) {
-                if (data.statusCode === "0") {
-                    Swal.fire({
-                        title: "บันทึกข้อมูล",
-                        text: "บันทึกข้อมูลเรียบร้อย",
-                        type: "success",
-                        confirmButtonText: 'ตกลง',
-                        confirmButtonClass: 'btn btn-primary'
-                    }).then(function () {
-                        if (successCallback !== null) {
-                            successCallback();
-                        }
-                    });
-                } else {
-                    var msg = getErrorMessage(data.errors);
-                    if (msg === null || msg === "undefined")
-                        msg = "";
-                    Swal.fire({
-                        title: "บันทึกไม่สำเร็จ",
-                        html: msg,
-                        type: "error",
-                        confirmButtonText: 'ตกลง',
-                        confirmButtonClass: 'btn btn-primary'
-                    }).then(function() {
-                        if(errorCallback instanceof Function) {
-                            errorCallback();
-                        }
-                    });
-                }
-            }, "json"
-            );
+        $(form).serialize(),
+        function (data, textStatus, xhr) {
+            if (data.statusCode === "0") {
+                Swal.fire({
+                    title: "บันทึกข้อมูล",
+                    text: "บันทึกข้อมูลเรียบร้อย",
+                    type: "success",
+                    confirmButtonText: 'ตกลง',
+                    confirmButtonClass: 'btn btn-primary',
+                    buttonsStyling: false
+                }).then(function () {
+                    if (successCallback !== null) {
+                        successCallback();
+                    }
+                });
+            } else {
+                var msg = getErrorMessage(data.errors);
+                if (msg === null || msg === "undefined")
+                    msg = "";
+                Swal.fire({
+                    title: "บันทึกไม่สำเร็จ",
+                    html: msg,
+                    type: "error",
+                    confirmButtonText: 'ตกลง',
+                    confirmButtonClass: 'btn btn-primary',
+                    buttonsStyling: false
+                }).then(function () {
+                    if (errorCallback instanceof Function) {
+                        errorCallback();
+                    }
+                });
+            }
+        }, "json"
+    );
 }
 
 function weWrapRowLink(rowSelector, urlDataSelector, tdExcludedSelector) {
@@ -431,31 +438,31 @@ function weWrapRowLink(rowSelector, urlDataSelector, tdExcludedSelector) {
 // 
 // Object.assign
 if (typeof Object.assign !== 'function') {
-  // Must be writable: true, enumerable: false, configurable: true
-  Object.defineProperty(Object, "assign", {
-    value: function assign(target, varArgs) { // .length of function is 2
-      'use strict';
-      if (target === null || target === undefined) {
-        throw new TypeError('Cannot convert undefined or null to object');
-      }
-
-      var to = Object(target);
-
-      for (var index = 1; index < arguments.length; index++) {
-        var nextSource = arguments[index];
-
-        if (nextSource !== null && nextSource !== undefined) { 
-          for (var nextKey in nextSource) {
-            // Avoid bugs when hasOwnProperty is shadowed
-            if (Object.prototype.hasOwnProperty.call(nextSource, nextKey)) {
-              to[nextKey] = nextSource[nextKey];
+    // Must be writable: true, enumerable: false, configurable: true
+    Object.defineProperty(Object, "assign", {
+        value: function assign(target, varArgs) { // .length of function is 2
+            'use strict';
+            if (target === null || target === undefined) {
+                throw new TypeError('Cannot convert undefined or null to object');
             }
-          }
-        }
-      }
-      return to;
-    },
-    writable: true,
-    configurable: true
-  });
+
+            var to = Object(target);
+
+            for (var index = 1; index < arguments.length; index++) {
+                var nextSource = arguments[index];
+
+                if (nextSource !== null && nextSource !== undefined) {
+                    for (var nextKey in nextSource) {
+                        // Avoid bugs when hasOwnProperty is shadowed
+                        if (Object.prototype.hasOwnProperty.call(nextSource, nextKey)) {
+                            to[nextKey] = nextSource[nextKey];
+                        }
+                    }
+                }
+            }
+            return to;
+        },
+        writable: true,
+        configurable: true
+    });
 }

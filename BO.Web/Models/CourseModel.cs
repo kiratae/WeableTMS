@@ -10,7 +10,6 @@ namespace Weable.TMS.BO.Web.Models
     public class CourseModel : BaseModel
     {
         public int CourseId { get; set; }
-        public string Code { get; set; }
         public string Name { get; set; }
         public bool IsActive { get; set; }
 

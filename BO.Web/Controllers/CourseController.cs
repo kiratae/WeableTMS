@@ -122,23 +122,13 @@ namespace Weable.TMS.BO.Web.Controllers
             return Json(new AjaxResultModel(AjaxResultModel.StatusCodeError, ModelState));
         }
 
-        public async Task<IActionResult> Delete(int[] ids)
+        public async Task<IActionResult> Delete(int id)
         {
             const string func = "Delete";
             try
             {
-                foreach (int id in ids)
-                {
-                    try
-                    {
-                        await _service.DeleteData(id);
-                    }
-                    catch (Exception ex)
-                    {
-                        _logger.LogError("{0}: Exception caught with id {1}.", func, id, ex);
-                        throw ex;
-                    }
-                }
+                await _service.DeleteData(id);
+
                 return Json(new AjaxResultModel(AjaxResultModel.StatusCodeSuccess, "Delete Complete!"));
             }
             catch (Exception ex)

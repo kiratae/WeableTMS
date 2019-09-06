@@ -2,51 +2,46 @@
 @model Weable.TMS.BO.Web.Models.EditCourseModel
 
 @{
-    ViewData["Title"] = "Edit";
+    Layout = null;
 }
-
-<nav aria-label="breadcrumb">
-    <ol class="breadcrumb">
-        <li class="breadcrumb-item">ระบบบันทึกข้อมูลการฝึกอบรม</li>
-        <li class="breadcrumb-item">โครงการหลัก</li>
-        <li class="breadcrumb-item active">เพิ่มโครงการหลัก</li>
-    </ol>
-</nav>
-
-
-<div class="card shadow h-100 pt-3">
-    <div class="card-body">
-        <div class="row justify-content-md-center">
-            <div class="col-md-10">
-                <form id="edit-form" asp-action="@cntr.ActionEdit">
-                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                    <input type="hidden" asp-for="CourseId" />
-                    <div class="form-group row">
-                        <label asp-for="Name" class="col-sm-3 col-form-label text-right">ชื่อโครงการ <span class="text-danger">*</span></label>
-                        <div class="col-sm-7">
-                            <input asp-for="Name" class="form-control" />
-                        </div>
-                        <span asp-validation-for="Name" class="text-danger"></span>
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-sm-3 col-form-label"></label>
-                        <div class="custom-control custom-checkbox col-sm-4 ml-3">
-                            <input type="checkbox" asp-for="IsActive" class="custom-control-input" checked>
-                            <label class="custom-control-label" asp-for="IsActive"> ใช้งานได้</label>
-                        </div>
-                    </div>
-                    <div class="form-group text-center pt-3">
-                        <a asp-action="@cntr.ActionList" class="btn btn-secondary">ยกเลิก</a>
-                        <input type="submit" value="บันทึก" class="btn btn-success" />
-                    </div>
-                </form>
-            </div>
-        </div>
+<div class="row">
+    <div class="col-10">
+        <h4 class="title mb-5">เพิ่มหลักสูตร</h4>
+    </div>
+    <div class="col-2 ">
+        <button class="btn btn-default float-right" type="button" data-dismiss="modal">
+            <i class="fa fa-times"></i>
+        </button>
     </div>
 </div>
 
-@section Scripts{
-    <script>
+<div class="row justify-content-md-center">
+    <div class="col-md-10">
+        <form id="edit-form" asp-action="@cntr.ActionEdit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="CourseId" />
+            <div class="form-group row">
+                <label asp-for="Name" class="col-sm-3 col-form-label text-right">ชื่อหลักสูตร<span class="text-danger"> *</span></label>
+                <div class="col-sm-7">
+                    <input asp-for="Name" class="form-control" />
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-3 col-form-label"></label>
+                <div class="custom-control custom-checkbox col-sm-4 ml-3">
+                    <input type="checkbox" asp-for="IsActive" class="custom-control-input" checked>
+                    <label class="custom-control-label" asp-for="IsActive"> ใช้งานได้</label>
+                </div>
+            </div>
+            <div class="form-group text-center pt-3">
+                <button type="button" data-dismiss="modal" class="btn btn-secondary">ยกเลิก</button>
+                <button type="submit" class="btn btn-success">บันทึก</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
     var __return_url = '@Url.Action(@cntr.ActionList, @cntr.Name)';
     $(document).ready(function () {
         $("#edit-form").submit(function (e) {
@@ -56,7 +51,7 @@
             });
         });
     });
-    </script>
-}
+</script>
+
 
 
