@@ -31,8 +31,6 @@ namespace Weable.TMS.Entity.Repository
                                 join c in _context.Course on t.CourseId equals c.CourseId
                                 select t;
 
-                if (!string.IsNullOrEmpty(filter.Code))
-                    trainings = trainings.Where(c => c.Code.ToLower().Contains(filter.Code.ToLower()));
                 if (!string.IsNullOrEmpty(filter.Name))
                     trainings = trainings.Where(c => c.Name.ToLower().Contains(filter.Name.ToLower()));
 

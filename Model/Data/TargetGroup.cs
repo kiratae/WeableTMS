@@ -3,23 +3,24 @@ using System.Collections.Generic;
 
 namespace Weable.TMS.Model.Data
 {
-    public partial class Course
+    public partial class TargetGroup
     {
-        public Course()
+        public TargetGroup()
         {
-            Prerequisite = new HashSet<Prerequisite>();
+            TargetGroupMember = new HashSet<TargetGroupMember>();
             Training = new HashSet<Training>();
         }
 
-        public int CourseId { get; set; }
+        public int TargetGroupId { get; set; }
         public string Name { get; set; }
+        public string Note { get; set; }
         public sbyte IsActive { get; set; }
         public DateTime CreateDate { get; set; }
         public int CreateUserId { get; set; }
         public DateTime? ModifyDate { get; set; }
         public int? ModifyUserId { get; set; }
 
-        public virtual ICollection<Prerequisite> Prerequisite { get; set; }
+        public virtual ICollection<TargetGroupMember> TargetGroupMember { get; set; }
         public virtual ICollection<Training> Training { get; set; }
     }
 }

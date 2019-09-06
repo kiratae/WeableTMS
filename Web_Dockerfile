@@ -5,19 +5,19 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/core/sdk:2.2-stretch AS build
 WORKDIR /src
-COPY ["BO.Web/BO.Web.csproj", "BO.Web/"]
+COPY ["Web/Web.csproj", "Web/"]
 COPY ["Model/Model.csproj", "Model/"]
 COPY ["Infrastructure/Infrastructure.csproj", "Infrastructure/"]
 COPY ["Entity/Entity.csproj", "Entity/"]
-RUN dotnet restore "BO.Web/BO.Web.csproj"
+RUN dotnet restore "Web/Web.csproj"
 COPY . .
-WORKDIR "/src/BO.Web"
-RUN dotnet build "BO.Web.csproj" -c Release -o /app
+WORKDIR "/src/Web"
+RUN dotnet build "Web.csproj" -c Release -o /app
 
 FROM build AS publish
-RUN dotnet publish "BO.Web.csproj" -c Release -o /app
+RUN dotnet publish "Web.csproj" -c Release -o /app
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app .
-ENTRYPOINT ["dotnet", "BO.Web.dll"]
+ENTRYPOINT ["dotnet", "Web.dll"]

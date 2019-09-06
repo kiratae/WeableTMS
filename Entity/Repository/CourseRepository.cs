@@ -32,8 +32,6 @@ namespace Weable.TMS.Entity.Repository
                              select c;
                 if (filter.IsActive.HasValue)
                     courses = courses.Where(c => c.IsActive == Convert.ToSByte(filter.IsActive));
-                if (!string.IsNullOrEmpty(filter.Code))
-                    courses = courses.Where(c => c.Code.ToLower().Contains(filter.Code.ToLower()));
                 if (!string.IsNullOrEmpty(filter.Name))
                     courses = courses.Where(c => c.Name.ToLower().Contains(filter.Name.ToLower()));
 

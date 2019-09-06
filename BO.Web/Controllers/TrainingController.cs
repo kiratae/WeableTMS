@@ -119,7 +119,7 @@ namespace Weable.TMS.BO.Web.Controllers
                     else
                     {
                         Training training = model.ToDataModel(_mapper, existing);
-                        training.TrnImage = 2;
+                        training.TrnImage = 1;
                         training.Code = "TODO:Gen Code";
                         training.CreateUserId = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
                         training.CreateDate = DateTime.Now;

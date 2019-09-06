@@ -8,8 +8,6 @@ namespace Weable.TMS.Model.Data
         public File()
         {
             Training = new HashSet<Training>();
-            TrnDoc = new HashSet<TrnDoc>();
-            TrnImgOther = new HashSet<TrnImgOther>();
         }
 
         public int FileId { get; set; }
@@ -22,7 +20,5 @@ namespace Weable.TMS.Model.Data
         public sbyte IsTemp { get; set; }
 
         public virtual ICollection<Training> Training { get; set; }
-        public virtual ICollection<TrnDoc> TrnDoc { get; set; }
-        public virtual ICollection<TrnImgOther> TrnImgOther { get; set; }
     }
 }
