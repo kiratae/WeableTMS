@@ -6,7 +6,6 @@
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
 @inject IAuthorizationService AuthorizationService
-@inject Weable.TMS.Model.ServiceModel.IMenuService MenuService
 
 <!DOCTYPE html>
 <html>
@@ -65,67 +64,6 @@
             <div class="sidebar-heading">
                 เมนูระบบ
             </div>
-
-            @if (User.Identity.IsAuthenticated)
-            {
-                var userRole = "";
-                if (@User.IsInRole("Admin"))
-                {
-                    userRole = "Admin";
-                }
-                else
-                {
-                    userRole = "Staff";
-                }
-
-                var controllerName = string.Empty;
-                object controllerObj;
-                var actionName = string.Empty;
-                object actionObj;
-
-                @if (ViewContext.RouteData.Values.TryGetValue("controller", out controllerObj))
-                {
-                    controllerName = controllerObj.ToString();
-                }
-
-                @if (ViewContext.RouteData.Values.TryGetValue("action", out actionObj))
-                {
-                    actionName = actionObj.ToString();
-                }
-
-                var menus = MenuService.GetData(userRole);
-                @if (menus.Any())
-                {
-                    @foreach (var menu in menus.Where(m => !m.ParentId.HasValue))
-                    {
-                        <li class="nav-item @(controllerName == menu.Url ? "active" : "")">
-
-                            @if (menus.Where(sm => sm.ParentId == menu.MenuId).Any())
-                            {
-                                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapse_@menu.MenuId" aria-expanded="@(controllerName == menu.Url ? "true" : "false")" aria-controls="collapseTwo">
-                                    <i class="fas fa-fw fa-lightbulb"></i>
-                                    <span>@menu.Name</span>
-                                </a>
-                                <div id="collapse_@menu.MenuId" class="collapse @(controllerName == menu.Url ? "show" : "")" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                                    <div class="bg-white py-2 collapse-inner rounded">
-                                        @foreach (var subMenu in menus.Where(sm => sm.ParentId == menu.MenuId))
-                                        {
-                                            <a class="collapse-item @(actionName == subMenu.FileName ? "active" : "")" asp-controller="@subMenu.Url" asp-action="@subMenu.FileName">@subMenu.Name</a>
-                                        }
-                                    </div>
-                                </div>
-                            }
-                            else
-                            {
-                                <a class="nav-link" asp-controller="@menu.Url" asp-action="@menu.FileName">
-                                    <i class="fas fa-fw fa-lightbulb"></i>
-                                    <span>@menu.Name</span>
-                                </a>
-                            }
-                        </li>
-                    }
-                }
-            }
 
             <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item">

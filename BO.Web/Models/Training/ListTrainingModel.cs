@@ -133,7 +133,6 @@ namespace Weable.TMS.BO.Web.Models
                 TrnEndDate = TrnEndDate,
                 TrnStatusId = TrnStatusId,
                 CourseId = CourseId,
-                Code = string.IsNullOrWhiteSpace(Code) ? null : string.Format("%{0}%", Code.Trim()),
                 Name = string.IsNullOrWhiteSpace(Name) ? null : string.Format("%{0}%", Name.Trim()),
                 TraningStatusCloseIsNull = TraningStatusCloseIsNull,
                 TrainigStatusNoAlready = TrainigStatusNoAlready,

@@ -111,7 +111,7 @@ namespace Weable.TMS.BO.Web.Controllers
                     if (model.TrainingId.HasValue)
                     {
                         existing = await _service.GetData(model.TrainingId.Value);
-                        existing.ModifyUserId = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+                        existing.ModifyUserId = 1;
                         existing.ModifyDate = DateTime.Now;
                         Training training = model.ToDataModel(_mapper, existing);
                         await _service.SaveData(training);
@@ -120,8 +120,7 @@ namespace Weable.TMS.BO.Web.Controllers
                     {
                         Training training = model.ToDataModel(_mapper, existing);
                         training.TrnImage = 1;
-                        training.Code = "TODO:Gen Code";
-                        training.CreateUserId = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+                        training.CreateUserId = 1;
                         training.CreateDate = DateTime.Now;
                         await _service.SaveData(training);
                     }

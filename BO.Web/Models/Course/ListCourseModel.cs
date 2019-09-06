@@ -18,9 +18,10 @@ namespace Weable.TMS.BO.Web.Models
 
         public CourseFilter ToCourseFilter()
         {
-            var filter = new CourseFilter();
-            filter.Name = Name;
-            return filter;
+            return new CourseFilter()
+            {
+                Name = string.IsNullOrWhiteSpace(Name) ? null : string.Format("%{0}%", Name.Trim())
+            };
         }
 
         public override Dictionary<string, string> ToPagingParameter(int pageNo)

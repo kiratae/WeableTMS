@@ -43,26 +43,26 @@ namespace Weable.TMS.Web.Controllers
             const string func = "CheckAllCondition";
             try
             {
-                TrainingModel training = new TrainingModel(await _trainingService.GetData(trainingId), _mapper);
+                //TrainingModel training = new TrainingModel(await _trainingService.GetData(trainingId), _mapper);
 
-                #region เงื่อนไขที่ 1 เช็คว่าเคยสมัครโครงการนี้แล้วหรือยัง                   
-                RegisTraining checkRepete = _regisService.CheckRepeatRegis(citizenId, trainingId);
-                if (checkRepete.Attendee != null)
-                {
-                    return Json(new { msgCode = 0, msg = "เลขประจำตัวประชาชนนี้ได้ทำการลงทะเบียนเรียบร้อยแล้ว" });
-                }
-                #endregion
+                //#region เงื่อนไขที่ 1 เช็คว่าเคยสมัครโครงการนี้แล้วหรือยัง                   
+                //RegisTraining checkRepete = _regisService.Authentication(citizenId, trainingId);
+                //if (checkRepete.Attendee != null)
+                //{
+                //    return Json(new { msgCode = 0, msg = "เลขประจำตัวประชาชนนี้ได้ทำการลงทะเบียนเรียบร้อยแล้ว" });
+                //}
+                //#endregion
 
-                #region เงื่อนไขที่ 3 การฝึกอบรมที่เคยเข้าร่วม ?
-                if (training.IsPrerequisite == true)
-                {
-                    var check = _regisService.CheckTrnPrerequisite(citizenId, trainingId);
-                    if (!check)
-                    {
-                        return Json(new { msgCode = 0, msg = "ท่านยังไม่ผ่านการอบรมก่อนหน้า ที่อบรมรอบนี้ต้องการ" });
-                    }
-                }
-                #endregion            
+                //#region เงื่อนไขที่ 3 การฝึกอบรมที่เคยเข้าร่วม ?
+                //if (training.IsPrerequisite == true)
+                //{
+                //    var check = _regisService.CheckTrnPrerequisite(citizenId, trainingId);
+                //    if (!check)
+                //    {
+                //        return Json(new { msgCode = 0, msg = "ท่านยังไม่ผ่านการอบรมก่อนหน้า ที่อบรมรอบนี้ต้องการ" });
+                //    }
+                //}
+                //#endregion            
             }
             catch (Exception ex)
             {

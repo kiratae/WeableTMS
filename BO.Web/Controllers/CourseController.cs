@@ -99,7 +99,7 @@ namespace Weable.TMS.BO.Web.Controllers
                     if (model.CourseId.HasValue)
                     {
                         existing = await _service.GetData(model.CourseId.Value);
-                        existing.ModifyUserId = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+                        existing.ModifyUserId = 1;
                         existing.ModifyDate = DateTime.Now;
                         Course course = model.ToDataModel(_mapper, existing);
                         await _service.SaveData(course);
@@ -107,7 +107,7 @@ namespace Weable.TMS.BO.Web.Controllers
                     else
                     {
                         Course course = model.ToDataModel(_mapper, existing);
-                        course.CreateUserId = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+                        course.CreateUserId = 1;
                         course.CreateDate = DateTime.Now;
                         await _service.SaveData(course);
                     }

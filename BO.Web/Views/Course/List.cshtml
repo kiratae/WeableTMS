@@ -17,11 +17,7 @@
         <form asp-controller="@cntr.Name" asp-action="@cntr.ActionList">
             <div class="form-row">
                 <div class="form-group col">
-                    <input asp-for="Code" placeholder="รหัสโครงการ" class="form-control" />
-
-                </div>
-                <div class="form-group col">
-                    <input asp-for="Keyword" placeholder="ชื่อโครงการ" class="form-control" />
+                    <input asp-for="Name" placeholder="ชื่อโครงการ" class="form-control" />
                 </div>
                 <div class="form-group col">
                     <button class="btn btn-primary float-right"><i class="fa fa-search"></i>&ensp;ค้นหา</button>
@@ -49,7 +45,6 @@
                                 <label for="checkall"></label>
                             </div>
                         </th>
-                        <th class="text-left"> รหัสโครงการ</th>
                         <th class="text-left"> ชื่อโครงการ</th>
                         <th class="text-center"> จำนวนโครงการย่อย</th>
                         <th class="text-center sorting_disabled"> เครื่องมือ</th>
@@ -66,9 +61,6 @@
                     {
                         <tr>
                             <td class="text-center"></td>
-                            <td  class="text-left">
-                                @Html.DisplayFor(modelItem => item.Code)
-                            </td>
                             <td  class="text-left">
                                 @Html.DisplayFor(modelItem => item.Name)
                             </td>
