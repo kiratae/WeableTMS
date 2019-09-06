@@ -25,12 +25,12 @@ namespace Weable.TMS.Model.Service
             throw new NotImplementedException();
         }
 
-        public RegisTraining CheckRepeatRegis(string citizenId, int? trainingId)
+        public RegisTraining Authentication(string identification, string verifyCode)
         {
             const string func = "CheckRepeatRegis";
             try
             {
-                return _repository.CheckRepeatRegis(citizenId, trainingId);
+                return _repository.Authentication(identification, verifyCode);
             }
             catch (Exception ex)
             {

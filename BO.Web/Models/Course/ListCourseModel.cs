@@ -8,11 +8,8 @@ namespace Weable.TMS.BO.Web.Models
 {
     public class ListCourseModel: BaseListModel
     {
-        public int? CourseId { get; set; }
         public bool IsActive { get; set; }
         public string Name { get; set; }
-        public string Code { get; set; }
-        public string Keyword { get; set; }
         public List<CourseModel> Courses { get; protected set; }
 
         public ListCourseModel() {
@@ -22,8 +19,7 @@ namespace Weable.TMS.BO.Web.Models
         public CourseFilter ToCourseFilter()
         {
             var filter = new CourseFilter();
-            filter.Code = Code;
-            filter.Name = Keyword;
+            filter.Name = Name;
             return filter;
         }
 
@@ -31,8 +27,7 @@ namespace Weable.TMS.BO.Web.Models
         {
             return new Dictionary<string, string>
                         {
-                            { "Code", Code },
-                            { "Keyword", Keyword },
+                            { "Name", Name },
                             { "pageNo", pageNo.ToString() }
                         };
         }

@@ -38,8 +38,8 @@ namespace Weable.TMS.BO.Web.Models
         {
             _courseService = courseService;
             mapper.Map(training, this, typeof(Training), typeof(EditTrainingModel));
-            PublishHour = training.PublishDate.HasValue ? training.PublishDate.Value.Hour : (int?)null;
-            PublishMinute = training.PublishDate.HasValue ? training.PublishDate.Value.Minute : (int?)null;
+            //PublishHour = training.PublishDate.HasValue ? training.PublishDate.Value.Hour : (int?)null;
+            //PublishMinute = training.PublishDate.HasValue ? training.PublishDate.Value.Minute : (int?)null;
             PublishAtdHour = training.PublishAtdDate.Hour;
             PublishAtdMinute = training.PublishAtdDate.Minute;
             TrnStartHour = training.TrnStartDate.Hour;
@@ -132,15 +132,15 @@ namespace Weable.TMS.BO.Web.Models
         {
             training = mapper.Map(this, training == null ? new Training() : training);
 
-            if (training.PublishDate.HasValue)
-            {
-                training.PublishDate = training.PublishDate.Value.Date;
-                if (PublishHour != null && PublishMinute != null)
-                {
-                    training.PublishDate = training.PublishDate.Value.AddHours(PublishHour.Value);
-                    training.PublishDate = training.PublishDate.Value.AddMinutes(PublishMinute.Value);
-                }
-            }
+            //if (training.PublishDate.HasValue)
+            //{
+            //    training.PublishDate = training.PublishDate.Value.Date;
+            //    if (PublishHour != null && PublishMinute != null)
+            //    {
+            //        training.PublishDate = training.PublishDate.Value.AddHours(PublishHour.Value);
+            //        training.PublishDate = training.PublishDate.Value.AddMinutes(PublishMinute.Value);
+            //    }
+            //}
 
             return training;
         }

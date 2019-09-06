@@ -13,7 +13,7 @@ namespace Weable.TMS.Model.Data
 
         public int TargetGroupId { get; set; }
         public string Name { get; set; }
-        public string Note { get; set; }
+        public sbyte IsPublic { get; set; }
         public sbyte IsActive { get; set; }
         public DateTime CreateDate { get; set; }
         public int CreateUserId { get; set; }

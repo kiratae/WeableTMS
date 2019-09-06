@@ -10,7 +10,7 @@ namespace Weable.TMS.Model.ServiceModel
     {
         RegisTraining GetRegisTraining(string citizenId);
         Task<RegisTraining> SaveRegisTraining(RegisTraining regisTraining);
-        RegisTraining CheckRepeatRegis(string citizenId, int? trainingId);
+        RegisTraining Authentication(string identification, string verifyCode);
         bool CheckTrnPrerequisite(string citizenId, int? trainingId);
         int GetAttendeeQty(int trainingId);
 

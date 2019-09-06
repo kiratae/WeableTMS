@@ -7,8 +7,8 @@ namespace Weable.TMS.Model.Data
     {
         public Course()
         {
-            Prerequisite = new HashSet<Prerequisite>();
             Training = new HashSet<Training>();
+            TrnPrerequisite = new HashSet<TrnPrerequisite>();
         }
 
         public int CourseId { get; set; }
@@ -19,7 +19,7 @@ namespace Weable.TMS.Model.Data
         public DateTime? ModifyDate { get; set; }
         public int? ModifyUserId { get; set; }
 
-        public virtual ICollection<Prerequisite> Prerequisite { get; set; }
         public virtual ICollection<Training> Training { get; set; }
+        public virtual ICollection<TrnPrerequisite> TrnPrerequisite { get; set; }
     }
 }

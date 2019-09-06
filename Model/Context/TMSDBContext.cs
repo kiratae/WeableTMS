@@ -20,11 +20,11 @@ namespace Weable.TMS.Model.Data
         public virtual DbSet<Course> Course { get; set; }
         public virtual DbSet<File> File { get; set; }
         public virtual DbSet<Person> Person { get; set; }
-        public virtual DbSet<Prerequisite> Prerequisite { get; set; }
         public virtual DbSet<TargetGroup> TargetGroup { get; set; }
         public virtual DbSet<TargetGroupMember> TargetGroupMember { get; set; }
         public virtual DbSet<Training> Training { get; set; }
         public virtual DbSet<TrnCoordinator> TrnCoordinator { get; set; }
+        public virtual DbSet<TrnPrerequisite> TrnPrerequisite { get; set; }
         public virtual DbSet<TrnResponsible> TrnResponsible { get; set; }
         public virtual DbSet<TrnResultScore> TrnResultScore { get; set; }
 
@@ -248,44 +248,6 @@ namespace Weable.TMS.Model.Data
                     .HasColumnType("int(11)");
             });
 
-            modelBuilder.Entity<Prerequisite>(entity =>
-            {
-                entity.HasKey(e => e.TrnPrerequisiteId)
-                    .HasName("PRIMARY");
-
-                entity.ToTable("prerequisite");
-
-                entity.HasIndex(e => e.CourseId)
-                    .HasName("fk_TrnPrerequisite_Course1_idx");
-
-                entity.HasIndex(e => e.TrainingId)
-                    .HasName("fk_TrnPrerequisite_Training1_idx");
-
-                entity.Property(e => e.TrnPrerequisiteId)
-                    .HasColumnName("trn_prerequisite_id")
-                    .HasColumnType("int(11)");
-
-                entity.Property(e => e.CourseId)
-                    .HasColumnName("course_id")
-                    .HasColumnType("int(11)");
-
-                entity.Property(e => e.TrainingId)
-                    .HasColumnName("training_id")
-                    .HasColumnType("int(11)");
-
-                entity.HasOne(d => d.Course)
-                    .WithMany(p => p.Prerequisite)
-                    .HasForeignKey(d => d.CourseId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("fk_TrnPrerequisite_Course");
-
-                entity.HasOne(d => d.Training)
-                    .WithMany(p => p.Prerequisite)
-                    .HasForeignKey(d => d.TrainingId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("fk_TrnPrerequisite_Training");
-            });
-
             modelBuilder.Entity<TargetGroup>(entity =>
             {
                 entity.ToTable("target_group");
@@ -306,6 +268,10 @@ namespace Weable.TMS.Model.Data
                     .HasColumnName("is_active")
                     .HasColumnType("tinyint(1)");
 
+                entity.Property(e => e.IsPublic)
+                    .HasColumnName("is_public")
+                    .HasColumnType("tinyint(1)");
+
                 entity.Property(e => e.ModifyDate)
                     .HasColumnName("modify_date")
                     .HasColumnType("datetime");
@@ -318,10 +284,6 @@ namespace Weable.TMS.Model.Data
                     .IsRequired()
                     .HasColumnName("name")
                     .HasColumnType("varchar(200)");
-
-                entity.Property(e => e.Note)
-                    .HasColumnName("note")
-                    .HasColumnType("text");
             });
 
             modelBuilder.Entity<TargetGroupMember>(entity =>
@@ -554,6 +516,41 @@ namespace Weable.TMS.Model.Data
                     .HasForeignKey(d => d.TrainingId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_TrnCoordinator_Training");
+            });
+
+            modelBuilder.Entity<TrnPrerequisite>(entity =>
+            {
+                entity.ToTable("trn_prerequisite");
+
+                entity.HasIndex(e => e.CourseId)
+                    .HasName("fk_TrnPrerequisite_Course1_idx");
+
+                entity.HasIndex(e => e.TrainingId)
+                    .HasName("fk_TrnPrerequisite_Training1_idx");
+
+                entity.Property(e => e.TrnPrerequisiteId)
+                    .HasColumnName("trn_prerequisite_id")
+                    .HasColumnType("int(11)");
+
+                entity.Property(e => e.CourseId)
+                    .HasColumnName("course_id")
+                    .HasColumnType("int(11)");
+
+                entity.Property(e => e.TrainingId)
+                    .HasColumnName("training_id")
+                    .HasColumnType("int(11)");
+
+                entity.HasOne(d => d.Course)
+                    .WithMany(p => p.TrnPrerequisite)
+                    .HasForeignKey(d => d.CourseId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_TrnPrerequisite_Course");
+
+                entity.HasOne(d => d.Training)
+                    .WithMany(p => p.TrnPrerequisite)
+                    .HasForeignKey(d => d.TrainingId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_TrnPrerequisite_Training");
             });
 
             modelBuilder.Entity<TrnResponsible>(entity =>

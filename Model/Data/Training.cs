@@ -8,8 +8,8 @@ namespace Weable.TMS.Model.Data
         public Training()
         {
             Attendee = new HashSet<Attendee>();
-            Prerequisite = new HashSet<Prerequisite>();
             TrnCoordinator = new HashSet<TrnCoordinator>();
+            TrnPrerequisite = new HashSet<TrnPrerequisite>();
             TrnResponsible = new HashSet<TrnResponsible>();
             TrnResultScore = new HashSet<TrnResultScore>();
         }
@@ -33,18 +33,18 @@ namespace Weable.TMS.Model.Data
         public string Location { get; set; }
         public sbyte IsPrerequisite { get; set; }
         public sbyte? IsPublishNow { get; set; }
-        public DateTime PublishDate { get; set; }
+        public DateTime? PublishDate { get; set; }
         public DateTime CreateDate { get; set; }
         public int CreateUserId { get; set; }
         public DateTime? ModifyDate { get; set; }
-        public int ModifyUserId { get; set; }
+        public int? ModifyUserId { get; set; }
 
         public virtual Course Course { get; set; }
         public virtual TargetGroup TargetGroup { get; set; }
         public virtual File TrnImageNavigation { get; set; }
         public virtual ICollection<Attendee> Attendee { get; set; }
-        public virtual ICollection<Prerequisite> Prerequisite { get; set; }
         public virtual ICollection<TrnCoordinator> TrnCoordinator { get; set; }
+        public virtual ICollection<TrnPrerequisite> TrnPrerequisite { get; set; }
         public virtual ICollection<TrnResponsible> TrnResponsible { get; set; }
         public virtual ICollection<TrnResultScore> TrnResultScore { get; set; }
     }

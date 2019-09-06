@@ -25,7 +25,7 @@ namespace Weable.TMS.Entity.Repository
             throw new NotImplementedException();
         }
 
-        public RegisTraining CheckRepeatRegis(string citizenId, int? trainingId)
+        public RegisTraining Authentication(string identification, string verifyCode)
         {
             const string func = "CheckRepeatRegis";
             try
@@ -33,10 +33,10 @@ namespace Weable.TMS.Entity.Repository
                 var attendees = from a in _context.Attendee
                                 select a;
 
-                if (trainingId.HasValue)
-                    attendees = attendees.Where(atd => atd.CitizenId == citizenId && atd.TrainingId == trainingId);
-                else
-                    attendees = attendees.Where(atd => atd.CitizenId == citizenId);
+                //if (trainingId.HasValue)
+                //    attendees = attendees.Where(atd => atd.CitizenId == citizenId && atd.TrainingId == trainingId);
+                //else
+                //    attendees = attendees.Where(atd => atd.CitizenId == citizenId);
 
                 RegisTraining regisTraining = new RegisTraining
                 {
