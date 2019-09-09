@@ -46,8 +46,8 @@
 
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
-        <li class="breadcrumb-item">ระบบบันทึกข้อมูลการฝึกอบรม</li>
-        <li class="breadcrumb-item active">โครงการฝึกอบรมใหม่</li>
+        <li class="breadcrumb-item">การจัดการการฝึกอบรม</li>
+        <li class="breadcrumb-item active">การฝึกอบรมใหม่</li>
     </ol>
 </nav>
 
@@ -60,51 +60,44 @@
                     <input type="hidden" asp-for="TrainingId" />
 
                     <!-- ข้อมูลโครงการ -->
-                    <h4 class="title">ข้อมูลโครงการ</h4>
+                    <h4 class="title">ข้อมูลการฝึกอบรม</h4>
 
                     <div class="form-group row">
-                        <label asp-for="CourseId" class="col-sm-3 col-form-label text-right">โครงการที่เกี่ยวข้อง (หลักสูตร)<span class="text-danger">*</span></label>
+                        <label asp-for="CourseId" class="col-sm-3 col-form-label text-left text-md-right">หลักสูตร<span class="text-danger">*</span></label>
                         <div class="col-sm-7">
                             @Html.DropDownListFor(x => x.CourseId, Model.Courses, "- เลือกหลักสูตร -", new { @class = "form-control" })
                         </div>
                         <span asp-validation-for="CourseId" class="text-danger"></span>
                     </div>
                     <div class="form-group row">
-                        <label asp-for="Name" class="col-sm-3 col-form-label text-right">ชื่อโครงการ<span class="text-danger">*</span></label>
+                        <label asp-for="Name" class="col-sm-3 col-form-label text-left text-md-right">ชื่อการฝึกอบรม<span class="text-danger">*</span></label>
                         <div class="col-sm-7">
                             <input asp-for="Name" class="form-control" />
                         </div>
                         <span asp-validation-for="Name" class="text-danger"></span>
                     </div>
-                    <div class="form-group row">
-                        <label class="col-sm-3 col-form-label"></label>
-                        <div class="custom-control custom-checkbox col-sm-4 ml-3">
-                            <input type="checkbox" asp-for="IsRecommend" class="custom-control-input" checked>
-                            <label class="custom-control-label" asp-for="IsRecommend"> โครงการแนะนำ</label>
-                        </div>
-                    </div>
 
                     <hr />
                     <!-- รายละเอียดโครงการ -->
-                    <h4 class="title">รายละเอียดโครงการ</h4>
+                    <h4 class="title">รายละเอียดการฝึกอบรม</h4>
 
                     <div class="form-group">
                         <label class="col-md-9 form-control-static">
-                            รูปภาพโครงการ :
+                            รูปภาพการฝึกอบรม :
                             <span class="text-danger">*</span>
-                            <span style="font-size:12px; color:gray; font-style:italic">(ภาพต้องมีขนาดภาพ 1200x650 px) </span>
+                            <span style="font-size:12px; color:gray; font-style:italic">(ภาพต้องมีอัตราส่วนภาพ 16:9 และมีขนาดไม่เกิน 20 Mb.) </span>
                         </label>
                     </div>
                     <div class="form-group row">
-                        <div id="progress-wrp">
-                            <div class="progress-bar"></div>
-                            <div class="status">0%</div>
-                        </div>
                         @Html.HiddenFor(x => x.TrnImage)
-                        <div class="border border-gray mx-3 p-3">
+                        <div class="border border-gray mx-3 p-3" style="border-radius: .35rem;">
                             <span class="btn btn-primary btn-file mb-2">
                                 Browse… <input type="file" id="imgInp">
                             </span>
+                            @*<div id="progress-wrp">
+                                <div class="progress-bar"></div>
+                                <div class="status">0%</div>
+                            </div>*@
                             <div class="input-group col-sm-6 ml-0 pl-0 mb-2" id="file-detail">
                                 <span class="input-group-prepend">
                                     <span class="input-group-text">
@@ -118,7 +111,7 @@
                                     </button>
                                 </span>
                             </div>
-                            <img id="img-upload" src="https://via.placeholder.com/1200x650.jpg" />
+                            <img id="img-upload" src="~/images/1200x675.jpg" />
                         </div>
                     </div>
 
@@ -146,10 +139,6 @@
                     <hr />
                     <!-- รายชื่อผู้เกี่ยวข้อง -->
                     <h4 class="title my-3">รายชื่อผู้เกี่ยวข้อง</h4>
-
-                    <hr />
-                    <!-- เอกสารเพิ่มเติม -->
-                    <h4 class="title my-3">เอกสารเพิ่มเติม</h4>
 
                     <hr />
                     <!-- การรับสมัคร -->
@@ -247,6 +236,7 @@
                     },
                     error: function (error) {
                         // handle error
+                        alert("Error!\n"+error);
                     },
                     enctype: 'multipart/form-data',
                     async: true,
@@ -296,26 +286,26 @@
             //    }
 
             //});
-            //function readURL(input) {
-            //    if (input.files && input.files[0]) {
-            //        // upload file
-            //        $.ajax({
+            function readURL(input) {
+                if (input.files && input.files[0]) {
+                    // upload file
+                    $.ajax({
 
-            //        });
-            //        console.log(input.files[0]);
-            //        var reader = new FileReader();
+                    });
+                    console.log(input.files[0]);
+                    var reader = new FileReader();
 
-            //        reader.onload = function (e) {
-            //            $('#img-upload').attr('src', e.target.result);
-            //        }
+                    reader.onload = function (e) {
+                        $('#img-upload').attr('src', e.target.result);
+                    }
 
-            //        reader.readAsDataURL(input.files[0]);
-            //    }
-            //}
+                    reader.readAsDataURL(input.files[0]);
+                }
+            }
 
-            //$("#imgInp").change(function () {
-            //    readURL(this);
-            //});
+            $("#imgInp").change(function () {
+                readURL(this);
+            });
 
             //$('#file-detail').find(':text').click(function () {
             //    // Download file

@@ -20,8 +20,8 @@ namespace Weable.TMS.Model.Data
         public virtual DbSet<Course> Course { get; set; }
         public virtual DbSet<File> File { get; set; }
         public virtual DbSet<Person> Person { get; set; }
-        public virtual DbSet<TargetGroup> TargetGroup { get; set; }
-        public virtual DbSet<TargetGroupMember> TargetGroupMember { get; set; }
+        public virtual DbSet<TargetMarket> TargetMarket { get; set; }
+        public virtual DbSet<TargetMarketMember> TargetMarketMember { get; set; }
         public virtual DbSet<Training> Training { get; set; }
         public virtual DbSet<TrnCoordinator> TrnCoordinator { get; set; }
         public virtual DbSet<TrnPrerequisite> TrnPrerequisite { get; set; }
@@ -248,12 +248,12 @@ namespace Weable.TMS.Model.Data
                     .HasColumnType("int(11)");
             });
 
-            modelBuilder.Entity<TargetGroup>(entity =>
+            modelBuilder.Entity<TargetMarket>(entity =>
             {
-                entity.ToTable("target_group");
+                entity.ToTable("target_market");
 
-                entity.Property(e => e.TargetGroupId)
-                    .HasColumnName("target_group_id")
+                entity.Property(e => e.TargetMarketId)
+                    .HasColumnName("target_market_id")
                     .HasColumnType("int(11)");
 
                 entity.Property(e => e.CreateDate)
@@ -286,15 +286,15 @@ namespace Weable.TMS.Model.Data
                     .HasColumnType("varchar(200)");
             });
 
-            modelBuilder.Entity<TargetGroupMember>(entity =>
+            modelBuilder.Entity<TargetMarketMember>(entity =>
             {
-                entity.ToTable("target_group_member");
+                entity.ToTable("target_market_member");
 
-                entity.HasIndex(e => e.TargetGroupId)
+                entity.HasIndex(e => e.TargetMarketId)
                     .HasName("fk_target_group_member_target_group_idx");
 
-                entity.Property(e => e.TargetGroupMemberId)
-                    .HasColumnName("target_group_member_id")
+                entity.Property(e => e.TargetMarketMemberId)
+                    .HasColumnName("target_market_member_id")
                     .HasColumnType("int(11)");
 
                 entity.Property(e => e.CitizenId)
@@ -338,8 +338,8 @@ namespace Weable.TMS.Model.Data
                     .HasColumnName("prefix")
                     .HasColumnType("varchar(100)");
 
-                entity.Property(e => e.TargetGroupId)
-                    .HasColumnName("target_group_id")
+                entity.Property(e => e.TargetMarketId)
+                    .HasColumnName("target_market_id")
                     .HasColumnType("int(11)");
 
                 entity.Property(e => e.VerifyCode)
@@ -347,11 +347,11 @@ namespace Weable.TMS.Model.Data
                     .HasColumnName("verify_code")
                     .HasColumnType("varchar(100)");
 
-                entity.HasOne(d => d.TargetGroup)
-                    .WithMany(p => p.TargetGroupMember)
-                    .HasForeignKey(d => d.TargetGroupId)
+                entity.HasOne(d => d.TargetMarket)
+                    .WithMany(p => p.TargetMarketMember)
+                    .HasForeignKey(d => d.TargetMarketId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("fk_target_group_member_target_group");
+                    .HasConstraintName("fk_target_market_member_target_market");
             });
 
             modelBuilder.Entity<Training>(entity =>
@@ -472,7 +472,7 @@ namespace Weable.TMS.Model.Data
                 entity.HasOne(d => d.TargetGroup)
                     .WithMany(p => p.Training)
                     .HasForeignKey(d => d.TargetGroupId)
-                    .HasConstraintName("fk_training_target_group");
+                    .HasConstraintName("fk_training_target_market");
 
                 entity.HasOne(d => d.TrnImageNavigation)
                     .WithMany(p => p.Training)

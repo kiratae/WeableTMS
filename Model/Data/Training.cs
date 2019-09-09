@@ -40,7 +40,7 @@ namespace Weable.TMS.Model.Data
         public int? ModifyUserId { get; set; }
 
         public virtual Course Course { get; set; }
-        public virtual TargetGroup TargetGroup { get; set; }
+        public virtual TargetMarket TargetGroup { get; set; }
         public virtual File TrnImageNavigation { get; set; }
         public virtual ICollection<Attendee> Attendee { get; set; }
         public virtual ICollection<TrnCoordinator> TrnCoordinator { get; set; }

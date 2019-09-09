@@ -358,7 +358,8 @@ function weDeleteSingleRow(url) {
                             text: "ลบข้อมูลเรียบร้อย",
                             type: "success",
                             confirmButtonClass: 'btn btn-primary',
-                            confirmButtonText: "ตกลง"
+                            confirmButtonText: "ตกลง",
+                            buttonsStyling: false
                         }).then(function () {
                             location.reload();
                         });
@@ -371,7 +372,8 @@ function weDeleteSingleRow(url) {
                             html: msg,
                             type: "error",
                             confirmButtonClass: 'btn btn-primary',
-                            confirmButtonText: "ตกลง"
+                            confirmButtonText: "ตกลง",
+                            buttonsStyling: false
                         });
                     }
                 }, "json");
