@@ -20,6 +20,8 @@ namespace Weable.TMS.Model.Data
         public virtual DbSet<Course> Course { get; set; }
         public virtual DbSet<File> File { get; set; }
         public virtual DbSet<Person> Person { get; set; }
+        public virtual DbSet<TargetGroup> TargetGroup { get; set; }
+        public virtual DbSet<TargetGroupMember> TargetGroupMember { get; set; }
         public virtual DbSet<TargetMarket> TargetMarket { get; set; }
         public virtual DbSet<TargetMarketMember> TargetMarketMember { get; set; }
         public virtual DbSet<Training> Training { get; set; }
@@ -248,6 +250,112 @@ namespace Weable.TMS.Model.Data
                     .HasColumnType("int(11)");
             });
 
+            modelBuilder.Entity<TargetGroup>(entity =>
+            {
+                entity.ToTable("target_group");
+
+                entity.Property(e => e.TargetGroupId)
+                    .HasColumnName("target_group_id")
+                    .HasColumnType("int(11)");
+
+                entity.Property(e => e.CreateDate)
+                    .HasColumnName("create_date")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.CreateUserId)
+                    .HasColumnName("create_user_id")
+                    .HasColumnType("int(11)");
+
+                entity.Property(e => e.IsActive)
+                    .HasColumnName("is_active")
+                    .HasColumnType("tinyint(1)");
+
+                entity.Property(e => e.IsPublic)
+                    .HasColumnName("is_public")
+                    .HasColumnType("tinyint(1)");
+
+                entity.Property(e => e.ModifyDate)
+                    .HasColumnName("modify_date")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.ModifyUserId)
+                    .HasColumnName("modify_user_id")
+                    .HasColumnType("int(11)");
+
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasColumnName("name")
+                    .HasColumnType("varchar(200)");
+            });
+
+            modelBuilder.Entity<TargetGroupMember>(entity =>
+            {
+                entity.ToTable("target_group_member");
+
+                entity.HasIndex(e => e.TargetGroupId)
+                    .HasName("fk_target_group_member_target_group_idx");
+
+                entity.Property(e => e.TargetGroupMemberId)
+                    .HasColumnName("target_group_member_id")
+                    .HasColumnType("int(11)");
+
+                entity.Property(e => e.CitizenId)
+                    .IsRequired()
+                    .HasColumnName("citizen_id")
+                    .HasColumnType("varchar(13)");
+
+                entity.Property(e => e.CreateDate)
+                    .HasColumnName("create_date")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.CreateUserId)
+                    .HasColumnName("create_user_id")
+                    .HasColumnType("int(11)");
+
+                entity.Property(e => e.Data1)
+                    .HasColumnName("data_1")
+                    .HasColumnType("varchar(200)");
+
+                entity.Property(e => e.Data2)
+                    .HasColumnName("data_2")
+                    .HasColumnType("varchar(200)");
+
+                entity.Property(e => e.FirstName)
+                    .IsRequired()
+                    .HasColumnName("first_name")
+                    .HasColumnType("varchar(200)");
+
+                entity.Property(e => e.Identification)
+                    .IsRequired()
+                    .HasColumnName("identification")
+                    .HasColumnType("varchar(100)");
+
+                entity.Property(e => e.LastName)
+                    .IsRequired()
+                    .HasColumnName("last_name")
+                    .HasColumnType("varchar(200)");
+
+                entity.Property(e => e.Prefix)
+                    .IsRequired()
+                    .HasColumnName("prefix")
+                    .HasColumnType("varchar(100)");
+
+                entity.Property(e => e.TargetGroupId)
+                    .HasColumnName("target_group_id")
+                    .HasColumnType("int(11)");
+
+                entity.Property(e => e.VerifyCode)
+                    .IsRequired()
+                    .HasColumnName("verify_code")
+                    .HasColumnType("varchar(100)");
+
+                entity.HasOne(d => d.TargetGroup)
+                    .WithMany(p => p.TargetGroupMember)
+                    .HasForeignKey(d => d.TargetGroupId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_target_group_member_target_group");
+            });
+
             modelBuilder.Entity<TargetMarket>(entity =>
             {
                 entity.ToTable("target_market");
@@ -472,7 +580,7 @@ namespace Weable.TMS.Model.Data
                 entity.HasOne(d => d.TargetGroup)
                     .WithMany(p => p.Training)
                     .HasForeignKey(d => d.TargetGroupId)
-                    .HasConstraintName("fk_training_target_market");
+                    .HasConstraintName("fk_training_target_group");
 
                 entity.HasOne(d => d.TrnImageNavigation)
                     .WithMany(p => p.Training)

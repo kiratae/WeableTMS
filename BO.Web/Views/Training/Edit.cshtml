@@ -55,7 +55,7 @@
     <div class="card-body">
         <div class="row">
             <div class="col-md-12">
-                <form id="edit-form"  asp-action="@cntr.ActionEdit">
+                <form id="edit-form" asp-action="@cntr.ActionEdit">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <input type="hidden" asp-for="TrainingId" />
 
@@ -95,9 +95,9 @@
                                 Browse… <input type="file" id="imgInp">
                             </span>
                             @*<div id="progress-wrp">
-                                <div class="progress-bar"></div>
-                                <div class="status">0%</div>
-                            </div>*@
+                    <div class="progress-bar"></div>
+                    <div class="status">0%</div>
+                </div>*@
                             <div class="input-group col-sm-6 ml-0 pl-0 mb-2" id="file-detail">
                                 <span class="input-group-prepend">
                                     <span class="input-group-text">
@@ -125,15 +125,21 @@
                         <textarea asp-for="Objective" class="form-control" rows="4"></textarea>
                         <span asp-validation-for="Objective" class="text-danger"></span>
                     </div>
-                    <div class="form-group">
-                        <label asp-for="TargetGroup" class="control-label">กลุ่มเป้าหมาย</label>
-                        <textarea asp-for="TargetGroup" class="form-control" rows="4"></textarea>
-                        <span asp-validation-for="TargetGroup" class="text-danger"></span>
-                    </div>
+
                     <div class="form-group">
                         <label asp-for="Condition" class="control-label">เงื่อนไขการฝึกอบรม</label>
                         <textarea asp-for="Condition" class="form-control" rows="4"></textarea>
                         <span asp-validation-for="Condition" class="text-danger"></span>
+                    </div>
+
+                    <hr />
+                    <!-- กลุ่มเป้าหมาย -->
+                    <h4 class="title my-3">กลุ่มเป้าหมาย</h4>
+
+                    <div class="form-group">
+                        <label asp-for="TargetGroup" class="control-label">กลุ่มเป้าหมาย</label>
+                        <textarea asp-for="TargetGroup" class="form-control" rows="4"></textarea>
+                        <span asp-validation-for="TargetGroup" class="text-danger"></span>
                     </div>
 
                     <hr />

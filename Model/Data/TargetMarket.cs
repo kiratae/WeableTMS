@@ -8,7 +8,6 @@ namespace Weable.TMS.Model.Data
         public TargetMarket()
         {
             TargetMarketMember = new HashSet<TargetMarketMember>();
-            Training = new HashSet<Training>();
         }
 
         public int TargetMarketId { get; set; }
@@ -21,6 +20,5 @@ namespace Weable.TMS.Model.Data
         public int? ModifyUserId { get; set; }
 
         public virtual ICollection<TargetMarketMember> TargetMarketMember { get; set; }
-        public virtual ICollection<Training> Training { get; set; }
     }
 }

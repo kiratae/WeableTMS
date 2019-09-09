@@ -49,35 +49,7 @@ namespace Weable.TMS.BO.Web.Controllers
                     {
                         string random = new Random().Next(0, 99999999).ToString();
                         string fileGuid = Guid.NewGuid().ToString();
-                        string filename = DateTime.Now.ToString("yyyyMMdd");
-
-                        // check is image
-                        if (string.Equals(source.ContentType, "image/jpg", StringComparison.OrdinalIgnoreCase) ||
-                            string.Equals(source.ContentType, "image/jpeg", StringComparison.OrdinalIgnoreCase) ||
-                            string.Equals(source.ContentType, "image/pjpeg", StringComparison.OrdinalIgnoreCase) ||
-                            string.Equals(source.ContentType, "image/gif", StringComparison.OrdinalIgnoreCase) ||
-                            string.Equals(source.ContentType, "image/x-png", StringComparison.OrdinalIgnoreCase) ||
-                            string.Equals(source.ContentType, "image/png", StringComparison.OrdinalIgnoreCase))
-                        {
-                            filename = "\\image\\" + DateTime.Now.ToString("yyyyMMdd") + "_trainingTimelineImg_" + random;
-                            // yes let crop it!
-                            using (var ms = new MemoryStream())
-                            {
-                                source.CopyTo(ms);
-                                var fileBytes = ms.ToArray();
-
-                                using (var image = Image.Load(fileBytes))
-                                {
-                                    // crop it to 16:9
-                                    int height = image.Width * (16 / 9);
-                                    image.Mutate(ctx => ctx.Crop(image.Width, height));
-                                }
-                            }
-                        }
-                        else
-                        {
-                            filename += source.Name;
-                        }
+                        string filename = DateTime.Now.ToString("yyyyMMdd") + "_trainingTimelineImg_" + random;
 
                         filename = EnsureCorrectFilename(filename);
 
