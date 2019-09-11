@@ -20,6 +20,7 @@
 
         <link href="~/vendor/sweetalert2/dist/sweetalert2.css" rel="stylesheet" type="text/css">
         <link href="~/vendor/pikaday/pikaday.css" rel="stylesheet" type="text/css">
+        <link href="~/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css">
     </environment>
     <environment exclude="Development">
         <!-- Custom fonts for this template-->
@@ -116,7 +117,7 @@
                             <li class="nav-item dropdown no-arrow">
                                 <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <span class="mr-2 d-none d-lg-inline text-gray-600">@UserManager.GetUserAsync(User).Result.FullName</span>
-                                    <img class="img-profile rounded-circle" src="https://source.unsplash.com/QAB-WJcbgJk/60x60">
+                                    <img class="img-profile rounded-circle" src="~/images/male_avatar_.svg">
                                 </a>
                                 <!-- Dropdown - User Information -->
                                 <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
@@ -199,12 +200,16 @@
 
         <!-- Core plugin JavaScript-->
         <script src="~/vendor/jquery-easing/jquery.easing.min.js"></script>
-
-        <script src="~/vendor/moment/moment.js"></script>
+        <script src="~/vendor/papaparse/papaparse.min.js"></script>
+        <script src="~/vendor/moment/moment-with-locales.js"></script>
         <script src="~/vendor/mask/masks.js"></script>
+        <script src="~/js/vue.js" asp-append-version="true"></script>
+
         <script src="~/vendor/sweetalert2/dist/sweetalert2.min.js"></script>
         <script src="~/vendor/pikaday/pikaday.js"></script>
         <script src="~/vendor/pikaday/pikaday.jquery.js"></script>
+        <script src="~/vendor/datatables/jquery.dataTables.js"></script>
+        <script src="~/vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
         <!-- Page level plugins -->
         <script src="~/vendor/chart.js/Chart.min.js"></script>
@@ -216,6 +221,7 @@
 
         <!-- Core plugin JavaScript-->
         <script src="~/vendor/jquery-easing/jquery.easing.min.js"></script>
+        <script src="~/js/vue.min.js" asp-append-version="true"></script>
 
         <script src="~/vendor/moment/moment.js"></script>
         <script src="~/vendor/mask/masks.js"></script>

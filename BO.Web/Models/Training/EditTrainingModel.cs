@@ -17,8 +17,9 @@ namespace Weable.TMS.BO.Web.Models
         private readonly ICourseService _courseService;
         public EditTrainingModel()
         {
+            TargetGroupMembers = new List<TargetGroupMember>();
         }
-        public EditTrainingModel(ICourseService courseService)
+        public EditTrainingModel(ICourseService courseService) : this()
         {
             _courseService = courseService;
 
@@ -52,6 +53,8 @@ namespace Weable.TMS.BO.Web.Models
         [Required(ErrorMessage = "กรุณาเลือกหลักสูตร")]
         [DisplayName("หลักสูตร")]
         public int? CourseId { get; set; }
+        [Required]
+        [DisplayName("รูปภาการฝึกอบรม")]
         public int TrnImage { get; set; }
         public string Code { get; set; }
         [Required]
@@ -60,36 +63,59 @@ namespace Weable.TMS.BO.Web.Models
         public bool IsRecommend { get; set; }
         public string Description { get; set; }
         public string Objective { get; set; }
-        public string TargetGroup { get; set; }
+        public string TargetGroupNote { get; set; }
+        public int? TargetGroupId { get; set; }
+        public List<TargetGroupMember> TargetGroupMembers { get; set; }
         public string Condition { get; set; }
 
         [Required]
         [DisplayName("วันรับสมัคร")]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime? RegisterStartDate { get; set; }
         public string RegisterStartDateText
         {
             get { return FormatDate(RegisterStartDate); }
         }
+        [Required]
+        [DisplayName("วันที่สิ้นสุดรับสมัคร")]
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime? RegisterEndDate { get; set; }
         public string RegisterEndDateText
         {
             get { return FormatDate(RegisterEndDate); }
         }
+        [Required]
+        [DisplayName("วันที่ประกาศรายชื่อผู้มีสิทธิ์เข้าร่วม")]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime? PublishAtdDate { get; set; }
         public string PublishAtdDateText
         {
             get { return FormatDate(PublishAtdDate); }
         }
+        [Required]
+        [DisplayName("ชั่วโมงที่ประกาศรายชื่อผู้มีสิทธิ์เข้าร่วม")]
         public int? PublishAtdHour { get; set; }
+        [Required]
+        [DisplayName("นาทีที่ประกาศรายชื่อผู้มีสิทธิ์เข้าร่วม")]
         public int? PublishAtdMinute { get; set; }
+
+        [Required]
+        [DisplayName("วันที่จัดการฝึกอบรม")]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime? TrnStartDate { get; set; }
         public string TrnStartDateText
         {
             get { return FormatDate(TrnStartDate); }
         }
+        [Required]
+        [DisplayName("ชั่วโมงที่เริ่มจัดการฝึกอบรม")]
         public int? TrnStartHour { get; set; }
+        [Required]
+        [DisplayName("นาทีที่เริ่มจัดการฝึกอบรม")]
         public int? TrnStartMinute { get; set; }
+        [Required]
+        [DisplayName("วันที่สิ้นสุดการฝึกอบรม")]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime? TrnEndDate { get; set; }
         public string TrnEndDateText
         {
@@ -99,15 +125,23 @@ namespace Weable.TMS.BO.Web.Models
         {
             get { return FormatDate(TrnEndDate); }
         }
+        [Required]
+        [DisplayName("ชั่วโมงที่สิ้นสุดการฝึกอบรม")]
         public int? TrnEndHour { get; set; }
+        [Required]
+        [DisplayName("นาทีที่สิ้นสุดการฝึกอบรม")]
         public int? TrnEndMinute { get; set; }
 
+        [Required]
+        [DisplayName("จำนวนที่เปิดรับ")]
         public int? SeatQty { get; set; }
         public string Location { get; set; }
-        public decimal? LocationLatitude { get; set; }
-        public decimal? LocationLongitude { get; set; }
+        [Required]
+        [DisplayName("การฝึกอบรมที่เคยเข้าร่วม")]
         public bool IsPrerequisite { get; set; }
-        public bool? IsPublishNow { get; set; }
+        [Required]
+        [DisplayName("วันที่เผยแพร่โครงการ")]
+        public bool IsPublishNow { get; set; }
         public DateTime? PublishDate { get; set; }
         public string PublishDateText
         {

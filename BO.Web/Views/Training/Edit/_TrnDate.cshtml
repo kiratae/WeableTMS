@@ -1,8 +1,8 @@
 ﻿@model Weable.TMS.BO.Web.Models.EditTrainingModel
 <!-- วันที่รับสมัคร -->
 <div class="form-group row">
-    <div class="col-4">
-        <label asp-for="RegisterStartDate" class="control-label">วันที่รับสมัคร<span class="text-danger">*</span></label>
+    <div class="col-12 col-sm-12 col-md-6 col-lg-4">
+        <label asp-for="RegisterStartDate" class="control-label">วันที่รับสมัคร<span class="text-danger"> *</span></label>
         <div class="input-group pt-1">
             @*<input asp-for="RegisterStartDate" type="date" class="form-control datepicker">*@
             @Html.TextBoxFor(x => x.RegisterStartDate, "{0:dd/MM/yyyy}", new { @class = "form-control input-md datepicker", @placeholder = "วัน/เดือน/ปี" })
@@ -14,8 +14,8 @@
             </div>
         </div>
     </div>
-    <div class="col-4">
-        <label asp-for="RegisterEndDate" class="control-label">วันที่สิ้นสุดรับสมัคร<span class="text-danger">*</span></label>
+    <div class="col-12 col-sm-12 col-md-6 col-lg-4">
+        <label asp-for="RegisterEndDate" class="control-label">วันที่สิ้นสุดรับสมัคร<span class="text-danger"> *</span></label>
         <div class="input-group pt-1">
             @Html.TextBoxFor(x => x.RegisterEndDate, "{0:dd/MM/yyyy}", new { @class = "form-control input-md datepicker", @placeholder = "วัน/เดือน/ปี" })
             <span asp-validation-for="RegisterEndDate" class="text-danger"></span>
@@ -29,8 +29,8 @@
 </div>
 <!-- วันที่ประกาศรายชื่อ -->
 <div class="form-group row mt-2">
-    <div class="col-md-4">
-        <label>วันที่ประกาศรายชื่อผู้มีสิทธิ์เข้าร่วม</label><span class="text-danger">*</span>
+    <div class="col-12 col-sm-12 col-md-6 col-lg-4">
+        <label>วันที่ประกาศรายชื่อผู้มีสิทธิ์เข้าร่วม</label><span class="text-danger"> *</span>
         <div class="input-group">
             @Html.TextBoxFor(x => x.PublishAtdDate, Model.PublishAtdDateText, new { @class = "form-control input-md datepicker", @placeholder = "วัน/เดือน/ปี" })
             <div class="input-group-append">
@@ -40,8 +40,8 @@
             </div>
         </div>
     </div>
-    <div class="col-md-4">
-        <label>เวลา</label><span class="text-danger">*</span>
+    <div class="col-12 col-sm-12 col-md-6 col-lg-4">
+        <label>เวลา</label><span class="text-danger"> *</span>
         <div class="input-group">
             @Html.DropDownListFor(x => x.PublishAtdHour, Model.PublishAtdHours, new { @class = "form-control" })
             <span class="input-group-append">
@@ -56,8 +56,8 @@
 </div>
 <!--จำนวนที่เปิดรับ-->
 <div class="form-group mt-2 row">
-    <div class="col-md-4 col-lg-2">
-        <label class="control-label">จำนวนที่เปิดรับ<span class="text-danger">*</span></label>
+    <div class="col-12 col-sm-12 col-md-6 col-lg-4">
+        <label class="control-label">จำนวนที่เปิดรับ<span class="text-danger"> *</span></label>
         <div class="input-group">
             <input asp-for="SeatQty" class="form-control" />
             <span class="input-group-append">
@@ -73,8 +73,8 @@
 
 <!-- วันที่จัดฝึกอบรม -->
 <div class="form-group row mt-3">
-    <div class="col-md-4">
-        <label>วันที่จัดการฝึกอบรม</label><span class="text-danger">*</span>
+    <div class="col-12 col-sm-12 col-md-6 col-lg-4">
+        <label>วันที่จัดการฝึกอบรม</label><span class="text-danger"> *</span>
         <div class="input-group">
             @Html.TextBoxFor(x => x.TrnStartDate, Model.TrnStartDateText, new { @class = "form-control input-md datepicker", @placeholder = "วัน/เดือน/ปี" })
             <div class="input-group-append">
@@ -84,8 +84,8 @@
             </div>
         </div>
     </div>
-    <div class="col-md-4">
-        <label>วันที่สิ้นสุดการฝึกอบรม</label><span class="text-danger">*</span>
+    <div class="col-12 col-sm-12 col-md-6 col-lg-4">
+        <label>วันที่สิ้นสุดการฝึกอบรม</label><span class="text-danger"> *</span>
         <div class="input-group">
             @Html.TextBoxFor(x => x.TrnEndDate, Model.TrnEndDateText, new { @class = "form-control input-md datepicker", @placeholder = "วัน/เดือน/ปี" })
             <div class="input-group-append">
@@ -97,8 +97,8 @@
     </div>
 </div>
 <div class="form-group row">
-    <div class="col-md-4">
-        <label>เวลา</label><span class="text-danger">*</span>
+    <div class="col-12 col-sm-12 col-md-6 col-lg-4">
+        <label>เวลา</label><span class="text-danger"> *</span>
         <div class="input-group">
             @Html.DropDownListFor(x => x.TrnStartHour, Model.TrnStartHours, new { @class = "form-control" })
             <span class="input-group-append">
@@ -110,8 +110,8 @@
             </span>
         </div>
     </div>
-    <div class="col-md-4">
-        <label>ถึง</label><span class="text-danger">*</span>
+    <div class="col-12 col-sm-12 col-md-6 col-lg-4">
+        <label>ถึง</label><span class="text-danger"> *</span>
         <div class="input-group">
             @Html.DropDownListFor(x => x.TrnEndHour, Model.TrnEndHours, new { @class = "form-control" })
             <span class="input-group-append">

@@ -7,7 +7,15 @@ $.ajaxSetup({
     //async: false
 });
 
+moment().locale('th');
 //moment.locale('th');
+
+const Toast = Swal.mixin({
+    toast: true,
+    position: 'top-end',
+    showConfirmButton: false,
+    timer: 2000
+})
 
 var __WE_MASK_NUMBER = new Mask("#,##0.00", "number");
 var __WE_MASK_NUM = new Mask('#,###.##', "number");
@@ -327,9 +335,9 @@ function GetElementArray(selector, attr) {
 function getErrorMessage(errors) {
     if (errors === null || errors.length <= 0)
         return "";
-    var msg = "<ul>";
+    var msg = "<ul class='list-group'>";
     for (var i = 0; i < errors.length; i++)
-        msg += "<li>" + errors[i] + "</li>";
+        msg += "<li class='list-group-item list-group-item-danger'>" + errors[i] + "</li>";
     msg += "</ul>";
     return msg;
 }
