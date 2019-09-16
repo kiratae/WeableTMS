@@ -1,9 +1,21 @@
 ﻿@using cntr = Weable.TMS.BO.Web.Controllers.TrainingController
 @using fileCntr = Weable.TMS.BO.Web.Controllers.FileController
 @model Weable.TMS.BO.Web.Models.EditTrainingModel
+@inject Weable.TMS.Model.ServiceModel.IFileService fileService
 
 @{
     ViewData["Title"] = "Edit";
+
+    string ImageUrl;
+    if (Model.TrnImage.HasValue)
+    {
+        ImageUrl = fileService.GetData(Model.TrnImage.Value).Result.FileName;
+    }
+    else
+    {
+        ImageUrl = "~/images/1200x675.jpg";
+    }
+    
 }
 
 @section Styles {
@@ -111,7 +123,7 @@
                                     </button>
                                 </span>
                             </div>
-                            <img id="img-upload" src="~/images/1200x675.jpg" />
+                            <img id="img-upload" src="@ImageUrl" />
                         </div>
                     </div>
 
@@ -331,6 +343,7 @@
                     success: function (data) {
                         // your callback here
                         alert("Files Uploaded!");
+                        $('#TrnImage').val(data[0].fileId)
                         console.log(data);
                     },
                     error: function (error) {

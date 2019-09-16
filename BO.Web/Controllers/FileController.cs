@@ -44,35 +44,45 @@ namespace Weable.TMS.BO.Web.Controllers
                 var list = new List<File>();
                 foreach (IFormFile source in files)
                 {
-                    // check is has file and not over 20 mb.
-                    if (source.Length > 0 && source.Length <= (20 * 1000000 /* <- Mb */) )
+                    string random = new Random().Next(0, 99).ToString();
+                    string fileGuid = Guid.NewGuid().ToString();
+                    string filename = DateTime.Now.ToString("yyyyMMdd") + "_" + DateTime.Now.Ticks + random + "_trainingTimelineImg_" + source.FileName;
+
+                    filename = EnsureCorrectFilename(filename);
+
+                    using (FileStream output = System.IO.File.Create(this.GetPathAndFilename(filename)))
+                        await source.CopyToAsync(output);
+
+                    var file = new File()
                     {
-                        string random = new Random().Next(0, 99999999).ToString();
-                        string fileGuid = Guid.NewGuid().ToString();
-                        string filename = DateTime.Now.ToString("yyyyMMdd") + "_trainingTimelineImg_" + random;
+                        FileGuid = fileGuid,
+                        FileName = "/uploads/" + filename,
+                        MimeType = source.ContentType,
+                        FileSize = (int)source.Length,
+                        IsTemp = 1,
+                        CreateDate = DateTime.Now
+                    };
+                    await _service.SaveData(file);
+                    list.Add(file);
 
-                        filename = EnsureCorrectFilename(filename);
-
-                        using (FileStream output = System.IO.File.Create(this.GetPathAndFilename(filename)))
-                            await source.CopyToAsync(output);
-
-                        var file = new File()
-                        {
-                            FileGuid = fileGuid,
-                            FileName = GetPathAndFilename(filename),
-                            MimeType = source.ContentType,
-                            FileSize = (int)source.Length,
-                            IsTemp = 1,
-                            CreateDate = DateTime.Now
-                        };
-                        await _service.SaveData(file);
-                        list.Add(file);
-
-                    }
-                    
                 }
 
                 return Json(list.ToArray());
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("{0}: Exception caught.", func, ex);
+                throw ex;
+            }
+        }
+
+        [AllowAnonymous]
+        public async Task<File> GetData(int id)
+        {
+            const string func = "GetData";
+            try
+            {
+                return await _service.GetData(id);
             }
             catch (Exception ex)
             {

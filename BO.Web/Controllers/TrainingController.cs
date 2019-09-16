@@ -28,7 +28,7 @@ namespace Weable.TMS.BO.Web.Controllers
         private readonly ILogger<TrainingController> _logger;
         public static readonly string Name = "Training";
         public static readonly string ActionList = "List";
-        public static readonly string ActionListTrn = "ListTrn";
+        public static readonly string ActionDetail = "Detail";
         public static readonly string ActionDelete = "Delete";
         public static readonly string ActionEdit = "Edit";
 
@@ -58,8 +58,6 @@ namespace Weable.TMS.BO.Web.Controllers
             const string func = "List";
             try
             {
-                if (model == null)
-                    model = new ListTrainingModel();
                 var filter = model.ToTrainingFilter();
                 var paging = new Paging(pageNo, 20);
                 var result = _service.GetList(filter, paging);

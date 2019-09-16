@@ -12,10 +12,11 @@ namespace Weable.TMS.BO.Web.Models
         public int CourseId { get; set; }
         public string Name { get; set; }
         public bool IsActive { get; set; }
+        public List<Training> Training { get; set; }
 
         public CourseModel()
         {
-            
+            Training = new List<Training>();
         }
 
         public CourseModel(Course course, IMapper mapper)

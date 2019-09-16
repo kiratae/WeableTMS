@@ -18,10 +18,6 @@ namespace Weable.TMS.BO.Web.Models
         public EditTrainingModel()
         {
             TargetGroupMembers = new List<TargetGroupMember>();
-        }
-        public EditTrainingModel(ICourseService courseService) : this()
-        {
-            _courseService = courseService;
 
             RegisterStartDate = DateTime.Today;
             RegisterEndDate = DateTime.Today;
@@ -32,6 +28,10 @@ namespace Weable.TMS.BO.Web.Models
 
             IsPrerequisite = false;
             IsPublishNow = true;
+        }
+        public EditTrainingModel(ICourseService courseService) : this()
+        {
+            _courseService = courseService;
         }
 
         public EditTrainingModel(Training training, IMapper mapper, ICourseService courseService)
@@ -55,7 +55,7 @@ namespace Weable.TMS.BO.Web.Models
         public int? CourseId { get; set; }
         [Required]
         [DisplayName("รูปภาการฝึกอบรม")]
-        public int TrnImage { get; set; }
+        public int? TrnImage { get; set; }
         public string Code { get; set; }
         [Required]
         [DisplayName("ชื่อโครงการ")]

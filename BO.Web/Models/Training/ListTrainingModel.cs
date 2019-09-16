@@ -7,23 +7,19 @@ using System.Threading.Tasks;
 using Weable.TMS.Model.Data;
 using Weable.TMS.Model.Enumeration;
 using Weable.TMS.Model.Filter;
+using Weable.TMS.Model.ServiceModel;
 
 namespace Weable.TMS.BO.Web.Models
 {
     public class ListTrainingModel: BaseListModel
     {
+
         public ListTrainingModel()
         {
             Trainings = new List<TrainingModel>();
-            Today = DateTime.Now;
         }
 
-        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
-        public DateTime Today { get; set; }
-
         public List<TrainingModel> Trainings { get; protected set; }
-
-        public int? TabIndex { get; set; }
 
         public int? TrainingId { get; set; }
         public TrainingStatus? TrnStatusId { get; set; }
@@ -46,10 +42,7 @@ namespace Weable.TMS.BO.Web.Models
             }
         }
 
-        public int TrmImage { get; set; }
-        public string Code { get; set; }
         public string Name { get; set; }
-        public string Description { get; set; }
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime? RegisterStartDate { get; set; }
         public string RegisterStartDateText
@@ -78,34 +71,11 @@ namespace Weable.TMS.BO.Web.Models
             get { return FormatDate(TrnEndDate); }
         }
 
-        public string Location { get; set; }
-        public string Habitat { get; set; }
-        public AttendeeType? AttendeeTypeId { get; set; }
-        public int SeatQty { get; set; }
-        public string SeatQtyText
-        {
-            get { return FormatInteger(SeatQty); }
-        }
-        public int AttendeeQty { get; set; }
-        public string AttendeeQtyText
-        {
-            get { return FormatInteger(AttendeeQty); }
-        }
-        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
-        public DateTime PublishDate { get; set; }
-        public string PublishDateText
-        {
-            get { return FormatDate(PublishDate); }
-        }
-        public int? Year { get; set; }
-
         public List<Attendee> Attendees { get; protected set; }
         public List<Course> ListCourse { get; set; }
         public SelectList TrainingStatusForListTrn { get; protected set; }
         public SelectList TrainingStatus { get; protected set; }
         public SelectList Courses { get; protected set; }
-        public SelectList Years { get; protected set; }
-        public SelectList Months { get; protected set; }
 
         public string Keyword { get; set; }
 
@@ -113,7 +83,6 @@ namespace Weable.TMS.BO.Web.Models
         {
             return new Dictionary<string, string>
                         {
-                            { "Code", Code },
                             { "Keyword", Keyword },
                             { "pageNo", pageNo.ToString() }
                         };
@@ -136,8 +105,8 @@ namespace Weable.TMS.BO.Web.Models
                 Name = string.IsNullOrWhiteSpace(Name) ? null : string.Format("%{0}%", Name.Trim()),
                 TraningStatusCloseIsNull = TraningStatusCloseIsNull,
                 TrainigStatusNoAlready = TrainigStatusNoAlready,
-                Year = Year
             };
         }
+
     }
 }

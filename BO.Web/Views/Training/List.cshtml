@@ -1,5 +1,7 @@
 ﻿@using cntr = Weable.TMS.BO.Web.Controllers.TrainingController
+@using Weable.TMS.Model.Filter
 @model Weable.TMS.BO.Web.Models.ListTrainingModel
+@inject Weable.TMS.Model.ServiceModel.ICourseService courseService
 
 @{
     ViewData["Title"] = "โครงการฝึกอบรม";
@@ -16,8 +18,60 @@
     <div class="card-body">
         <form asp-controller="@cntr.Name" asp-action="@cntr.ActionList">
             <div class="form-row">
-                <div class="form-group col">
+
+                <div class="form-group col-md-3">
+                    @Html.DropDownListFor(x => x.CourseId,
+                     courseService.GetList(new CourseFilter() { IsActive = true }, null).Results
+                     .Select(c => new SelectListItem() { Text = c.Name, Value = c.CourseId.ToString() })
+                     , "- เลือกหลักสูตร -", new { @class = "form-control" })
+                </div>
+                <div class="form-group col-md-6">
                     <input asp-for="Keyword" placeholder="ชื่อโครงการฝึกอบรม" class="form-control" />
+                </div>
+                <div class="form-group col-md-3">
+                    <select class="form-control">
+                        <option value="value">- สถานะ -</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-3">
+                    <div class="input-group">
+                        @Html.TextBoxFor(x => x.RegisterStartDate, "{0:dd/MM/yyyy}", new { @class = "form-control input-md datepicker", @placeholder = "วันที่รับสมัคร" })
+                        <div class="input-group-append">
+                            <span class="input-group-text">
+                                <i class="fa fa-calendar-alt"></i>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group col-md-3">
+                    <div class="input-group">
+                        @Html.TextBoxFor(x => x.RegisterEndDate, "{0:dd/MM/yyyy}", new { @class = "form-control input-md datepicker", @placeholder = "ถึง" })
+                        <div class="input-group-append">
+                            <span class="input-group-text">
+                                <i class="fa fa-calendar-alt"></i>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group col-md-3">
+                    <div class="input-group">
+                        @Html.TextBoxFor(x => x.TrnStartDate, "{0:dd/MM/yyyy}", new { @class = "form-control input-md datepicker", @placeholder = "วันที่จัดฝึกอบรบ" })
+                        <div class="input-group-append">
+                            <span class="input-group-text">
+                                <i class="fa fa-calendar-alt"></i>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group col-md-3">
+                    <div class="input-group">
+                        @Html.TextBoxFor(x => x.TrnEndDate, "{0:dd/MM/yyyy}", new { @class = "form-control input-md datepicker", @placeholder = "ถึง" })
+                        <div class="input-group-append">
+                            <span class="input-group-text">
+                                <i class="fa fa-calendar-alt"></i>
+                            </span>
+                        </div>
+                    </div>
                 </div>
                 <div class="form-group col">
                     <button class="btn btn-primary float-right"><i class="fa fa-search"></i>&ensp;ค้นหา</button>
@@ -27,33 +81,48 @@
     </div>
 </div>
 
-<div class="mt-3">
-    @if (Model.Trainings.Count == 0)
-    {
-        <h3 class="text-center pt-3"> ไม่พบข้อมูล !</h3>
-    }
-    @foreach (var item in Model.Trainings)
-    {
-        <div class="card bg-primary text-white shadow mb-2">
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-sm-7 text-truncate">
-                        <span>@item.Name</span>
-                    </div>
-                    <div class="col-sm-3 text-center">
-                        <span>รวมทั้งหมด @item.AttendeeQty / @item.SeatQty คน</span>
-                    </div>
-                    <div class="col-sm-2">
-                        <div aria-label="tools" class="float-right">
-                            <a href="#" class="text-white px-1"><span class="fa fa-file-alt"></span></a>
-                            <a asp-action="Edit" asp-route-id="@item.TrainingId" class="text-white px-1"><span class="fa fa-pencil-alt"></span></a>
-                            <a href="#" class="text-white px-1"><span class="fa fa-trash-alt"></span></a>
-                        </div>
-                    </div>
-                </div>
-            </div>
+<div class="card shadow h-100 mt-3">
+    <div class="card-body">
+        <div class="table-responsive no-gutters">
+            <table class="table table-borderless table-border-bottom">
+                <thead class="thead-style">
+                    <tr>
+                        <th class="text-center" width="10%">ลำดับ</th>
+                        <th class="text-left">ชื่อการฝึกอบรม</th>
+                        <th class="text-center" width="25%">จำนวนผู้สมัคร / ที่นั่ง</th>
+                        <th class="text-center" width="15%">เครื่องมือ</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.Trainings.Count == 0)
+                    {
+                        <tr role="row">
+                            <td colspan="4" class="text-center">ไม่พบข้อมูล !</td>
+                        </tr>
+                    }
+                    @{ int index = 1; }
+                    @foreach (var item in Model.Trainings)
+                    {
+                        <tr>
+                            <td class="text-center">@(index++)</td>
+                            <td class="text-left">
+                                @Html.DisplayFor(modelItem => item.Name)
+                            </td>
+                            <td class="text-center">
+                                @item.AttendeeQty / @item.SeatQty
+                            </td>
+                            <td class="text-center">
+                                @{ var deleteUrl = Url.Action(@cntr.ActionDelete, @cntr.Name, new { id = item.TrainingId }); }
+                                <a asp-action="@cntr.ActionDetail" asp-route-id="@item.TrainingId" class="btn btn-info btn-circle"><i class="fa fa-file-alt"></i></a>
+                                <a asp-action="Edit" asp-route-id="@item.TrainingId" class="btn btn-warning btn-circle"><i class="fa fa-pencil-alt"></i></a>
+                                <a href="" data-x-url="@deleteUrl" class="btn btn-danger btn-circle btn-delete"><i class="fa fa-trash-alt"></i></a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
         </div>
-    }
-</div>
 
-@await Html.PartialAsync("_Paging", Model)
+        @await Html.PartialAsync("_Paging", Model)
+    </div>
+</div>

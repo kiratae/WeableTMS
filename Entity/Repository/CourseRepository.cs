@@ -9,6 +9,8 @@ using Weable.TMS.Infrastructure.Extension;
 using Weable.TMS.Model.Data;
 using Weable.TMS.Model.Filter;
 using Weable.TMS.Model.RepositoryModel;
+using System.Data.SqlClient;
+using MySql.Data.MySqlClient;
 
 namespace Weable.TMS.Entity.Repository
 {
@@ -28,8 +30,9 @@ namespace Weable.TMS.Entity.Repository
             _logger.LogTrace("{}: Entering {}.", func, func);
             try
             {
-                var courses = from c in _context.Course
-                             select c;
+                //var courses = from c in _context.Course
+                //              select c;
+                var courses = _context.Course.Include(t => t.Training).AsNoTracking();
                 if (filter.IsActive.HasValue)
                     courses = courses.Where(c => c.IsActive == Convert.ToSByte(filter.IsActive));
                 if (!string.IsNullOrEmpty(filter.Name))
@@ -38,7 +41,8 @@ namespace Weable.TMS.Entity.Repository
                 // Not paging
                 if (paging == null)
                 {
-                    paging = new Paging() {
+                    paging = new Paging()
+                    {
                         CurrentPage = 1,
                         PageSize = int.MaxValue
                     };

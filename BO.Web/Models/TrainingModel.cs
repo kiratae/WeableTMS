@@ -24,7 +24,7 @@ namespace Weable.TMS.BO.Web.Models
         public DateTime TrnStartDate { get; set; }
         public DateTime TrnEndDate { get; set; }
         public int? SeatQty { get; set; }
-        public int? AttendeeQty { get; set; }
+        public int AttendeeQty { get; set; }
         public string Location { get; set; }
         public bool IsPrerequisite { get; set; }
         public bool? IsPublishNow { get; set; }

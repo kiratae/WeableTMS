@@ -38,10 +38,10 @@
             <table class="table table-borderless table-border-bottom">
                 <thead class="thead-style">
                     <tr>
-                        <th class="text-center">ลำดับ</th>
+                        <th class="text-center" width="10%">ลำดับ</th>
                         <th class="text-left">ชื่อหลักสูตร</th>
-                        <th class="text-center">จำนวนการฝึกอบรม</th>
-                        <th class="text-center">เครื่องมือ</th>
+                        <th class="text-center" width="15%">จำนวนการฝึกอบรม</th>
+                        <th class="text-center" width="15%">เครื่องมือ</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -60,7 +60,7 @@
                                 @Html.DisplayFor(modelItem => item.Name)
                             </td>
                             <td class="text-center">
-                                1
+                                @item.Training.Count()
                             </td>
                             <td class="text-center">
                                 @{ var deleteUrl = Url.Action(@cntr.ActionDelete, @cntr.Name, new { id = item.CourseId }); }

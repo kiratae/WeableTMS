@@ -10,13 +10,13 @@ for details on configuring this project to bundle and minify static web assets. 
     background: #fff;
 }
 
-.preloader .spinner {
-    width: 80px;
-    height: 80px;
-    position: absolute;
-    top: calc(50% - 40px);
-    left: calc(50% - 40px);
-}
+    .preloader .spinner {
+        width: 80px;
+        height: 80px;
+        position: absolute;
+        top: calc(50% - 40px);
+        left: calc(50% - 40px);
+    }
 
 .double-bounce1, .double-bounce2 {
     width: 100%;
@@ -69,6 +69,10 @@ for details on configuring this project to bundle and minify static web assets. 
 
 .thead-style {
     border-bottom: solid 2px #0F7E9B;
+}
+
+.thead-style th {
+    font-weight: 400 !important;
 }
 
 .title {
