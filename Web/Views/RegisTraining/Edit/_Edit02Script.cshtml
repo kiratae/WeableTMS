@@ -1,36 +1,10 @@
 ﻿<script>
     $(document).ready(function () {
-        $('#btn-submit-02').click(function (e) {
-
-            // กรณี REQ ให้ระบุ class = 'required'
-            var modelIsValid = $('#tab_02').validateData({
-                title: "กรุณากรอกข้อมูลให้ครบถ้วน",
-                'btnok': "ตกลง"
+        $('#main').submit(function (e) {
+            e.preventDefault();
+            weSaveForm($(this), function () {
+                alert('Saved!')
             });
-            //---------เช็ค validate ทั้งหมด----------
-            if (modelIsValid == false) {
-                e.preventDefault();
-            }
-            else {
-                $('#tab_03').addClass("active");
-                $('#tab_03').siblings().removeClass("active");
-            }
-        });
-
-        $('#BirthDate').change(function () {
-            var d = new Date();
-            var a = $('#BirthDate').data('pikaday').getDate();
-            var tDiff = d.getTime() - a.getTime();
-            var dDiff = new Date(tDiff);
-            var yDS = (dDiff.getFullYear() - 1970) + ' ปี ';
-            var mDS = (dDiff.getMonth() == 0) ? '' : (dDiff.getMonth() + ' เดือน');
-            $('#birthday-year').html(yDS);
-            $('#birthday-month').html(mDS);
-            var momentbd = moment($('#BirthDate').val(), "DD/MM/YYYY");
-            var bdTxt = momentbd.format('LL');
-            var year = parseInt(bdTxt.split(" ")[2]);
-            $("#BDText").text(bdTxt.split(" ")[0] + " " + bdTxt.split(" ")[1] + " " + year);
-            $("#Age").text(yDS + mDS);
         });
 
     });

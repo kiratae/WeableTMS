@@ -205,3 +205,12 @@ for details on configuring this project to bundle and minify static web assets. 
         text-align: center;
     }
 }
+
+@media screen and (max-width: 575px) {
+    #rc-imageselect, .g-recaptcha {
+        transform: scale(0.77);
+        -webkit-transform: scale(0.77);
+        transform-origin: 0 0;
+        -webkit-transform-origin: 0 0;
+    }
+}

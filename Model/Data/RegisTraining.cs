@@ -11,6 +11,7 @@ namespace Weable.TMS.Model.Data
 
         }
 
+        public TargetGroupMember TargetGroupMember { get; set; }
         public Person Person { get; set; }
         public Attendee Attendee { get; set; }
         public Training Training { get; set; }

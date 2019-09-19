@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,22 +26,24 @@ namespace Weable.TMS.Entity.Repository
             throw new NotImplementedException();
         }
 
-        public RegisTraining Authentication(string identification, string verifyCode)
+        public RegisTraining Authentication(string identification, string verifyCode, int? trainingId)
         {
-            const string func = "CheckRepeatRegis";
+            const string func = "Authentication";
             try
             {
-                var attendees = from a in _context.Attendee
-                                select a;
-
-                //if (trainingId.HasValue)
-                //    attendees = attendees.Where(atd => atd.CitizenId == citizenId && atd.TrainingId == trainingId);
-                //else
-                //    attendees = attendees.Where(atd => atd.CitizenId == citizenId);
+                TargetGroupMember targetGroupMember = null;
+                if (trainingId.HasValue)
+                {
+                    var training = _context.Training.Find(trainingId);
+                    if (training.TargetGroupId.HasValue)
+                    {
+                        targetGroupMember = _context.TargetGroupMember.Where(t => t.TargetGroupId == training.TargetGroupId && t.Identification == identification && t.VerifyCode == verifyCode).FirstOrDefault();
+                    } 
+                }
 
                 RegisTraining regisTraining = new RegisTraining
                 {
-                    Attendee = attendees.FirstOrDefault()
+                    TargetGroupMember = targetGroupMember
                 };
 
                 return regisTraining;
@@ -87,16 +90,27 @@ namespace Weable.TMS.Entity.Repository
             }
         }
 
-        public RegisTraining GetRegisTraining(string citizenId)
+        public RegisTraining GetRegisTraining(string citizenId, int? targetGroupId)
         {
-            const string func = "SaveRegisTraining";
+            const string func = "GetRegisTraining";
             try
             {
-                Person person = _context.Person.Where(p => p.CitizenId == citizenId).SingleOrDefault();
+                TargetGroupMember targetGroupMember = null;
+                Person person = null;
+                if (targetGroupId.HasValue)
+                {
+                    targetGroupMember = _context.TargetGroupMember.Where(t => t.TargetGroupId == targetGroupId && t.CitizenId == citizenId).FirstOrDefault();
+                }
+                else
+                {
+                    person = _context.Person.Where(p => p.CitizenId == citizenId).SingleOrDefault();
+                }
+                
 
                 RegisTraining regisTraining = new RegisTraining
                 {
-                    Person = person
+                    Person = person,
+                    TargetGroupMember = targetGroupMember
                 };
 
                 return regisTraining;
@@ -117,11 +131,21 @@ namespace Weable.TMS.Entity.Repository
                     throw new ArgumentException("regisTraining is null.");
 
                 if (regisTraining.Person.PersonId == 0)
-                    await _context.Person.AddAsync(regisTraining.Person);
+                    _context.Person.Add(regisTraining.Person);
                 else
                     _context.Person.Update(regisTraining.Person);
 
-                await _context.Attendee.AddAsync(regisTraining.Attendee);
+                Attendee attendee = new Attendee()
+                {
+                    CitizenId = regisTraining.Person.CitizenId,
+                    Registeration = DateTime.Now,
+                    PersonId = regisTraining.Person.PersonId,
+                    TrainingId = regisTraining.Training.TrainingId,
+                    AtdStatusId = 1,
+                    TrainingResultId = 1
+                };
+
+                _context.Attendee.Add(attendee);
 
                 _context.Training.Update(regisTraining.Training);
 

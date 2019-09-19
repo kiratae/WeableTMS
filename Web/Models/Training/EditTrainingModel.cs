@@ -52,6 +52,7 @@ namespace Weable.TMS.Web.Models
         [Required(ErrorMessage = "กรุณาเลือกหลักสูตร")]
         [DisplayName("หลักสูตร")]
         public int? CourseId { get; set; }
+        public Course Course { get; protected set; }
         public int TrnImage { get; set; }
         public string Code { get; set; }
         [Required]
@@ -60,7 +61,7 @@ namespace Weable.TMS.Web.Models
         public bool IsRecommend { get; set; }
         public string Description { get; set; }
         public string Objective { get; set; }
-        public string TargetGroup { get; set; }
+        public string TargetGroupNote { get; set; }
         public string Condition { get; set; }
 
         #region RegisterStartDate

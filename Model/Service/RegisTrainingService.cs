@@ -25,12 +25,12 @@ namespace Weable.TMS.Model.Service
             throw new NotImplementedException();
         }
 
-        public RegisTraining Authentication(string identification, string verifyCode)
+        public RegisTraining Authentication(string identification, string verifyCode, int? trainingId)
         {
             const string func = "CheckRepeatRegis";
             try
             {
-                return _repository.Authentication(identification, verifyCode);
+                return _repository.Authentication(identification, verifyCode, trainingId);
             }
             catch (Exception ex)
             {
@@ -67,12 +67,12 @@ namespace Weable.TMS.Model.Service
             }
         }
 
-        public RegisTraining GetRegisTraining(string citizenId)
+        public RegisTraining GetRegisTraining(string citizenId, int? targetGroupId)
         {
             const string func = "GetRegisTraining";
             try
             {
-                return _repository.GetRegisTraining(citizenId);
+                return _repository.GetRegisTraining(citizenId, targetGroupId);
             }
             catch (Exception ex)
             {

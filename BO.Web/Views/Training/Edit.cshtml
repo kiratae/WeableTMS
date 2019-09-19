@@ -1,10 +1,11 @@
 ﻿@using cntr = Weable.TMS.BO.Web.Controllers.TrainingController
-@using fileCntr = Weable.TMS.BO.Web.Controllers.FileController
+@using targetGroupCntr = Weable.TMS.BO.Web.Controllers.TargetGroupController
 @model Weable.TMS.BO.Web.Models.EditTrainingModel
 @inject Weable.TMS.Model.ServiceModel.IFileService fileService
+@inject Weable.TMS.Model.ServiceModel.ITargetGroupService targetGroupService
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "การฝึกอบรม";
 
     string ImageUrl;
     if (Model.TrnImage.HasValue)
@@ -13,9 +14,9 @@
     }
     else
     {
-        ImageUrl = "~/images/1200x675.jpg";
+        ImageUrl = "/images/1200x675.jpg";
     }
-    
+
 }
 
 @section Styles {
@@ -90,7 +91,7 @@
                     </div>
 
                     <hr />
-                    <!-- รายละเอียดโครงการ -->
+                    <!-- รายละเอียดการฝึกอบรม -->
                     <h4 class="title">รายละเอียดการฝึกอบรม</h4>
 
                     <div class="form-group">
@@ -107,9 +108,9 @@
                                 <i class="fa fa-image"></i> เลือกรูปภาพ<input type="file" id="imgInp">
                             </span>
                             @*<div id="progress-wrp">
-                                    <div class="progress-bar"></div>
-                                    <div class="status">0%</div>
-                                </div>*@
+                    <div class="progress-bar"></div>
+                    <div class="status">0%</div>
+                </div>*@
                             <div class="input-group col-sm-6 ml-0 pl-0 mb-2" id="file-detail">
                                 <span class="input-group-prepend">
                                     <span class="input-group-text">
@@ -154,14 +155,18 @@
                         <span asp-validation-for="TargetGroupNote" class="text-danger"></span>
                     </div>
 
+                    @Html.HiddenFor(x => x.TargetGroupId)
+
                     <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#importTargetGroupModel">
                         <i class="fa fa-file-import"></i> นำเข้ารายชื่อกลุ่มเป้าหมาย
                     </button>
 
-                    @if (Model.TargetGroupMembers.Count > 0)
+                    @if (Model.TargetGroupId.HasValue)
                     {
+                        var targetGroup = await targetGroupService.GetData(Model.TargetGroupId);
+                        var deleteTargetGroupUrl = Url.Action(targetGroupCntr.ActionDelete, targetGroupCntr.Name, new { id = targetGroup.TargetGroupId });
                         <div id="targetGroup" class="form-group mt-3">
-                            <label>TargetGroup</label>
+                            <label>ชื่อกลุ่มเป้าหมาย : @targetGroup.Name <button type="button" data-x-url="@deleteTargetGroupUrl" class="btn btn-danger btn-targetGroup-remove">ลบ</button></label>
                             <div class="table-responsive no-gutters">
                                 <table class="table table-borderless table-border-bottom">
                                     <thead class="thead-style">
@@ -173,6 +178,15 @@
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        @{ int index = 1; }
+                                        @foreach (var TGM in targetGroup.TargetGroupMember)
+                                        {
+                                            <tr>
+                                                <td>@(index++)</td>
+                                                <td>@TGM.CitizenId</td>
+                                                <td>@TGM.Prefix@TGM.FirstName @TGM.LastName</td>
+                                            </tr>
+                                        }
                                     </tbody>
                                 </table>
                             </div>
@@ -206,7 +220,7 @@
                     </div>
 
                     <hr />
-                    <!-- การเผยแพร่โครงการ -->
+                    <!-- การเผยแพร่การฝึกอบรม -->
                     <h4 class="title">การเผยแพร่การฝึกอบรม</h4>
 
                     @await Html.PartialAsync("~/Views/Training/Edit/_TrnPublishDate.cshtml", Model)
@@ -483,14 +497,25 @@
                     contentType: 'application/json; charset=utf-8',
                     url: '@Url.Action("Edit", "TargetGroup")',
                     headers: {
-                      RequestVerificationToken:
+                        RequestVerificationToken:
                             $('input:hidden[name="__RequestVerificationToken"]').val()
                     },
+                    dataType: "json",
                     data: JSON.stringify(targetGroupMembers),
-                    success: function (res) {
-                        console.log(res);
+                    success: function (data) {
+                        console.log(data);
+                        $('#TargetGroupId').val(data);
+                        $('#importResult').modal('hide');
+                        $('#importTargetGroupModel').modal('hide');
                     }
                 });
+            });
+
+            $('.btn-targetGroup-remove').click(function () {
+                $('#TargetGroupId').val('');
+                var url = $(this).data('x-url');
+                console.log(url);
+                weDeleteSingleRow(url);
             });
 
             $(document).on('change', '.btn-import :file', function () {

@@ -12,13 +12,14 @@ namespace Weable.TMS.Web.Models
     {
         public int? TrainingId { get; set; }
         public int CourseId { get; set; }
-        public int TrnImage { get; set; }
+        public int? TrnImage { get; set; }
         public string Code { get; set; }
         public string Name { get; set; }
         public bool IsRecommend { get; set; }
         public string Description { get; set; }
         public string Objective { get; set; }
-        public string TargetGroup { get; set; }
+        public string TargetGroupNote { get; set; }
+        public int? TargetGroupId { get; set; }
         public string Condition { get; set; }
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime? RegisterStartDate { get; set; }
@@ -61,8 +62,6 @@ namespace Weable.TMS.Web.Models
         public bool IsPrerequisite { get; set; }
         public bool? IsPublishNow { get; set; }
         public DateTime? PublishDate { get; set; }
-        public int? Year { get; set; }
-        public string Token { get; set; }
 
         public Course Course { get; set; }
 

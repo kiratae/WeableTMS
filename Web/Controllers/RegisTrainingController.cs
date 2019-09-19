@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
@@ -38,40 +39,76 @@ namespace Weable.TMS.Web.Controllers
             return RedirectToAction(HomeController.ActionTraining);
         }
 
-        public async Task<ActionResult> CheckAllCondition(string citizenId, int? trainingId)
+        public async Task<ActionResult> CheckAllCondition(string identification, string verifyCode, string captcha, int? trainingId)
         {
             const string func = "CheckAllCondition";
+            string citizenId = "";
             try
             {
+                CaptchaModel capcha;
+                #region เงื่อนไขที่ 0 ตรวจสอบ reCAPTCHA
+                string secret = "6LezA7kUAAAAAAUfRqVcvugu6SM1MQKYxkGYhxCz";
+                using (HttpClient client = new HttpClient())
+                {
+                    var parameters = new Dictionary<string, string> { { "secret", secret }, { "response", captcha } };
+                    var encodedContent = new FormUrlEncodedContent(parameters);
+                    try
+                    {
+                        HttpResponseMessage response = client.PostAsync("https://www.google.com/recaptcha/api/siteverify", encodedContent).Result;
+                        response.EnsureSuccessStatusCode();
+                        capcha = response.Content.ReadAsAsync<CaptchaModel>().Result;
+                        if (!capcha.Success)
+                        {
+                            return Json(new { msgCode = 0, msg = "ท่านไม่ผ่านการยืนยันจาก reCAPTCHA" });
+                        }
+                    }
+                    catch (HttpRequestException ex)
+                    {
+                        _logger.LogError("{0}: Exception caught with reCAPTCHA {1}.", func, ex);
+                    }
+                }
+
+                #endregion
+
+                #region เงื่อนไขที่ 1 ตรวจสอบว่าอยู่ในกลุ่มเป้าหมายหรือไม่
+                var regisTraining = _regisService.Authentication(identification, verifyCode, trainingId);
+                if (regisTraining.TargetGroupMember == null)
+                    return Json(new { msgCode = 0, msg = "ท่านไม่อยู่ในกลุ่มเป้าหมายที่การฝึกอบรมกำหนด" });
+                else
+                    citizenId = regisTraining.TargetGroupMember.CitizenId;
+                #endregion
+
+
                 //TrainingModel training = new TrainingModel(await _trainingService.GetData(trainingId), _mapper);
 
-                //#region เงื่อนไขที่ 1 เช็คว่าเคยสมัครโครงการนี้แล้วหรือยัง                   
-                //RegisTraining checkRepete = _regisService.Authentication(citizenId, trainingId);
+                #region เงื่อนไขที่ 2 เช็คว่าเคยสมัครโครงการนี้แล้วหรือยัง                   
+                //RegisTraining checkRepeat = _regisService.Authentication(citizenId, trainingId);
                 //if (checkRepete.Attendee != null)
                 //{
                 //    return Json(new { msgCode = 0, msg = "เลขประจำตัวประชาชนนี้ได้ทำการลงทะเบียนเรียบร้อยแล้ว" });
                 //}
-                //#endregion
+                #endregion
 
-                //#region เงื่อนไขที่ 3 การฝึกอบรมที่เคยเข้าร่วม ?
+                #region เงื่อนไขที่ 3 การฝึกอบรมที่เคยเข้าร่วม ?
                 //if (training.IsPrerequisite == true)
                 //{
                 //    var check = _regisService.CheckTrnPrerequisite(citizenId, trainingId);
                 //    if (!check)
                 //    {
-                //        return Json(new { msgCode = 0, msg = "ท่านยังไม่ผ่านการอบรมก่อนหน้า ที่อบรมรอบนี้ต้องการ" });
+                //        return Json(new { msgCode = 0, msg = "ท่านยังไม่ผ่านการฝึกอบรมก่อนหน้า ที่การฝึกอบรมนี้ต้องการ" });
                 //    }
                 //}
-                //#endregion            
+                #endregion
             }
             catch (Exception ex)
             {
-                _logger.LogError("{0}: Exception caught with citizenId {1}.", func, citizenId, ex);
+                _logger.LogError("{0}: Exception caught with citizenId {1}.", func, identification, ex);
                 throw ex;
             }
-            return Json(new { msgCode = 1, msg = "ok" });
+            return Json(new { msgCode = 1, msg = "ok", citizenId = citizenId });
         }
 
+        [HttpGet]
         public async Task<ActionResult> Edit(int? id, EditRegisTrainingModel model, string returnUrl, bool isFirst = true)
         {
             const string func = "Edit";
@@ -83,14 +120,19 @@ namespace Weable.TMS.Web.Controllers
                 if (id.HasValue)
                 {
                     TrainingModel training = new TrainingModel(await _trainingService.GetData(id), _mapper);
+                    model.Training = training;
                     if (isFirst == false)
                     {
                         if (model.CitizenId != null)
                         {
-                            RegisTraining regisTraining = _regisService.GetRegisTraining(model.CitizenId);
-                            if (regisTraining != null)
+                            RegisTraining regisTraining = _regisService.GetRegisTraining(model.CitizenId, training.TargetGroupId);
+                            if (regisTraining.Person != null)
                             {
                                 model = new EditRegisTrainingModel(training, regisTraining.Person, _mapper);
+                            }
+                            else if (regisTraining.TargetGroupMember != null)
+                            {
+                                model = new EditRegisTrainingModel(training, regisTraining.TargetGroupMember, _mapper);
                             }
                             else
                             {
@@ -126,7 +168,8 @@ namespace Weable.TMS.Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult Edit(EditRegisTrainingModel model) {
+        public ActionResult Edit(EditRegisTrainingModel model)
+        {
             const string func = "Edit";
             if (ModelState.IsValid)
             {

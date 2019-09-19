@@ -8,9 +8,9 @@ namespace Weable.TMS.Model.ServiceModel
 {
     public interface IRegisTrainingService
     {
-        RegisTraining GetRegisTraining(string citizenId);
+        RegisTraining GetRegisTraining(string citizenId, int? targetGroupId);
         Task<RegisTraining> SaveRegisTraining(RegisTraining regisTraining);
-        RegisTraining Authentication(string identification, string verifyCode);
+        RegisTraining Authentication(string identification, string verifyCode, int? trainingId);
         bool CheckTrnPrerequisite(string citizenId, int? trainingId);
         int GetAttendeeQty(int trainingId);
 

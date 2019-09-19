@@ -29,6 +29,11 @@ namespace Weable.TMS.Web.Models
             return value.HasValue ? value.Value.ToString("d MMM yy", CultureInfo.GetCultureInfo("th-TH")) : null;
         }
 
+        public string FormatShortDate(DateTime? value, string startDate, string endDate)
+        {
+            return value.HasValue ? startDate + "-" + endDate + value.Value.ToString(" MMM yy", CultureInfo.GetCultureInfo("th-TH")) : null;
+        }
+
         protected string FormatShortDateTime(DateTime? value)
         {
             return value.HasValue ? value.Value.ToString("d MMM yy HH:mm", CultureInfo.GetCultureInfo("th-TH")) : null;

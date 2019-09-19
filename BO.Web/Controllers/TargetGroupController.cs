@@ -19,7 +19,7 @@ namespace Weable.TMS.BO.Web.Controllers
     [Authorize]
     public class TargetGroupController : Controller
     {
-        private readonly ICourseService _service;
+        private readonly ITargetGroupService _service;
         private readonly IMapper _mapper;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly ILogger<TargetGroupController> _logger;
@@ -28,7 +28,7 @@ namespace Weable.TMS.BO.Web.Controllers
         public static readonly string ActionDelete = "Delete";
         public static readonly string ActionEdit = "Edit";
         public TargetGroupController(
-            ICourseService service,
+            ITargetGroupService service,
             IMapper mapper,
             IHttpContextAccessor httpContextAccessor,
             ILogger<TargetGroupController> logger)
@@ -47,14 +47,15 @@ namespace Weable.TMS.BO.Web.Controllers
             const string func = "List";
             try
             {
-                if (model == null)
-                    model = new ListCourseModel();
-                var filter = model.ToCourseFilter();
-                var paging = new Paging(pageNo, 20);
-                var result = _service.GetList(filter, paging);
-                model.Courses.AddRange(CourseModel.createModels(result.Results, _mapper));
-                model.Paging = PagingModel.createPaging(result);
-                return View(model);
+                //if (model == null)
+                //    model = new ListCourseModel();
+                //var filter = model.ToCourseFilter();
+                //var paging = new Paging(pageNo, 20);
+                //var result = _service.GetList(filter, paging);
+                //model.Courses.AddRange(CourseModel.createModels(result.Results, _mapper));
+                //model.Paging = PagingModel.createPaging(result);
+                //return View(model);
+                return View();
             }
             catch (Exception ex)
             {
@@ -63,41 +64,29 @@ namespace Weable.TMS.BO.Web.Controllers
             }
         }
 
-        public async Task<IActionResult> Edit(int? id)
-        {
-            const string func = "Edit";
-            try
-            {
-                EditCourseModel model;
-                if (id.HasValue)
-                {
-                    model = new EditCourseModel(await _service.GetData(id), _mapper);
-                }
-                else
-                    model = new EditCourseModel();
-
-                return View(model);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError("{0}: Exception caught with id {1}.", func, id, ex);
-                return View("PageNotFound");
-            }
-        }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit([FromBody] IEnumerable<TargetGroupMemberModel> model)
+        public async Task<IActionResult> Edit([FromBody] IEnumerable<TargetGroupMember> model)
         {
             const string func = "Edit";
             try
             {
-                return new JsonResult(new { data = model });
+
+                var targetGroup = new TargetGroup()
+                {
+                    Name = "test",
+                    IsActive = 1,
+                    IsPublic = 0,
+                    TargetGroupMember = model.ToList()
+                };
+                await _service.SaveData(targetGroup);
+                return Json(targetGroup.TargetGroupId);
             }
             catch (Exception ex)
             {
                 _logger.LogError("{0}: Exception caught.", func, ex);
-                return Json(new AjaxResultModel(AjaxResultModel.StatusCodeError, "ERROR!"));
+                return Json(new AjaxResultModel(AjaxResultModel.StatusCodeError, "Error!"));
             }
         }
 

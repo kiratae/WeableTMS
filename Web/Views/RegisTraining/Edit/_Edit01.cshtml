@@ -1,57 +1,37 @@
 ﻿@using cntr = Weable.TMS.Web.Controllers.RegisTrainingController
 @model Weable.TMS.Web.Models.EditRegisTrainingModel
-<!-- Nav tabs -->
-<div class="col-12 mb-4">
-    <div class="card shadow">
-        <div class="card-body">
-
-            <ul class="nav process-model more-icon-preocess mt-2 d-flex justify-content-center" role="tablist">
-                <li class="active">
-                    <a href="#tab_01" aria-controls="tab_01" role="tab" data-toggle="tab">
-                        <i class="fa fa-id-card" aria-hidden="true"></i>
-                        <p>ขั้นตอนที่ 1</p>
-                    </a>
-                </li>
-                <li>
-                    <a class="disabled">
-                        <i class="fa fa-user-edit" aria-hidden="true"></i>
-                        <p>ขั้นตอนที่ 2</p>
-                    </a>
-                </li>
-                <li role="presentation">
-                    <a class="disabled">
-                        <i class="fa fa-user-check" aria-hidden="true"></i>
-                        <p>ขั้นตอนที่ 3</p>
-                    </a>
-                </li>
-            </ul>
-
-        </div>
-    </div>
-</div>
-<!-- end design process steps-->
 
 <div class="col-12 mb-4">
     <div class="card shadow">
         <div class="card-body">
 
-            <form id="search" asp-action="@cntr.ActionEdit" asp-controller="@cntr.Name" method="get" class="form-horizontal">
+            <form id="search" asp-action="@cntr.ActionEdit" asp-controller="@cntr.Name" method="GET" class="form-horizontal">
                 <div class="row justify-content-center">
                     <div class="col-md-12 text-center">
-                        <label class="control-label" style="font-size:22px;">กรุณากรอกหมายเลขบัตรประจำตัวประชาชน<span class="text-danger"> *</span></label>
+                        <label class="control-label title">กรุณากรอกข้อมูลเพื่อยืนยันตัวตน<span class="text-danger"> *</span></label>
                     </div>
-                    <div class="col-md-4" style="margin-top:20px">
-                        @Html.TextBoxFor(x => x.CitizenId, new { @class = "form-control str-digit-13" })
+                    <div class="col-md-4 col-12 mt-3">
+                        <div class="form-group">
+                            @Html.TextBoxFor(x => x.Identification, new { @class = "form-control", @placeholder = "รหัสตัวบุคคล เช่น รหัสนักศึกษา รหัสพนักงาน" })
+                        </div>
+                        <div class="form-group">
+                            @Html.PasswordFor(x => x.VerifyCode, new { @class = "form-control", @placeholder = "รหัสตรวจสอบตัวตน" })
+                        </div>
+                        <div class="form-group">
+                            <div class="g-recaptcha" data-callback="recaptchaCallback" data-sitekey="6LezA7kUAAAAAMR6rFYqL1d9iJTfitEKVJBSCFTq"></div>
+                        </div>
+                        <div class="alert alert-danger" id="validate" role="alert"></div>
                     </div>
                     <div class="col-md-12 text-center">
-                        <label class="text-danger control-label py-3" style="font-size:20px;" id="validate"></label>
-                    </div>
-                    <div class="col-md-12 text-center">
-                        <button type="button" class="btn btn-secondary" id="btn-cancel">ยกเลิก</button>
-                        <button type="button" class="btn btn-primary" id="btn-search">ตกลง</button>
+                        @if (!string.IsNullOrEmpty(Model.ReturnUrl))
+                        {
+                            <button type="button" class="btn btn-secondary" id="btn-cancel">ยกเลิก</button>
+                        }
+                        <button type="button" class="btn btn-primary" id="btn-search">ยืนยัน</button>
                     </div>
                 </div>
 
+                @Html.HiddenFor(x => x.CitizenId)
                 @Html.HiddenFor(x => x.ReturnUrl)
                 @Html.Hidden("IsFirst", false)
             </form>

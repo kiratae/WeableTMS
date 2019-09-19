@@ -1,0 +1,133 @@
+﻿@using cntr = Weable.TMS.BO.Web.Controllers.CourseController
+@using trnCntr = Weable.TMS.BO.Web.Controllers.TrainingController
+@model Weable.TMS.BO.Web.Models.ListTrainingModel
+
+@inject Weable.TMS.Model.ServiceModel.ICourseService courseService
+
+@{
+    string courseName = courseService.GetData(Model.CourseId).Result.Name;
+    ViewData["Title"] = courseName;
+}
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">การจัดการการฝึกอบรม</li>
+        <li class="breadcrumb-item active">@courseName</li>
+    </ol>
+</nav>
+
+<div class="card shadow h-100">
+    <div class="card-body">
+        <form asp-controller="@cntr.Name" asp-action="@cntr.ActionList">
+            <div class="form-row">
+                <div class="form-group col">
+                    <input asp-for="Name" placeholder="ชื่อการฝึกอบรม" class="form-control" />
+                </div>
+                <div class="form-group col">
+                    <select class="form-control">
+                        <option value="value">- สถานะ -</option>
+                    </select>
+                </div>
+                <div class="form-group col">
+                    <button class="btn btn-primary float-right"><i class="fa fa-search"></i>&ensp;ค้นหา</button>
+                </div>
+            </div>
+        </form>
+        <div class="row">
+            <div class="col-md-12">
+                <a asp-action="@trnCntr.ActionEdit" asp-controller="@trnCntr.Name" class="btn btn-primary"><i class="fa fa-plus"></i>&ensp;เพิ่มการฝึกอบรมใหม่</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card shadow h-100 mt-3">
+    <div class="card-body">
+        <div class="table-responsive no-gutters">
+            <table class="table table-borderless table-border-bottom">
+                <thead class="thead-style">
+                    <tr>
+                        <th class="text-center" width="10%">ลำดับ</th>
+                        <th class="text-left">ชื่อการฝึกอบรม</th>
+                        <th class="text-center" width="15%">สถานะ</th>
+                        <th class="text-center" width="15%">เครื่องมือ</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.Trainings.Count == 0)
+                    {
+                        <tr role="row">
+                            <td colspan="4" class="text-center">ไม่พบข้อมูล !</td>
+                        </tr>
+                    }
+                    @{ int index = 1; }
+                    @foreach (var item in Model.Trainings)
+                    {
+                        <tr>
+                            <td class="text-center">@(index++)</td>
+                            <td class="text-left">
+                                @Html.DisplayFor(modelItem => item.Name)
+                            </td>
+                            <td class="text-center">
+                                @{
+                                    string StatusName = "-";
+                                    if (DateTime.Now.Date < item.RegisterStartDate)
+                                    {
+                                        StatusName = "รอเปิดรับสมัคร";
+                                    }
+                                    if (item.RegisterStartDate <= DateTime.Now.Date && item.RegisterEndDate >= DateTime.Now.Date)
+                                    {
+                                        if (item.AttendeeQty >= item.SeatQty)
+                                        {
+                                            StatusName = "มีผู้สมัครครบแล้ว";
+                                        }
+                                        else
+                                        {
+                                            StatusName = "กำลังเปิดรับสมัคร";
+                                        }
+                                    }
+                                    if (item.RegisterEndDate < DateTime.Now.Date)
+                                    {
+                                        StatusName = "ปิดรับสมัคร";
+                                    }
+                                    if (item.TrnEndDate < DateTime.Now.Date)
+                                    {
+                                        StatusName = "จัดฝึกอบรมแล้ว";
+                                    }
+
+                                }
+                                @StatusName
+                            </td>
+                            <td class="text-center">
+                                @{ var deleteUrl = Url.Action(trnCntr.ActionDelete, trnCntr.Name, new { id = item.TrainingId }); }
+                                <a asp-action="@trnCntr.ActionDetail" asp-controller="@trnCntr.Name" asp-route-id="@item.TrainingId" class="btn btn-info btn-circle"><i class="fa fa-file-alt"></i></a>
+                                <a asp-action="@trnCntr.ActionEdit" asp-controller="@trnCntr.Name" asp-route-id="@item.TrainingId" class="btn btn-warning btn-circle"><i class="fa fa-pencil-alt"></i></a>
+                                <a href="" data-x-url="@deleteUrl" class="btn btn-danger btn-circle btn-delete"><i class="fa fa-trash-alt"></i></a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        @await Html.PartialAsync("_Paging", Model)
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+        $(document).ready(function() {
+            $('#btn-add').click(function() {
+                $('#EditModel').find('.modal-body').load('@Url.Action(@cntr.ActionEdit, @cntr.Name)');
+                $('#EditModel').modal('show');
+            });
+
+            $('.btn-delete').click(function (e) {
+                e.preventDefault();
+                var url = $(this).data('x-url');
+                console.log(url);
+                weDeleteSingleRow(url);
+            });
+        });
+    </script>
+}

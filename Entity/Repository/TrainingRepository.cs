@@ -65,7 +65,7 @@ namespace Weable.TMS.Entity.Repository
             const string func = "GetData";
             try
             {
-                return await _context.Training.FindAsync(trainingId);
+                return await _context.Training.Include(t => t.Course).Where(t => t.TrainingId == trainingId).FirstOrDefaultAsync();
             }
             catch (Exception ex)
             {

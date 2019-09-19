@@ -20,6 +20,7 @@ namespace Weable.TMS.BO.Web.Controllers
     public class CourseController : Controller
     {
         private readonly ICourseService _service;
+        private readonly ITrainingService _trnService;
         private readonly IMapper _mapper;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly ILogger<CourseController> _logger;
@@ -30,11 +31,13 @@ namespace Weable.TMS.BO.Web.Controllers
         public static readonly string ActionEdit = "Edit";
         public CourseController(
             ICourseService service,
+            ITrainingService trainingService,
             IMapper mapper,
             IHttpContextAccessor httpContextAccessor,
             ILogger<CourseController> logger)
         {
             _service = service;
+            _trnService = trainingService;
             _mapper = mapper;
             _httpContextAccessor = httpContextAccessor;
             _logger = logger;
@@ -139,11 +142,18 @@ namespace Weable.TMS.BO.Web.Controllers
             return Json(new AjaxResultModel(AjaxResultModel.StatusCodeError, ModelState));
         }
 
-        public ActionResult ListTrn(ListTrainingModel model, int pageNo = 1)
+        public ActionResult ListTrn(int? id, ListTrainingModel model, int pageNo = 1)
         {
             const string func = "ListTrn";
             try
             {
+                model.CourseId = id;
+                var filter = model.ToTrainingFilter();
+                filter.CourseId = model.CourseId;
+                var paging = new Paging(pageNo, 20);
+                var result = _trnService.GetList(filter, paging);
+                model.Trainings.AddRange(TrainingModel.createModels(result.Results, _mapper));
+                model.Paging = PagingModel.createPaging(result);
                 return View(model);
             }
             catch (Exception ex)

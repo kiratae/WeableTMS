@@ -1,7 +1,7 @@
 ﻿@model Weable.TMS.Web.Models.EditRegisTrainingModel
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "ลงทะเบียน";
 }
 
 <div class="container mt-4">
@@ -11,15 +11,24 @@
             <div class="card-body">
                 <div class="row no-gutters align-items-center">
                     <div class="col-12">
-                        <span class="title" style="font-size: 18px;">หลักสูตร</span>
-                        <h2 class="py-2">@Model.Training.Name</h2>
+                        <h5 class="title d-none d-sm-block">@Model.Training.Course.Name</h5>
+                        <span class="title d-sm-none d-block">@Model.Training.Course.Name</span>
+                        <h3 class="py-2 d-none d-sm-block">@Model.Training.Name</h3>
+                        <span class="py-1 d-sm-none d-block">@Model.Training.Name</span>
                         @if (Model.Training.TrnStartDate == Model.Training.TrnEndDate)
                         {
-                            <span style="font-size:18px">วันที่ @Model.Training.TrnStartDateText เวลา @Model.Training.TrnStartDateText น.</span>
+                            <span>อบรมวันที่ @Model.Training.TrnStartDateText</span>
+                            <span>เวลา @Model.Training.TrnStartTimeText - @Model.Training.TrnEndTimeText น.</span>
+                        }
+                        else if (Model.Training.TrnStartDate.Month.Equals(Model.Training.TrnEndDate.Month))
+                        {
+                            <span>อบรมวันที่ @Model.Training.FormatShortDate(Model.Training.TrnStartDate, Model.Training.TrnStartDate.Day.ToString(), Model.Training.TrnEndDate.Day.ToString())</span>
+                            <span>&ensp;เวลา @Model.Training.TrnStartTimeText - @Model.Training.TrnEndTimeText น.</span>
                         }
                         else
                         {
-                            <span style="font-size:18px">วันที่ @Model.Training.TrnStartDateText เวลา @Model.Training.TrnStartTimeText น. - วันที่ @Model.Training.TrnEndDateText เวลา @Model.Training.TrnEndTimeText น.</span>
+                            <span>อบรมวันที่ @Model.Training.TrnStartDateText เวลา @Model.Training.TrnStartTimeText - </span>
+                            <span>@Model.Training.TrnEndDateText เวลา @Model.Training.TrnEndTimeText น.</span>
                         }
                     </div>
                 </div>
@@ -52,6 +61,9 @@
 
 @section Scripts
 {
+
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
     <script>
         // script for tab steps
         $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {

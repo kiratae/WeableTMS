@@ -135,6 +135,8 @@ namespace Weable.TMS.BO.Web.Models
         [Required]
         [DisplayName("จำนวนที่เปิดรับ")]
         public int? SeatQty { get; set; }
+        [Required]
+        [DisplayName("สถานที่จัดการอบรม")]
         public string Location { get; set; }
         [Required]
         [DisplayName("การฝึกอบรมที่เคยเข้าร่วม")]
@@ -150,7 +152,6 @@ namespace Weable.TMS.BO.Web.Models
 
         public int? PublishHour { get; set; }
         public int? PublishMinute { get; set; }
-        public int? Year { get; set; }
 
         public SelectList Courses { get; set; }
         public SelectList PublishHours { get; set; }
