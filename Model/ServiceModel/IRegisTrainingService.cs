@@ -14,6 +14,6 @@ namespace Weable.TMS.Model.ServiceModel
         bool CheckTrnPrerequisite(string citizenId, int? trainingId);
         int GetAttendeeQty(int trainingId);
 
-        Task<bool> CheckIsStudent(string citizenId, string StudentCode);
+        RegisTraining CheckRepeat(string citizenId, int? trainingId);
     }
 }

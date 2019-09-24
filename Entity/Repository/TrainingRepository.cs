@@ -27,17 +27,15 @@ namespace Weable.TMS.Entity.Repository
             const string func = "GetList";
             try
             {
-                var trainings = from t in _context.Training
-                                join c in _context.Course on t.CourseId equals c.CourseId
-                                select t;
+                var trainings = _context.Training.AsQueryable();
+                if (filter.CourseId.HasValue)
+                {
+                    trainings = trainings.Where(t => t.CourseId == filter.CourseId.Value);
+                }
+                trainings = trainings.Include(t => t.Course);
 
                 if (!string.IsNullOrEmpty(filter.Name))
-                    trainings = trainings.Where(c => c.Name.ToLower().Contains(filter.Name.ToLower()));
-
-                foreach (var t in trainings)
-                {
-                    t.Course = _context.Course.Find(t.CourseId);
-                }
+                    trainings = trainings.Where(t => t.Name.ToLower().Contains(filter.Name.ToLower()));
 
                 // Not paging
                 if (paging == null)

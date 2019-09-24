@@ -20,14 +20,23 @@ namespace Weable.TMS.Model.Service
             _logger = logger;
         }
 
-        public Task<bool> CheckIsStudent(string citizenId, string StudentCode)
+        public RegisTraining CheckRepeat(string citizenId, int? trainingId)
         {
-            throw new NotImplementedException();
+            const string func = "CheckRepeat";
+            try
+            {
+                return _repository.CheckRepeat(citizenId, trainingId);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogInformation("{}: Exception caught.", func, ex);
+                throw ex;
+            }
         }
 
         public RegisTraining Authentication(string identification, string verifyCode, int? trainingId)
         {
-            const string func = "CheckRepeatRegis";
+            const string func = "Authentication";
             try
             {
                 return _repository.Authentication(identification, verifyCode, trainingId);

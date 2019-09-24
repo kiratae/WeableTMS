@@ -21,9 +21,29 @@ namespace Weable.TMS.Entity.Repository
             _logger = logger;
         }
 
-        public Task<bool> CheckIsStudent(string citizenId, string StudentCode)
+        public RegisTraining CheckRepeat(string citizenId, int? trainingId)
         {
-            throw new NotImplementedException();
+            const string func = "Authentication";
+            try
+            {
+                Attendee attendee = null;
+                if (trainingId.HasValue)
+                {
+                    attendee = _context.Attendee.Where(t => t.CitizenId == citizenId && t.TrainingId == trainingId).FirstOrDefault();
+                }
+
+                RegisTraining regisTraining = new RegisTraining
+                {
+                    Attendee = attendee
+                };
+
+                return regisTraining;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogInformation("{}: Exception caught.", func, ex);
+                throw ex;
+            }
         }
 
         public RegisTraining Authentication(string identification, string verifyCode, int? trainingId)
@@ -38,7 +58,7 @@ namespace Weable.TMS.Entity.Repository
                     if (training.TargetGroupId.HasValue)
                     {
                         targetGroupMember = _context.TargetGroupMember.Where(t => t.TargetGroupId == training.TargetGroupId && t.Identification == identification && t.VerifyCode == verifyCode).FirstOrDefault();
-                    } 
+                    }
                 }
 
                 RegisTraining regisTraining = new RegisTraining
@@ -96,16 +116,11 @@ namespace Weable.TMS.Entity.Repository
             try
             {
                 TargetGroupMember targetGroupMember = null;
-                Person person = null;
+                Person person = _context.Person.Where(p => p.CitizenId == citizenId).SingleOrDefault();
                 if (targetGroupId.HasValue)
                 {
                     targetGroupMember = _context.TargetGroupMember.Where(t => t.TargetGroupId == targetGroupId && t.CitizenId == citizenId).FirstOrDefault();
                 }
-                else
-                {
-                    person = _context.Person.Where(p => p.CitizenId == citizenId).SingleOrDefault();
-                }
-                
 
                 RegisTraining regisTraining = new RegisTraining
                 {
@@ -135,6 +150,8 @@ namespace Weable.TMS.Entity.Repository
                 else
                     _context.Person.Update(regisTraining.Person);
 
+                _context.SaveChanges();
+
                 Attendee attendee = new Attendee()
                 {
                     CitizenId = regisTraining.Person.CitizenId,
@@ -147,9 +164,14 @@ namespace Weable.TMS.Entity.Repository
 
                 _context.Attendee.Add(attendee);
 
-                _context.Training.Update(regisTraining.Training);
+                _context.SaveChanges();
 
-                await _context.SaveChangesAsync();
+                var training = await _context.Training.FindAsync(regisTraining.Training.TrainingId);
+                training.AttendeeQty = regisTraining.Training.AttendeeQty;
+
+                _context.Training.Update(training);
+
+                _context.SaveChanges();
 
                 return regisTraining;
             }
