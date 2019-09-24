@@ -18,7 +18,7 @@
 
 <div class="card shadow h-100">
     <div class="card-body">
-        <form asp-controller="@cntr.Name" asp-action="@cntr.ActionList">
+        <form asp-controller="@cntr.Name" asp-action="@cntr.ActionList" method="get">
             <div class="form-row">
                 <div class="form-group col">
                     <input asp-for="Name" placeholder="ชื่อการฝึกอบรม" class="form-control" />

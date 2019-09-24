@@ -12,7 +12,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Web</title>
+    <title>@ViewData["Title"] - TMS</title>
 
     <environment include="Development">
         <!-- Custom fonts for this template-->
@@ -21,6 +21,8 @@
         <link href="~/vendor/sweetalert2/dist/sweetalert2.css" rel="stylesheet" type="text/css">
         <link href="~/vendor/pikaday/pikaday.css" rel="stylesheet" type="text/css">
         <link href="~/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css">
+
+        <link href="https://fonts.googleapis.com/css?family=Righteous&display=swap" rel="stylesheet">
     </environment>
     <environment exclude="Development">
         <!-- Custom fonts for this template-->
@@ -55,7 +57,7 @@
                 <div class="sidebar-brand-icon">
                     <i class="fas fa-graduation-cap"></i>
                 </div>
-                <div class="sidebar-brand-text mx-3"><h1>TMS</h1></div>
+                <div class="sidebar-brand-text mx-3"><h1 style="font-family: 'Righteous', cursive;">TMS</h1></div>
             </a>
 
             <!-- Divider -->
@@ -68,17 +70,39 @@
 
             <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
-                    <i class="fas fa-fw fa-lightbulb"></i>
-                    <span>ระบบบันทึกข้อมูลการอบรม</span>
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTraining" aria-expanded="true" aria-controls="collapseTraining">
+                    <i class="fas fa-fw fa-briefcase"></i>
+                    <span>การจัดการการฝึกอบรม</span>
                 </a>
-                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                <div id="collapseTraining" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="#">ทะเบียนผู้เข้าอบรม</a>
-                        <a class="collapse-item" asp-controller="Course" asp-action="Index">โครงการหลัก</a>
-                        <a class="collapse-item" asp-controller="Training" asp-action="Edit">เพิ่มโครงการอบรมใหม่</a>
-                        <a class="collapse-item" asp-controller="Training" asp-action="Index">โครงการอบรม</a>
-                        <a class="collapse-item" href="#">โครงการอบรมที่จัดอบรมแล้ว</a>
+                        <a class="collapse-item" asp-controller="Person" asp-action="Index">ทะเบียนผู้เข้าอบรม</a>
+                        <a class="collapse-item" asp-controller="Course" asp-action="Index">หลักสูตร</a>
+                        <a class="collapse-item" asp-controller="Training" asp-action="Edit">เพิ่มการฝึกอบรมใหม่</a>
+                        <a class="collapse-item" asp-controller="Training" asp-action="Index">การฝึกอบรม</a>
+                        <a class="collapse-item" href="#">การฝึกอบรมที่จัดอบรมแล้ว</a>
+                    </div>
+                </div>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUser" aria-expanded="true" aria-controls="collapseUser">
+                    <i class="fas fa-fw fa-user-cog"></i>
+                    <span>ผู้ใช้งาน/สิทธิ์การใช้งาน</span>
+                </a>
+                <div id="collapseUser" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <a class="collapse-item" href="#">เพิ่มผู้ใช้งาน</a>
+                    </div>
+                </div>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseMSD" aria-expanded="true" aria-controls="collapseMSD">
+                    <i class="fas fa-fw fa-cogs"></i>
+                    <span>ตั้งค่าข้อมูลหลัก</span>
+                </a>
+                <div id="collapseMSD" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <a class="collapse-item" href="#">กลุ่มเป้าหมาย</a>
                     </div>
                 </div>
             </li>
@@ -158,7 +182,7 @@
             <footer class="sticky-footer bg-white">
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; Your Website 2019</span>
+                        <span>Copyright &copy; WeAble Co., Ltd. 2019</span>
                     </div>
                 </div>
             </footer>

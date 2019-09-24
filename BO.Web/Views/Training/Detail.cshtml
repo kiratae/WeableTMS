@@ -1,0 +1,51 @@
+﻿@model Weable.TMS.BO.Web.Models.ListAttendeeModel
+
+@{
+    ViewData["Title"] = Model.Training.Name;
+}
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">การจัดการการฝึกอบรม</li>
+        <li class="breadcrumb-item active">@Model.Training.Name</li>
+    </ol>
+</nav>
+
+<ul class="nav nav-tms mb-2">
+    <li class="nav-item">
+        <a class="nav-link active" href="#">รายชื่อผู้สมัคร</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="#">รายชื่อผู้มีสิทธิเข้าอบรม</a>
+    </li>
+</ul>
+
+<div class="card border-left-primary shadow">
+    <div class="card-body">
+        <div class="row no-gutters align-items-center">
+            <div class="col-12">
+                <h5 class="title d-none d-sm-block">@Model.Training.Course.Name</h5>
+                <span class="title d-sm-none d-block">@Model.Training.Course.Name</span>
+                <h3 class="py-2 d-none d-sm-block">@Model.Training.Name</h3>
+                <span class="py-1 d-sm-none d-block">@Model.Training.Name</span>
+                @if (Model.Training.TrnStartDate == Model.Training.TrnEndDate)
+                {
+                    <span>อบรมวันที่ @Model.Training.TrnStartDateText</span>
+                    <span>เวลา @Model.Training.TrnStartTimeText - @Model.Training.TrnEndTimeText น.</span>
+                }
+                else if (Model.Training.TrnStartDate.Month.Equals(Model.Training.TrnEndDate.Month))
+                {
+                    <span>อบรมวันที่ @Model.FormatShortDate(Model.Training.TrnStartDate, Model.Training.TrnStartDate.Day.ToString(), Model.Training.TrnEndDate.Day.ToString())</span>
+                    <span>&ensp;เวลา @Model.Training.TrnStartTimeText - @Model.Training.TrnEndTimeText น.</span>
+                }
+                else
+                {
+                    <span>อบรมวันที่ @Model.Training.TrnStartDateText เวลา @Model.Training.TrnStartTimeText - </span>
+                    <span>@Model.Training.TrnEndDateText เวลา @Model.Training.TrnEndTimeText น.</span>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+

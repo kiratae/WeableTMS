@@ -2,7 +2,7 @@
 @model Weable.TMS.BO.Web.Models.ListCourseModel
 
 @{
-    ViewData["Title"] = "Course";
+    ViewData["Title"] = "หลักสูตร";
 }
 
 <nav aria-label="breadcrumb">
@@ -14,14 +14,16 @@
 
 <div class="card shadow h-100">
     <div class="card-body">
-        <form asp-controller="@cntr.Name" asp-action="@cntr.ActionList">
+        <form asp-controller="@cntr.Name" asp-action="@cntr.ActionList" method="get">
             <div class="form-row">
                 <div class="form-group col">
                     <input asp-for="Name" placeholder="ชื่อหลักสูตร" class="form-control" />
                 </div>
-                <select class="form-control">
-                    <option value="value">- สถานะ -</option>
-                </select>
+                <div class="form-group col-2">
+                    <select class="form-control">
+                        <option value="value">- สถานะ -</option>
+                    </select>
+                </div>
                 <div class="form-group col">
                     <button class="btn btn-primary float-right"><i class="fa fa-search"></i>&ensp;ค้นหา</button>
                 </div>

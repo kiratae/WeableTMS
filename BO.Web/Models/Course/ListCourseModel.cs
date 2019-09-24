@@ -10,7 +10,7 @@ namespace Weable.TMS.BO.Web.Models
     {
         public bool IsActive { get; set; }
         public string Name { get; set; }
-        public List<CourseModel> Courses { get; protected set; }
+        public List<CourseModel> Courses { get; set; }
 
         public ListCourseModel() {
             Courses = new List<CourseModel>();

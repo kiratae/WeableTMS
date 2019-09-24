@@ -118,6 +118,9 @@ namespace Weable.TMS.Web
             services.AddTransient<IFileRepository, FileRepository>();
             services.AddTransient<IFileService, FileService>();
 
+            services.AddTransient<IPersonRepository, PersonRepository>();
+            services.AddTransient<IPersonService, PersonService>();
+
             services.AddTransient<ITargetGroupRepository, TargetGroupRepository>();
             services.AddTransient<ITargetGroupService, TargetGroupService>();
 
@@ -155,7 +158,7 @@ namespace Weable.TMS.Web
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Course}/{action=Index}/{id?}");
+                    template: "{controller=Person}/{action=Index}/{id?}");
             });
         }
 
