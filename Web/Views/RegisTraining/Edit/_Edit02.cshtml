@@ -7,26 +7,22 @@
     <div class="card shadow">
         <div class="card-body">
 
-            <form id="main" asp-action="@cntr.ActionEdit" asp-controller="@cntr.Name" method="post" class="form-horizontal">
+            <form id="main" asp-route="@cntr.ActionRegisterConfirm" method="post" class="form-horizontal">
 
-                <div class="row mx-3 mt-3">
+                <div class="row mt-3 justify-content-center">
 
                     @*---------------- ข้อมูลส่วนตัว ---------------------------------*@
-                    <div class="col-md-12 mb-3">
+                    <div class="col-12 mb-3">
                         <h4 class="title">กรุณาตรวจสอบข้อมูลก่อนลงทะเบียน</h4>
                     </div>
-                    <div class="col-md-12 mb-3">
+                    <div class="col-sm-12 col-md-10 col-lg-8 mb-3">
                         <div class="form-group row">
-                            <label class="col-md-4 col-form-label text-right">เลขบัตรประจำตัวประชาชน</label>
-                            <div class="col-md-2">
-                                <p>@Model.CitizenId</p>
-                            </div>
+                            <label class="col-md-5 col-12 col-form-label">เลขบัตรประจำตัวประชาชน</label>
+                            <label class="col-md-7 col-12 col-form-label title">@Model.CitizenId</label>
                         </div>
                         <div class="form-group row">
-                            <label class="col-md-4 col-form-label text-right">ชื่อ</label>
-                            <div class="col-md-2">
-                                <p>@Model.Prefix@Model.FirstName @Model.LastName</p>
-                            </div>
+                            <label class="col-md-5 col-12 col-form-label">ชื่อ</label>
+                            <label class="col-md-7 col-12 col-form-label title">@Model.Prefix@Model.FirstName @Model.LastName</label>
                         </div>
                     </div>
 

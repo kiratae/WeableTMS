@@ -3,7 +3,7 @@
 @model Weable.TMS.Web.Models.EditTrainingModel
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = Model.Name;
 }
 
 <div class="container mb-5">
@@ -105,7 +105,7 @@
                     <div class="row no-gutters text-center mt-3">
                         <div class="col-12">
                             @{
-                                var regisUrl = Url.Action(RegisTrainingController.ActionEdit, RegisTrainingController.Name, new { Id = Model.TrainingId, ReturnUrl = HttpUtility.UrlPathEncode(Html.ViewContext.HttpContext.Request.Path) });
+                                var regisUrl = Url.RouteUrl(RegisTrainingController.ActionGetRegister, new { Id = Model.TrainingId, ReturnUrl = HttpUtility.UrlPathEncode(Html.ViewContext.HttpContext.Request.Path) });
                             }
                             <a class="btn btn-primary" href="@regisUrl" role="button">ลงทะเบียน</a>
                         </div>

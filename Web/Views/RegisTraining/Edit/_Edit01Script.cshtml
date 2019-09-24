@@ -14,7 +14,7 @@
                 $('#validate').text("** กรุณากรอกข้อมูล **");
                 $('#validate').show();
             } else if (!canSubmit) {
-                $('#validate').text("** กรุณากด recaptcha **");
+                $('#validate').text("** กรุณายืนยัน reCAPTCHA **");
                 $('#validate').show();
             } else {
                 $('#validate').hide();
@@ -35,8 +35,10 @@
 						if (data){
                             if (data.msgCode == 0) {
                                 grecaptcha.reset();
+                                $('#validate').show();
 								$('#validate').text("** " + data.msg +" **")
                             } else if (data.msgCode == 1) {
+                                $('#validate').hide();
                                 $('#search #CitizenId').val(data.citizenId);
 								$(form).submit();
 							}
