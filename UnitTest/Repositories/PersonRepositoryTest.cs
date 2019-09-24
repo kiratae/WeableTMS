@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
 using System;
@@ -13,11 +14,11 @@ using Weable.TMS.Model.RepositoryModel;
 namespace Weable.TMS.UnitTest
 {
     [TestClass]
-    public class CourseRepositoryTest
+    public class PersonRepositoryTest
     {
-        private readonly ICourseRepository _repo;
+        private readonly IPersonRepository _repo; 
 
-        public CourseRepositoryTest()
+        public PersonRepositoryTest()
         {
             var services = new ServiceCollection();
             services.AddDbContext<TMSDBContext>(option =>
@@ -27,17 +28,17 @@ namespace Weable.TMS.UnitTest
                     mySqlOptions.ServerVersion(new Version(10, 1, 37), ServerType.MariaDb)
                     .DisableBackslashEscaping();
                 }));
-            services.AddTransient<ICourseRepository, CourseRepository>();
+            services.AddTransient<IPersonRepository, PersonRepository>();
 
             var serviceProvider = services.BuildServiceProvider();
 
-            _repo = serviceProvider.GetService<ICourseRepository>();
+            _repo = serviceProvider.GetService<IPersonRepository>();
         }
 
         [TestMethod]
         public void GetList()
         {
-            IList<Course> result = _repo.GetList(new CourseFilter(), null).Results;
+            IList<Person> result = _repo.GetList(new PersonFilter(), null).Results;
 
             Assert.IsNotNull(result);
         }
@@ -46,28 +47,27 @@ namespace Weable.TMS.UnitTest
         public async Task CRUD()
         {
             // Create
-            var course = new Course()
+            var person = new Person()
             {
-                Name = "unit-test",
-                IsActive = 0,
-                CreateDate = DateTime.Now,
-                CreateUserId = 0
+                CitizenId = "unit-test",
+                FirstName = "unit-test",
+                LastName = "unit-test"
             };
-            course = await _repo.SaveData(course);
-            Assert.IsNotNull(course);
+            person = await _repo.SaveData(person);
+            Assert.IsNotNull(person);
 
             // Read
-            course = await _repo.GetData(course.CourseId);
-            Assert.IsNotNull(course);
+            person = await _repo.GetData(person.PersonId);
+            Assert.IsNotNull(person);
 
             // Update
             string updateText = "updated";
-            course.Name = updateText;
-            course = await _repo.SaveData(course);
-            Assert.AreEqual(updateText, course.Name);
+            person.FirstName = updateText;
+            person = await _repo.SaveData(person);
+            Assert.AreEqual(updateText, person.FirstName);
 
             // Delete
-            bool isDeletd = await _repo.DeleteData(course.CourseId);
+            bool isDeletd = await _repo.DeleteData(person.PersonId);
             Assert.IsTrue(isDeletd);
         }
     }
