@@ -12,7 +12,7 @@ namespace Weable.TMS.BO.Web.Controllers
     {
         public IActionResult Index()
         {
-            return View();
+            return RedirectToAction("Index", "Person");
         }
 
         public IActionResult About()

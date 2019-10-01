@@ -9,7 +9,7 @@ using Weable.TMS.Model.Context;
 namespace Weable.TMS.Model.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("25620828034122_InitialCreate")]
+    [Migration("25621001034959_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Weable.TMS.BO.Web.Models;
@@ -12,6 +13,7 @@ using Weable.TMS.Model.ServiceModel;
 
 namespace Weable.TMS.BO.Web.Controllers
 {
+    [Authorize]
     public class PersonController : Controller
     {
         private readonly IPersonService _service;
