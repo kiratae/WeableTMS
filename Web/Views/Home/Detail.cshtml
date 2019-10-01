@@ -2,8 +2,20 @@
 @using System.Web
 @model Weable.TMS.Web.Models.EditTrainingModel
 
+@inject Weable.TMS.Model.ServiceModel.IFileService fileService
+
 @{
     ViewData["Title"] = Model.Name;
+
+    string ImageUrl;
+    if (Model.TrnImage.HasValue)
+    {
+        ImageUrl = fileService.GetData(Model.TrnImage.Value).Result.FileName;
+    }
+    else
+    {
+        ImageUrl = "~/images/1200x675.jpg";
+    }
 }
 
 <div class="container mb-5">
@@ -11,7 +23,7 @@
 
         <div class="col-md-6 col-12 d-flex align-items-stretch">
             <div class="card shadow mb-2 flex-fill">
-                <img class="card-img flex-fill" src="~/images/1200x675.jpg" />
+                <img class="card-img flex-fill" src="@ImageUrl" />
             </div>
         </div>
 
@@ -92,11 +104,8 @@
                         <div class="col-sm-8 title">@StatusName</div>
                     </div>
                     <div class="row no-gutters">
-                        @{
-                            var AvailableSeat = (Model.SeatQty - Model.AttendeeQty) < 0 ? 0 : Model.SeatQty - Model.AttendeeQty;
-                        }
-                        <div class="col-sm-4">จำนวนที่ว่าง :</div>
-                        <div class="col-sm-8 title">@AvailableSeat</div>
+                        <div class="col-sm-4">จำนวนผู้สมัคร :</div>
+                        <div class="col-sm-8 title">@Model.AttendeeQty</div>
                     </div>
                     <div class="row no-gutters">
                         <div class="col-sm-4">จำนวนที่รับสมัคร :</div>

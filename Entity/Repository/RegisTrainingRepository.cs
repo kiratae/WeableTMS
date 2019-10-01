@@ -142,36 +142,49 @@ namespace Weable.TMS.Entity.Repository
             const string func = "SaveRegisTraining";
             try
             {
-                if (regisTraining == null)
-                    throw new ArgumentException("regisTraining is null.");
-
-                if (regisTraining.Person.PersonId == 0)
-                    _context.Person.Add(regisTraining.Person);
-                else
-                    _context.Person.Update(regisTraining.Person);
-
-                _context.SaveChanges();
-
-                Attendee attendee = new Attendee()
+                using (var transaction = _context.Database.BeginTransaction())
                 {
-                    CitizenId = regisTraining.Person.CitizenId,
-                    Registeration = DateTime.Now,
-                    PersonId = regisTraining.Person.PersonId,
-                    TrainingId = regisTraining.Training.TrainingId,
-                    AtdStatusId = 1,
-                    TrainingResultId = 1
-                };
+                    try
+                    {
+                        if (regisTraining == null)
+                            throw new ArgumentException("regisTraining is null.");
 
-                _context.Attendee.Add(attendee);
+                        if (regisTraining.Person.PersonId == 0)
+                            _context.Person.Add(regisTraining.Person);
+                        else
+                            _context.Person.Update(regisTraining.Person);
 
-                _context.SaveChanges();
+                        _context.SaveChanges();
 
-                var training = await _context.Training.FindAsync(regisTraining.Training.TrainingId);
-                training.AttendeeQty = regisTraining.Training.AttendeeQty;
+                        Attendee attendee = new Attendee()
+                        {
+                            CitizenId = regisTraining.Person.CitizenId,
+                            Registeration = DateTime.Now,
+                            PersonId = regisTraining.Person.PersonId,
+                            TrainingId = regisTraining.Training.TrainingId,
+                            AtdStatusId = 1,
+                            TrainingResultId = 1
+                        };
 
-                _context.Training.Update(training);
+                        _context.Attendee.Add(attendee);
 
-                _context.SaveChanges();
+                        _context.SaveChanges();
+
+                        var training = _context.Training.Find(regisTraining.Training.TrainingId);
+                        training.AttendeeQty = regisTraining.Training.AttendeeQty;
+
+                        _context.Training.Update(training);
+
+                        _context.SaveChanges();
+
+                        transaction.Commit();
+                    }
+                    catch (Exception ex)
+                    {
+                        transaction.Rollback();
+                        throw;
+                    }
+                }
 
                 return regisTraining;
             }

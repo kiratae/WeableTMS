@@ -50,7 +50,10 @@ namespace Weable.TMS.BO.Web.Controllers
 
                     filename = EnsureCorrectFilename(filename);
 
-                    using (FileStream output = System.IO.File.Create(this.GetPathAndFilename(filename)))
+                    using (FileStream output = System.IO.File.Create(GetPathAndFilename(filename)))
+                        await source.CopyToAsync(output);
+
+                    using (FileStream output = System.IO.File.Create(GetWebPathAndFilename(filename)))
                         await source.CopyToAsync(output);
 
                     var file = new File()
@@ -102,6 +105,11 @@ namespace Weable.TMS.BO.Web.Controllers
         private string GetPathAndFilename(string filename)
         {
             return _env.WebRootPath + "\\uploads\\" + filename;
+        }
+
+        private string GetWebPathAndFilename(string filename)
+        {
+            return _env.ContentRootPath + "\\..\\Web\\wwwroot\\uploads\\" + filename;
         }
 
     }

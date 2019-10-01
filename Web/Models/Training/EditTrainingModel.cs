@@ -33,7 +33,7 @@ namespace Weable.TMS.Web.Models
         public int? TrainingId { get; set; }
         public int? CourseId { get; set; }
         public Course Course { get; protected set; }
-        public int TrnImage { get; set; }
+        public int? TrnImage { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public string Objective { get; set; }

@@ -338,6 +338,7 @@ ASALocalRun/
 
 # BeatPulse healthcheck temp database
 healthchecksdb
+/BO.Web/wwwroot/uploads
 /Web/wwwroot/uploads
 /Nginx
 /Phpmyadmin
