@@ -1,4 +1,4 @@
-/// <binding AfterBuild='default, sass' />
+/// <binding AfterBuild='default' />
 const sass = require('node-sass');
 
 module.exports = function (grunt) {
