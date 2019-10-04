@@ -96,7 +96,7 @@ namespace Weable.TMS.Web
             catch (Exception ex)
             {
                 Console.WriteLine("Exception in main program. ", ex);
-                return;
+                throw ex;
             }
 
             host.Run();

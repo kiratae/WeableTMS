@@ -133,22 +133,6 @@ namespace Weable.TMS.BO.Web.Controllers
             return Json(new AjaxResultModel(AjaxResultModel.StatusCodeError, ModelState));
         }
 
-        public IActionResult Detail(ListAttendeeModel model, string returnUrl)
-        {
-            const string func = "Detail";
-            try
-            {
-                model.Training = new TrainingModel(_service.GetData(model.TrainingId).Result, _mapper);
-                model.ReturnUrl = returnUrl;
-                return View(model);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError("{0}: Exception caught", func, ex);
-                return View("PageNotFound");
-            }
-        }
-
         public async Task<IActionResult> Delete(int[] ids)
         {
             const string func = "Delete";
@@ -175,5 +159,27 @@ namespace Weable.TMS.BO.Web.Controllers
             }
             return Json(new AjaxResultModel(AjaxResultModel.StatusCodeError, ModelState));
         }
+
+        //eligible
+
+        public IActionResult ListAttendee(ListAttendeeModel model, int pageNo = 1)
+        {
+            const string func = "ListAttendee";
+            try
+            {
+                var filter = model.ToAttendeeFilter();
+                var paging = new Paging(pageNo, 20);
+                //var result = _service.GetList(filter, paging);
+                //model.Attendees.AddRange(AttendeeModel.createModels(result.Results, _mapper));
+                //model.Paging = PagingModel.createPaging(result);
+                return View(model);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("{0}: Exception caught with page no. {1}.", func, pageNo, ex);
+                return View("PageNotFound");
+            }
+        }
+
     }
 }

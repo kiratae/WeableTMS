@@ -9,6 +9,7 @@ namespace Weable.TMS.Model.ServiceModel
     public interface ITrainingService
     {
         PagedResult<Training> GetList(TrainingFilter filter, Paging paging);
+        PagedResult<Attendee> GetAtds(AttendeeFilter filter, Paging paging);
         Task<Training> GetData(int? trainingId);
         Task<Training> SaveData(Training training);
         Task<bool> DeleteData(int? trainingId);

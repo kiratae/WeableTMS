@@ -13,9 +13,14 @@ namespace Weable.TMS.Model.Service
     {
         private readonly ILogger<ITrainingService> _logger;
         private readonly ITrainingRepository _repository;
-        public TrainingService(ITrainingRepository repository, ILogger<ITrainingService> logger)
+        private readonly IAttendeeRepository _attendeeRepository;
+        public TrainingService(
+            ITrainingRepository repository,
+            IAttendeeRepository attendeeRepository,
+            ILogger<ITrainingService> logger)
         {
             _repository = repository;
+            _attendeeRepository = attendeeRepository;
             _logger = logger;
         }
         public async Task<bool> DeleteData(int? trainingId)
@@ -31,6 +36,22 @@ namespace Weable.TMS.Model.Service
                 throw ex;
             }
         }
+
+        public PagedResult<Attendee> GetAtds(AttendeeFilter filter, Paging paging)
+        {
+            const string func = "GetAtds";
+            _logger.LogTrace("{}: Entering {}.", func, func);
+            try
+            {
+                return _attendeeRepository.GetList(filter, paging);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogInformation("{}: Exception caught.", func, ex);
+                throw ex;
+            }
+        }
+
         public async Task<Training> GetData(int? trainingId)
         {
             const string func = "GetData";
